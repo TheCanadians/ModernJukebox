@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 
-var mqtt = require('mqtt')
+/* var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.mqttdashboard.com:8000/mqtt')
 
 Vue.config.productionTip = false
@@ -18,7 +18,7 @@ client.on('message', function (topic, message) {
   // message is Buffer
   console.log(message.toString())
   app.msg = message.toString();
-})
+}) */
 
 /* eslint-disable no-new */
 var app = new Vue({
