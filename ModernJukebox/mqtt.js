@@ -7,6 +7,7 @@ var client = mqtt.connect('mqtt://broker.mqttdashboard.com')
 client.on('connect', function () {
   client.subscribe('presence')
   client.publish('presence', 'Hello mqtt')
+  console.log("Connected");
 })
 
 client.on('message', function (topic, message) {
