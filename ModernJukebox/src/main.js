@@ -6,8 +6,6 @@ import App from './App'
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.mqttdashboard.com:8000/mqtt')
 
-
-
 Vue.config.productionTip = false
 
 client.on('connect', function () {
@@ -27,5 +25,6 @@ var app = new Vue({
   el: '#app',
   data: {
     msg: '',
-  }
+  },
+  render: h => h(App)
 })
