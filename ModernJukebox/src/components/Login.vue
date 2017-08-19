@@ -6,15 +6,9 @@
 
 <script>
   export default {
-    props: {
-      loggedIn: {
-        type: Boolean
-      }
-    },
     methods: {
       login() {
-        loggedIn: true
-        console.log(this.loggedIn)
+        this.$emit('loggedIn')
       }
     }
   }

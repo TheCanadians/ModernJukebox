@@ -1,18 +1,14 @@
 <template>
   <div id="app">
     <search v-if="loggedIn"></search>
-
-    <!-- If some is smart enough to do it, can you please make this work in the login component? -->
-    <div id="login" v-if="!loggedIn">
-      <button id="loginButton" @click="loggedIn = true">Login with Spotify</button>
-    </div>
+    <login @loggedIn="login"></login>
   </div>
 </template>
 
 <script>
   // import Hello from './components/Hello.vue';
   import Search from './components/Search.vue'
-  // import Login from './components/Login.vue'
+  import Login from './components/Login.vue'
 
   export default {
     name: 'app',
@@ -23,12 +19,11 @@
     },
     components: {
       'search': Search,
-      // 'login': Login
+      'login': Login
     },
     methods: {
       login() {
-        console.log(this.loggedIn)
-        loggedIn: true
+        this.loggedIn = true
       }
     }
   }
