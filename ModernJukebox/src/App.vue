@@ -25,6 +25,9 @@
       login() {
         this.loggedIn = true
       }
+    },
+    beforeMount() {
+      console.log(this.access_token)
     }
   }
 </script>
