@@ -27,7 +27,7 @@
       }
     },
     beforeMount() {
-      console.log(this.access_token)
+      // console.log(this.access_token)
     }
   }
 </script>
