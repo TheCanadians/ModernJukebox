@@ -12,7 +12,9 @@
   "dependencies": {
     "mqtt": "^2.11.0",
     "normalize.css": "^7.0.0",
-    "vue": "^2.3.3"
+    "spotify-web-api-node": "^2.5.0",
+    "vue": "^2.3.3",
+    "vue-spotify": "^1.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

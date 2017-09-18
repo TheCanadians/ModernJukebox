@@ -5,45 +5,35 @@
 </template>
 
 <script>
+  var SpotifyWebApi = require('spotify-web-api-node');
+
+  var scopes = ['user-read-private', 'user-read-email'],
+    redirectUri = 'http://localhost:8080/',
+    clientId = 'acda5dc270674c59be88eca853c1d4ff',
+    state = 'some-state-of-my-choice';
+
+  // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
+  var spotifyApi = new SpotifyWebApi({
+    redirectUri: redirectUri,
+    clientId: clientId
+  });
+
+  // Create the authorization URL
+  var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
+
+  // window.location = authorizeURL;
+
+  // https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
+  console.log(authorizeURL);
+
   export default {
     data() {
       return {
-        client_id: 'acda5dc270674c59be88eca853c1d4ff', // Your client id
-        redirect_uri: 'http://localhost:8080/', // Your redirect uri
-        state: this.generateRandomString(16),
-        scope: 'user-read-private user-read-email',
-        url: 'https://accounts.spotify.com/authorize',
-        stateKey: 'spotify_auth_state',
       }
     },
     methods: {
       login() {
-        localStorage.setItem(this.stateKey, this.state),
-        this.url += '?response_type=token',
-        this.url += '&client_id=' + encodeURIComponent(this.client_id),
-        this.url += '&scope=' + encodeURIComponent(this.scope),
-        this.url += '&redirect_uri=' + encodeURIComponent(this.redirect_uri),
-        this.url += '&state=' + encodeURIComponent(this.state),
-        window.location = this.url,
-        this.$emit('loggedIn')
-      },
-      generateRandomString(length) {
-        var text = '';
-        var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-        for (var i = 0; i < length; i++) {
-          text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
-      },
-      getHashParams() {
-        var hashParams = {};
-        var e, r = /([^&;=]+)=?([^&;]*)/g,
-            q = window.location.hash.substring(1);
-        while ( e = r.exec(q)) {
-           hashParams[e[1]] = decodeURIComponent(e[2]);
-        }
-        return hashParams;
+        window.location = authorizeURL;
       }
     }
   }

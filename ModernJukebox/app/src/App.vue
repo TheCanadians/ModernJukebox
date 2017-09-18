@@ -6,6 +6,8 @@
 </template>
 
 <script>
+
+
   // import Hello from './components/Hello.vue';
   import Search from './components/Search.vue'
   import Login from './components/Login.vue'
@@ -14,7 +16,7 @@
     name: 'app',
     data() {
       return {
-        loggedIn: false
+        // loggedIn: false
       }
     },
     components: {
@@ -23,7 +25,7 @@
     },
     methods: {
       login() {
-        this.loggedIn = true
+        // this.loggedIn = true
       }
     },
     beforeMount() {

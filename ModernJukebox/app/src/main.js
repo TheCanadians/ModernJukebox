@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import Spotify from 'spotify-web-api-node'
+import VueSpotify from 'vue-spotify'
 
 /* var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.mqttdashboard.com:8000/mqtt')
@@ -19,6 +21,8 @@ client.on('message', function (topic, message) {
   console.log(message.toString())
   app.msg = message.toString();
 }) */
+
+Vue.use(VueSpotify, new Spotify())
 
 /* eslint-disable no-new */
 var app = new Vue({
