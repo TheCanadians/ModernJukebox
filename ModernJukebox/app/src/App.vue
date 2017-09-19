@@ -16,7 +16,7 @@
     name: 'app',
     data() {
       return {
-        // loggedIn: false
+        loggedIn: false
       }
     },
     components: {
@@ -28,8 +28,9 @@
         // this.loggedIn = true
       }
     },
-    beforeMount() {
-      // console.log(this.access_token)
+    created() {
+      this.$http.get('https://api.spotify.com/v1/artists/0TnOYISbd1XYRBk9myaseg')
+      // console.log('https://api.spotify.com/v1/artists/0TnOYISbd1XYRBk9myaseg');
     }
   }
 </script>

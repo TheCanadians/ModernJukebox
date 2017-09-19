@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 import App from './App'
 import Spotify from 'spotify-web-api-node'
 import VueSpotify from 'vue-spotify'
@@ -22,7 +23,8 @@ client.on('message', function (topic, message) {
   app.msg = message.toString();
 }) */
 
-Vue.use(VueSpotify, new Spotify())
+Vue.use(VueResource);
+Vue.use(VueSpotify, new Spotify());
 
 /* eslint-disable no-new */
 var app = new Vue({
