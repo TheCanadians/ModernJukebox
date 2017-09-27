@@ -34,7 +34,8 @@
       return {
         loggedIn: false,
         access_token: '',
-        data: ''
+        data: '',
+        code: '',
       }
     },
     components: {
@@ -64,7 +65,7 @@
             console.log('Artist albums', data.body);
           }, function(err) {
             console.error(err);
-          });
+          })
       }
     },
     created() {
