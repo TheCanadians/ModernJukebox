@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueResource from 'vue-resource'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
