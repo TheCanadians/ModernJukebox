@@ -36,7 +36,6 @@ export default {
   methods: {
     authorize: () => {
       let clientId = 'acda5dc270674c59be88eca853c1d4ff'
-      // let clientSecret = '656ebbbf0177484b8f8b774efd204f33'
       let scopes = 'user-read-private user-read-email user-library-read'
       // Authorize Spotify user
       let url = 'https://accounts.spotify.com/authorize?'
