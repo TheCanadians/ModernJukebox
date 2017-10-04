@@ -53,6 +53,7 @@
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('/#')[0])
       },
       searchTracks: function (query) {
+        this.tracks = []
         this.axios({
           url: 'https://api.spotify.com/v1/search?q=' + query + '&type=track&market=DE',
           headers: {'Authorization': 'Bearer ' + this.accessToken},
