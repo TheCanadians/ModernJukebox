@@ -1,17 +1,44 @@
 <template>
   <div id="search">
     <div id="searchBox">
-      <input id="searchInput" type="text" placeholder="Enter song title" />
-      <button>Search</button>
+      <form>
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search for song title"
+          v-model="query"
+        />
+        <button type="submit" @click="searchSong">Search</button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
+  export default {
+    name: 'app',
+    data() {
+      return {
+        query: ''
+      }
+    },
+    methods: {
+      searchSong(event) {
+        if (event != null) {
+          this.$emit('keyedUp', this.query)
+          this.query = ''
+        }
+      },
+    }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  * {
+    margin: 0;
+    padding: 0;
+  }
   #search {
     box-sizing: border-box;
     width: 100%;
@@ -23,6 +50,10 @@
     border-radius: 8px;
     border: 1px solid #E0E0E0;
   }
+  form {
+    display: flex;
+    width: 100%;
+  }
   input {
     width: auto;
     display: inline;
@@ -32,11 +63,12 @@
     background-color: #FFF;
     border-radius: 4px;
     font-size: 1rem;
-    padding: 0.5rem 16px;
+    padding: 16px 24px;
     border-radius: 8px 0 0 8px;
     font-family: 'Roboto';
     color: #616161;
     margin: 0;
+    flex-grow: 2;
   }
   button {
     display: inline;
@@ -48,6 +80,8 @@
     font-family: 'Roboto';
     color: #fff;
     font-weight: 700;
+    font-size: 1rem;
+    padding: 16px 48px;
     margin: 0;
   }
 </style>
