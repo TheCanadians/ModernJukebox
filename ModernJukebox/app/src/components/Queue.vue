@@ -1,7 +1,7 @@
 <template>
   <div id="queue">
     <h2>Coming up:</h2>
-    <ul v-for="song in songs">
+    <ul v-for="song in sortedSongs">
       <li>
         <div class="infos">
           <p>
@@ -38,6 +38,18 @@
         cancelCallback(err) {
           console.error(err);
         }
+      }
+    },
+    computed: {
+      sortedSongs: function() {
+        function compare(a, b) {
+          if (a.votes < b.votes)
+            return 1;
+          if (a.votes > b.votes)
+            return -1;
+          return 0;
+        }
+        return this.songs.sort(compare);
       }
     }
   }
