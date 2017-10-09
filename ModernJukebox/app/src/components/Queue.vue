@@ -1,39 +1,73 @@
 <template>
   <div id="queue">
-    <ul>
+    <h2>Coming up:</h2>
+    <ul v-for="song in songs">
       <li>
-
+        <div class="infos">
+          <p>
+            {{song.title}}
+            <span>{{song.artist}}</span>
+          </p>
+        </div>
+        <div class="votes">
+          {{song.votes}}
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  // Initialize Firebase
-  /* var config = {
-    apiKey: "AIzaSyCW-yHDVzJT7IgK6exI1AElYZ85BKiKeBc",
-    authDomain: "modern-jukebox.firebaseapp.com",
-    databaseURL: "https://modern-jukebox.firebaseio.com",
-    projectId: "modern-jukebox",
-    storageBucket: "",
-    messagingSenderId: "560034994179"
-  };
-  firebase.initializeApp(config); */
-
-  // Create references
-  // const dbRefObject = firebase.database().ref().child('schweinske-dehnhaide').child('limit');
-
-  // Sync object changes
-  // dbRefObject.on('value', snap => console.log(snap.val()));
+  import {db} from '../firebase';
 
   export default {
+    name: 'queue',
     data() {
       return {
-        data: ''
+      }
+    },
+    methods: {
+      getTracks() {
+        console.log(this.songs)
+      }
+    },
+    firebase: {
+      songs: {
+        source: db.ref('schweinske-dehnhaide').child('songs'),
+        // Optional, allows you to handle any errors.
+        cancelCallback(err) {
+          console.error(err);
+        }
       }
     }
   }
 </script>
 
 <style>
+  #queue {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 4px solid #E0E0E0;
+    padding-top: 24px;
+    background-color: #fff;
+  }
+  h2 {
+    margin-left: 48px;
+  }
+  li {
+      border-bottom: 1px solid #E0E0E0;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+  }
+  li span {
+      display: block;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+  }
+
+  a {
+      color: #0097A7;
+  }
 </style>

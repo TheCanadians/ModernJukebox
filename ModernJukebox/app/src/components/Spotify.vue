@@ -7,6 +7,7 @@
             <span>ID: {{track.id}}</span>
           </li>
         </ul>
+        <queue v-if="loggedIn"></queue>
         <button v-if="!loggedIn" v-on:click="authorize">Authorize</button>
         <!-- <div class="card" v-for="(t, index) in tracks" :key=t.id>
             <div class="container">
@@ -23,11 +24,13 @@
 
 <script>
   import Search from './Search.vue';
+  import Queue from './Queue.vue';
 
   export default {
     name: 'Spotify',
     components: {
-      'search': Search
+      'search': Search,
+      'queue': Queue
     },
     data () {
       var accessToken
