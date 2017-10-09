@@ -30,7 +30,7 @@
       const preObject = document.getElementById('object');
 
       // Create references
-      const dbRefObject = firebase.database().ref().child('object');
+      const dbRefObject = firebase.database().ref().child('schweinske-dehnhaide').child('songs');
 
       // Sync object changes
       dbRefObject.on('value', snap => console.log(snap.val()));
