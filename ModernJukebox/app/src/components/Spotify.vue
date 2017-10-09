@@ -97,8 +97,13 @@
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
-          votes: 0
-        })
+          votes: this.newVotes
+        }),
+        this.newId = '',
+        this.newTitle = '',
+        this.newArtist = '',
+        this.newDuration = '',
+        this.newVotes = 0
       }
     }
   }

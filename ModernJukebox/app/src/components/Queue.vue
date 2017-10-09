@@ -63,6 +63,8 @@
     border-top: 4px solid #E0E0E0;
     padding-top: 24px;
     background-color: #fff;
+    max-height: 36vh;
+    overflow: scroll;
   }
   h2 {
     margin-left: 48px;
