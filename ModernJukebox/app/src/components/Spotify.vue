@@ -1,24 +1,37 @@
 <template>
-    <div class="spotify">
-        <search v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
-        <ul class="results">
-          <li v-for="track in tracks">
-            <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
-          </li>
-        </ul>
-        <queue v-if="loggedIn"></queue>
-        <button v-if="!loggedIn" @click="authorize">Authorize</button>
-        <!-- <div class="card" v-for="(t, index) in tracks" :key=t.id>
-            <div class="container">
-             <img v-bind:src="t.track.album.images[0].url" width="100%" />
-             <a v-bind:href="t.track.external_urls.spotify">{{t.track.name}}</a>
-             <audio controls>
-               <source v-bind:src="t.track.preview_url" type="audio/mp3">
-             </audio>
-            </div>
-        </div> -->
+  <div class="spotify">
+    <button v-if="!loggedIn" @click="authorize">Authorize</button>
+
+    <transition name="notification">
+      <div
+        class="notification"
+        v-if="notificationShowing"
+        enter-active-class="notificationIn"
+        leave-active-class="notificationOut">
+        Song added
       </div>
+    </transition>
+
+    <search v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
+
+    <ul class="results">
+      <li v-for="track in tracks">
+        <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
+      </li>
+    </ul>
+
+    <queue v-if="loggedIn"></queue>
+      <!-- <div class="card" v-for="(t, index) in tracks" :key=t.id>
+          <div class="container">
+           <img v-bind:src="t.track.album.images[0].url" width="100%" />
+           <a v-bind:href="t.track.external_urls.spotify">{{t.track.name}}</a>
+           <audio controls>
+             <source v-bind:src="t.track.preview_url" type="audio/mp3">
+           </audio>
+          </div>
+      </div> -->
     </div>
+  </div>
 </template>
 
 <script>
@@ -47,7 +60,10 @@
         newTitle: '',
         newArtist: '',
         newDuration: '',
-        newVotes: 0
+        newVotes: 0,
+
+        notificationShowing: false,
+        timer: 0
       }
     },
     firebase: {
@@ -99,11 +115,16 @@
           title: this.newTitle,
           votes: this.newVotes
         }),
+        this.toggleShow(),
         this.newId = '',
         this.newTitle = '',
         this.newArtist = '',
         this.newDuration = '',
         this.newVotes = 0
+      },
+      toggleShow: function() {
+        this.notificationShowing = !this.notificationShowing,
+        setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       }
     }
   }
@@ -111,6 +132,17 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .notification {
+    background-color: #424242;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 400px;
+    display: inline-block;
+    padding: 16px 24px;
+    position: absolute;
+    top: 120px;
+    right: 48px;
+  }
   .tracks {
       display: flex;
       flex-direction: row;
@@ -130,10 +162,6 @@
       padding: 0;
   }
 
-  a {
-      color: #0097A7;
-  }
-
   button {
     background: none;
     box-shadow: none;
@@ -141,6 +169,11 @@
     border: none;
     font-size: 1rem;
     font-family: 'Roboto', sans-serif;
+  }
+  button:hover {
+      color: #0097A7;
+      text-decoration: underline;
+      cursor: pointer;
   }
 
   /* Add some padding inside the card container */
@@ -159,5 +192,21 @@
   }
   .container audio {
     order:3;
+  }
+
+  .notificationIn {
+    animation: notificationIn 0.3s linear both;
+  }
+  .notificationOut {
+    animation: notificationOut 0.3s linear both;
+  }
+
+  @-webkit-keyframes notificationIn {
+    0%   { right: -200px; }
+    100% { right: 48px; }
+  }
+  @-webkit-keyframes notificationOut {
+    0%   { right: 48px; }
+    100% { right: -200px; }
   }
 </style>

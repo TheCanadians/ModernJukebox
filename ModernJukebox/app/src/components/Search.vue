@@ -26,7 +26,6 @@
       searchSong(event) {
         if (event != null) {
           this.$emit('keyedUp', this.query)
-          this.query = ''
         }
       },
     }
