@@ -130,11 +130,12 @@
       }
     },
     mounted() {
+      console.log(this.songs[0][".key"]),
       this.axios({
         url: 'https://api.spotify.com/v1/me/player/play',
         headers: {'Authorization': 'Bearer ' + this.accessToken},
         data: {
-          "context_uri": "spotify:album:4aawyAB9vmqN3uQ7FjRGTy"
+          'uris': ['spotify:track:' + this.songs[0][".key"]]
         },
         method: 'PUT'
       }).then((res) => {

@@ -37,7 +37,7 @@
     },
     firebase: {
       songs: {
-        source: db.ref('schweinske-dehnhaide').child('songs'),
+        source: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes'),
         // Optional, allows you to handle any errors.
         cancelCallback(err) {
           console.error(err);
@@ -46,14 +46,7 @@
     },
     computed: {
       sortedSongs: function() {
-        function compare(a, b) {
-          if (a.votes < b.votes)
-            return 1;
-          if (a.votes > b.votes)
-            return -1;
-          return 0;
-        }
-        this.songs = this.songs.sort(compare);
+        this.songs = this.songs.reverse();
         return this.songs;
       }
     }
