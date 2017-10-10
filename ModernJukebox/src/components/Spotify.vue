@@ -63,7 +63,9 @@
         newVotes: 0,
 
         notificationShowing: false,
-        timer: 0
+        timer: 0,
+
+        deviceId: ''
       }
     },
     firebase: {
@@ -78,7 +80,7 @@
     methods: {
       authorize: () => {
         let clientId = 'acda5dc270674c59be88eca853c1d4ff'
-        let scopes = 'user-read-private user-read-email user-library-read'
+        let scopes = 'user-read-private user-read-email user-read-birthdate user-library-read streaming user-read-playback-state user-modify-playback-state user-read-currently-playing'
         // Authorize Spotify user
         let url = 'https://accounts.spotify.com/authorize?'
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
@@ -126,6 +128,24 @@
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       }
+    },
+    mounted() {
+      this.axios({
+        url: 'https://api.spotify.com/v1/me/player/play',
+        headers: {'Authorization': 'Bearer ' + this.accessToken},
+        data: {
+          "context_uri": "spotify:album:4aawyAB9vmqN3uQ7FjRGTy"
+        },
+        method: 'PUT'
+      }).then((res) => {
+        if (res.status === 401) {
+          throw new Error('Unauthorized')
+        } else {
+          if (res.data !== undefined) {
+            console.log(res.data)
+          }
+        }
+      })
     }
   }
 </script>

@@ -53,7 +53,8 @@
             return -1;
           return 0;
         }
-        return this.songs.sort(compare);
+        this.songs = this.songs.sort(compare);
+        return this.songs;
       }
     }
   }
