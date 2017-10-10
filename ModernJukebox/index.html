@@ -5,14 +5,13 @@
     <title>modernjukebox</title>
   </head>
   <body>
-    <pre id="object">
-    </pre>
     <div id="app">
     </div>
     <!-- built files will be auto injected -->
 
     <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
-    <script>
+
+    <!-- <script>
       // Initialize Firebase
       var config = {
         apiKey: "AIzaSyCW-yHDVzJT7IgK6exI1AElYZ85BKiKeBc",
@@ -23,17 +22,18 @@
         messagingSenderId: "560034994179"
       };
       firebase.initializeApp(config);
+      database = firebase.database();
 
-      // var database = firebase.database();
-      // console.log(database);
+      var ref = database.ref('schweinske-dehnhaide');
+      ref.on('value', getTracks, errTracks);
 
-      const preObject = document.getElementById('object');
+      function getTracks(data) {
+        console.log(data.val());
+      }
 
-      // Create references
-      const dbRefObject = firebase.database().ref().child('object');
-
-      // Sync object changes
-      dbRefObject.on('value', snap => console.log(snap.val()));
-    </script>
+      function errTracks(err) {
+        console.log('Error! ' + err);
+      }
+    </script> -->
   </body>
 </html>
