@@ -1,7 +1,7 @@
 <template>
   <div id="queue">
     <h2>Coming up:</h2>
-    <ul v-for="song in sortedSongs">
+    <ul v-for="song in songs">
       <li>
         <div class="infos">
           <p>
@@ -25,29 +25,44 @@
     name: 'queue',
     data() {
       return {
+        songs: []
       }
     },
     methods: {
       upvoteTrack(event) {
         event.votes += 1,
+        event.order -= 1,
         this.$firebaseRefs.songs.child(event[".key"]).update({
-          votes: event.votes
-        })
+          votes: event.votes,
+          order: event.order
+        }),
+        this.sortSongs()
+      },
+      sortSongs() {
+        function compare(a, b) {
+          if (a.votes > b.votes) {
+            return -1;
+          }
+          else if (a.votes < b.votes) {
+            return 1;
+          }
+          else {
+            return 0;
+          }
+        }
+
+        this.$emit('initSongs', this.songs)
+        this.songs = this.songs.sort(compare);
+        console.log(this.songs.sort(compare))
       }
     },
     firebase: {
       songs: {
-        source: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes'),
+        source: db.ref('schweinske-dehnhaide').child('songs').orderByChild('order'),
         // Optional, allows you to handle any errors.
         cancelCallback(err) {
           console.error(err);
         }
-      }
-    },
-    computed: {
-      sortedSongs: function() {
-        this.songs = this.songs.reverse();
-        return this.songs;
       }
     }
   }

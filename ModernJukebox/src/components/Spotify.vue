@@ -20,7 +20,7 @@
       </li>
     </ul>
 
-    <queue v-if="loggedIn"></queue>
+    <queue v-if="loggedIn" @initSongs="playSong($event)"></queue>
       <!-- <div class="card" v-for="(t, index) in tracks" :key=t.id>
           <div class="container">
            <img v-bind:src="t.track.album.images[0].url" width="100%" />
@@ -61,6 +61,7 @@
         newArtist: '',
         newDuration: '',
         newVotes: 0,
+        newOrder: 0,
 
         notificationShowing: false,
         timer: 0,
@@ -70,7 +71,7 @@
     },
     firebase: {
       songs: {
-        source: db.ref('schweinske-dehnhaide').child('songs'),
+        source: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes'),
         // Optional, allows you to handle any errors.
         cancelCallback(err) {
           console.error(err);
@@ -115,38 +116,39 @@
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
-          votes: this.newVotes
+          votes: this.newVotes,
+          order: this.newOrder
         }),
         this.toggleShow(),
         this.newId = '',
         this.newTitle = '',
         this.newArtist = '',
         this.newDuration = '',
-        this.newVotes = 0
+        this.newVotes = 0,
+        this.newOrder = 0
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
-      }
-    },
-    mounted() {
-      console.log(this.songs[0][".key"]),
-      this.axios({
-        url: 'https://api.spotify.com/v1/me/player/play',
-        headers: {'Authorization': 'Bearer ' + this.accessToken},
-        data: {
-          'uris': ['spotify:track:' + this.songs[0][".key"]]
-        },
-        method: 'PUT'
-      }).then((res) => {
-        if (res.status === 401) {
-          throw new Error('Unauthorized')
-        } else {
-          if (res.data !== undefined) {
-            console.log(res.data)
+      },
+      playSong: function(songs) {
+        this.axios({
+          url: 'https://api.spotify.com/v1/me/player/play',
+          headers: {'Authorization': 'Bearer ' + this.accessToken},
+          data: {
+            'uris': ['spotify:track:' + songs[0][".key"]]
+          },
+          method: 'PUT'
+        }).then((res) => {
+          if (res.status === 401) {
+            throw new Error('Unauthorized')
+          } else {
+            if (res.data !== undefined) {
+              console.log(res.data)
+            }
           }
-        }
-      })
+        })
+      }
     }
   }
 </script>
