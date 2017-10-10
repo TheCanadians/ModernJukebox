@@ -10,7 +10,8 @@
           </p>
         </div>
         <div class="votes">
-          {{song.votes}}
+          <button class="btnUpvote" @click="upvoteTrack(song)"></button>
+          <p>{{song.votes}}</p>
         </div>
       </li>
     </ul>
@@ -27,8 +28,11 @@
       }
     },
     methods: {
-      getTracks() {
-        console.log(this.songs)
+      upvoteTrack(event) {
+        event.votes += 1,
+        this.$firebaseRefs.songs.child(event[".key"]).update({
+          votes: event.votes
+        })
       }
     },
     firebase: {
@@ -66,6 +70,19 @@
     max-height: 36vh;
     overflow: scroll;
   }
+  .btnUpvote {
+    background: none;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    width: 48px;
+    height: 48px;
+    background-image: url('../assets/ic_upvote.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
   h2 {
     margin-left: 48px;
   }
@@ -74,6 +91,7 @@
       padding: 24px 48px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
   }
   li span {
       display: block;
@@ -83,5 +101,11 @@
 
   a {
       color: #0097A7;
+  }
+  .votes {
+    text-align: center;
+  }
+  .votes p {
+    margin-top: -16px;
   }
 </style>
