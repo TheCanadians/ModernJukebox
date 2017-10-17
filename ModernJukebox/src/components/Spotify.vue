@@ -61,8 +61,9 @@
         newArtist: '',
         newDuration: '',
         newVotes: 0,
+        userId: '',
 
-        notificationShowing: false,
+        notificationShowing: false
       }
     },
     firebase: {
@@ -102,17 +103,34 @@
           }
         })
       },
+      setUserId: function() {
+        this.axios({
+          url: 'https://api.spotify.com/v1/me/',
+          headers: {'Authorization': 'Bearer ' + this.accessToken},
+          method: 'GET'
+        }).then((res) => {
+          if (res.status === 401) {
+            throw new Error('Unauthorized')
+          } else {
+            if (res.data !== undefined) {
+              this.userId = res.data.id
+            }
+          }
+        })
+      },
       addTrack: function(event) {
         this.newId = event.id,
         this.newTitle = event.name,
         this.newArtist = event.artists[0].name,
         this.newDuration = event.duration_ms,
         this.newVotes = 0,
+        this.setUserId(),
         this.$firebaseRefs.songs.child(this.newId).set({
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
-          votes: this.newVotes
+          votes: this.newVotes,
+          userId: this.userId
         }),
         this.toggleShow(),
         this.newId = '',
@@ -138,11 +156,13 @@
             throw new Error('Unauthorized')
           } else {
             if (res.data !== undefined) {
-              console.log(res.data)
             }
           }
         })
       }
+    },
+    mounted() {
+      this.setUserId()
     }
   }
 </script>
