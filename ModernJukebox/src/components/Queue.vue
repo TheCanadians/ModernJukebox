@@ -23,6 +23,7 @@
 
   export default {
     name: 'queue',
+    props: ['userId'],
     data() {
       return {
         songs: []
@@ -31,8 +32,12 @@
     methods: {
       upvoteTrack(event) {
         event.votes -= 1,
+        console.log(this.userId),
         this.$firebaseRefs.songs.child(event[".key"]).update({
           votes: event.votes,
+        }),
+        this.$firebaseRefs.songs.child(event[".key"]).update({
+          voters: this.userId
         }),
         this.sortSongs()
       },
@@ -51,7 +56,6 @@
 
         this.$emit('initSongs', this.songs)
         this.songs = this.songs.sort(compare);
-        console.log(this.songs.sort(compare))
       }
     },
     firebase: {

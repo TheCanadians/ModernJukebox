@@ -20,16 +20,7 @@
       </li>
     </ul>
 
-    <queue v-if="loggedIn" @initSongs="playSong($event)"></queue>
-      <!-- <div class="card" v-for="(t, index) in tracks" :key=t.id>
-          <div class="container">
-           <img v-bind:src="t.track.album.images[0].url" width="100%" />
-           <a v-bind:href="t.track.external_urls.spotify">{{t.track.name}}</a>
-           <audio controls>
-             <source v-bind:src="t.track.preview_url" type="audio/mp3">
-           </audio>
-          </div>
-      </div> -->
+    <queue v-if="loggedIn" :userId="this.userId" @initSongs="playSong($event)"></queue>
     </div>
   </div>
 </template>
@@ -61,6 +52,7 @@
         newArtist: '',
         newDuration: '',
         newVotes: 0,
+        voters: false,
         userId: '',
 
         notificationShowing: false
@@ -85,6 +77,21 @@
         let urlWithQueryString = url + '&' + query
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('/#')[0])
       },
+      setUserId: function() {
+        this.axios({
+          url: 'https://api.spotify.com/v1/me/',
+          headers: {'Authorization': 'Bearer ' + this.accessToken},
+          method: 'GET'
+        }).then((res) => {
+          if (res.status === 401) {
+            throw new Error('Unauthorized')
+          } else {
+            if (res.data !== undefined) {
+              this.userId = res.data.id
+            }
+          }
+        })
+      },
       searchTracks: function (query) {
         // console.log(query)
         this.tracks = []
@@ -103,41 +110,25 @@
           }
         })
       },
-      setUserId: function() {
-        this.axios({
-          url: 'https://api.spotify.com/v1/me/',
-          headers: {'Authorization': 'Bearer ' + this.accessToken},
-          method: 'GET'
-        }).then((res) => {
-          if (res.status === 401) {
-            throw new Error('Unauthorized')
-          } else {
-            if (res.data !== undefined) {
-              this.userId = res.data.id
-            }
-          }
-        })
-      },
       addTrack: function(event) {
         this.newId = event.id,
         this.newTitle = event.name,
         this.newArtist = event.artists[0].name,
         this.newDuration = event.duration_ms,
         this.newVotes = 0,
-        this.setUserId(),
         this.$firebaseRefs.songs.child(this.newId).set({
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
+          userId: this.userId,
           votes: this.newVotes,
-          userId: this.userId
+          voters: this.voters
         }),
         this.toggleShow(),
         this.newId = '',
         this.newTitle = '',
         this.newArtist = '',
-        this.newDuration = '',
-        this.newVotes = 0
+        this.newDuration = ''
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
