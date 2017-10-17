@@ -61,12 +61,8 @@
         newArtist: '',
         newDuration: '',
         newVotes: 0,
-        newOrder: 0,
 
         notificationShowing: false,
-        timer: 0,
-
-        deviceId: ''
       }
     },
     firebase: {
@@ -116,16 +112,14 @@
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
-          votes: this.newVotes,
-          order: this.newOrder
+          votes: this.newVotes
         }),
         this.toggleShow(),
         this.newId = '',
         this.newTitle = '',
         this.newArtist = '',
         this.newDuration = '',
-        this.newVotes = 0,
-        this.newOrder = 0
+        this.newVotes = 0
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,

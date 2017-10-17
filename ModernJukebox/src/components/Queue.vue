@@ -11,7 +11,7 @@
         </div>
         <div class="votes">
           <button class="btnUpvote" @click="upvoteTrack(song)"></button>
-          <p>{{song.votes}}</p>
+          <p>{{song.votes * -1}}</p>
         </div>
       </li>
     </ul>
@@ -30,20 +30,18 @@
     },
     methods: {
       upvoteTrack(event) {
-        event.votes += 1,
-        event.order -= 1,
+        event.votes -= 1,
         this.$firebaseRefs.songs.child(event[".key"]).update({
           votes: event.votes,
-          order: event.order
         }),
         this.sortSongs()
       },
       sortSongs() {
         function compare(a, b) {
-          if (a.votes > b.votes) {
+          if (a.votes < b.votes) {
             return -1;
           }
-          else if (a.votes < b.votes) {
+          else if (a.votes > b.votes) {
             return 1;
           }
           else {
