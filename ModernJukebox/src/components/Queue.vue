@@ -54,11 +54,14 @@
       playSong: function() {
         this.getQueue()
         setTimeout(() => {
+          var id = this.queue[0].id
+          var dur = this.queue[0].duration
+
           this.axios({
             url: 'https://api.spotify.com/v1/me/player/play',
             headers: {'Authorization': 'Bearer ' + this.accessToken},
             data: {
-              'uris': ['spotify:track:' + this.queue[0].id]
+              'uris': ['spotify:track:' + id]
             },
             method: 'PUT'
           }).then((res) => {
@@ -69,11 +72,16 @@
               }
             }
           })
+
+          db.ref('schweinske-dehnhaide').child('songs').child(id).remove()
+
+          setTimeout(() => {
+            this.playSong()
+          }, dur)
         }, 3000)
       }
     },
     mounted() {
-      this.getQueue(),
       this.playSong()
     }
   }
