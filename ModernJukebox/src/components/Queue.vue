@@ -26,14 +26,16 @@
     props: ['userId'],
     data() {
       return {
-        queue: ''
+        queue: []
       }
     },
     methods: {
       getQueue: function() {
+        this.queue.length = 0,
         db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
-          console.log(snapshot.val())
-          this.queue = snapshot.val()
+          snapshot.forEach(child => {
+            this.queue.push(child.val())
+          })
         })
       },
       upvoteTrack(event) {
