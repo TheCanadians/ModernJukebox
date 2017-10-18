@@ -1,7 +1,7 @@
 <template>
   <div id="queue">
     <h2>Coming up:</h2>
-    <ul v-for="song in songs">
+    <ul v-for="song in queue">
       <li>
         <div class="infos">
           <p>
@@ -26,46 +26,32 @@
     props: ['userId'],
     data() {
       return {
-        songs: []
+        queue: ''
       }
     },
     methods: {
+      getQueue: function() {
+        db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
+          console.log(snapshot.val())
+          this.queue = snapshot.val()
+        })
+      },
       upvoteTrack(event) {
         event.votes -= 1,
-        console.log(this.userId),
-        this.$firebaseRefs.songs.child(event[".key"]).update({
+        db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
           votes: event.votes,
         }),
-        this.$firebaseRefs.songs.child(event[".key"]).update({
+        db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
           voters: this.userId
         }),
-        this.sortSongs()
+        this.getQueue()
       },
-      sortSongs() {
-        function compare(a, b) {
-          if (a.votes < b.votes) {
-            return -1;
-          }
-          else if (a.votes > b.votes) {
-            return 1;
-          }
-          else {
-            return 0;
-          }
-        }
-
-        this.$emit('initSongs', this.songs)
-        this.songs = this.songs.sort(compare);
+      initPlaySong() {
+        this.$emit('initSongs', this.songs[0])
       }
     },
-    firebase: {
-      songs: {
-        source: db.ref('schweinske-dehnhaide').child('songs').orderByChild('order'),
-        // Optional, allows you to handle any errors.
-        cancelCallback(err) {
-          console.error(err);
-        }
-      }
+    mounted() {
+      this.getQueue()
     }
   }
 </script>

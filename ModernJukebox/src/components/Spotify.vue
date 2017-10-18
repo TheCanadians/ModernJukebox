@@ -58,15 +58,6 @@
         notificationShowing: false
       }
     },
-    firebase: {
-      songs: {
-        source: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes'),
-        // Optional, allows you to handle any errors.
-        cancelCallback(err) {
-          console.error(err);
-        }
-      }
-    },
     methods: {
       authorize: () => {
         let clientId = 'acda5dc270674c59be88eca853c1d4ff'
@@ -93,7 +84,6 @@
         })
       },
       searchTracks: function (query) {
-        // console.log(query)
         this.tracks = []
         this.axios({
           url: 'https://api.spotify.com/v1/search?q=' + query + '&type=track&market=DE',
@@ -105,7 +95,6 @@
           } else {
             if (res.data !== undefined) {
               this.tracks = res.data.tracks.items
-              // console.log(this.tracks)
             }
           }
         })
@@ -116,7 +105,8 @@
         this.newArtist = event.artists[0].name,
         this.newDuration = event.duration_ms,
         this.newVotes = 0,
-        this.$firebaseRefs.songs.child(this.newId).set({
+        db.ref('schweinske-dehnhaide').child('songs').child(this.newId).set({
+          id: this.newId,
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
@@ -128,13 +118,15 @@
         this.newId = '',
         this.newTitle = '',
         this.newArtist = '',
-        this.newDuration = ''
+        this.newDuration = '',
+        this.getQueue()
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       },
       playSong: function(songs) {
+        console.log(songs)
         this.axios({
           url: 'https://api.spotify.com/v1/me/player/play',
           headers: {'Authorization': 'Bearer ' + this.accessToken},
