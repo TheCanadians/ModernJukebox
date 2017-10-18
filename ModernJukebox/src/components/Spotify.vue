@@ -20,7 +20,7 @@
       </li>
     </ul>
 
-    <queue v-if="loggedIn" :userId="this.userId" @initSongs="playSong($event)"></queue>
+    <queue v-if="loggedIn" :userId="this.userId" :accessToken="this.accessToken"></queue>
     </div>
   </div>
 </template>
@@ -124,24 +124,6 @@
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
-      },
-      playSong: function(songs) {
-        console.log(songs)
-        this.axios({
-          url: 'https://api.spotify.com/v1/me/player/play',
-          headers: {'Authorization': 'Bearer ' + this.accessToken},
-          data: {
-            'uris': ['spotify:track:' + songs[0][".key"]]
-          },
-          method: 'PUT'
-        }).then((res) => {
-          if (res.status === 401) {
-            throw new Error('Unauthorized')
-          } else {
-            if (res.data !== undefined) {
-            }
-          }
-        })
       }
     },
     mounted() {

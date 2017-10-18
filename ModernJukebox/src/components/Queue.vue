@@ -1,5 +1,5 @@
 <template>
-  <div id="queue">
+  <div id="queue" v-if="!loading">
     <h2>Coming up:</h2>
     <ul v-for="song in queue">
       <li>
@@ -23,22 +23,25 @@
 
   export default {
     name: 'queue',
-    props: ['userId'],
+    props: ['userId', 'accessToken'],
     data() {
       return {
+        loading: false,
         queue: []
       }
     },
     methods: {
       getQueue: function() {
+        this.loading = true,
         this.queue.length = 0,
         db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
           snapshot.forEach(child => {
             this.queue.push(child.val())
+            this.loading = false
           })
         })
       },
-      upvoteTrack(event) {
+      upvoteTrack: function(event) {
         event.votes -= 1,
         db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
           votes: event.votes,
@@ -48,12 +51,30 @@
         }),
         this.getQueue()
       },
-      initPlaySong() {
-        this.$emit('initSongs', this.songs[0])
+      playSong: function() {
+        this.getQueue()
+        setTimeout(() => {
+          this.axios({
+            url: 'https://api.spotify.com/v1/me/player/play',
+            headers: {'Authorization': 'Bearer ' + this.accessToken},
+            data: {
+              'uris': ['spotify:track:' + this.queue[0].id]
+            },
+            method: 'PUT'
+          }).then((res) => {
+            if (res.status === 401) {
+              throw new Error('Unauthorized')
+            } else {
+              if (res.data !== undefined) {
+              }
+            }
+          })
+        }, 3000)
       }
     },
     mounted() {
-      this.getQueue()
+      this.getQueue(),
+      this.playSong()
     }
   }
 </script>
