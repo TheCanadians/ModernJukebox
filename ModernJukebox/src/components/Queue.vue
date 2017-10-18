@@ -1,5 +1,20 @@
 <template>
-  <div id="queue" v-if="!loading">
+  <div id="queue">
+    <h2>Now playing:</h2>
+    <ul v-model="nowPlaying">
+      <li>
+        <div class="infos">
+          <p>
+            {{this.nowPlaying.title}}
+            <span>{{this.nowPlaying.artist}}</span>
+          </p>
+        </div>
+        <div class="votes">
+          <p>{{this.nowPlaying.votes * -1}}</p>
+        </div>
+      </li>
+    </ul>
+
     <h2>Coming up:</h2>
     <ul v-for="song in queue">
       <li>
@@ -26,18 +41,16 @@
     props: ['userId', 'accessToken'],
     data() {
       return {
-        loading: false,
-        queue: []
+        queue: [],
+        nowPlaying: ''
       }
     },
     methods: {
       getQueue: function() {
-        this.loading = true,
         this.queue.length = 0,
         db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
           snapshot.forEach(child => {
             this.queue.push(child.val())
-            this.loading = false
           })
         })
       },
@@ -73,6 +86,10 @@
             }
           })
 
+          db.ref('schweinske-dehnhaide').child('songs').child(id).once('value').then((snapshot) => {
+            this.nowPlaying = snapshot.val()
+            console.log(this.nowPlaying)
+          })
           db.ref('schweinske-dehnhaide').child('songs').child(id).remove()
 
           setTimeout(() => {
