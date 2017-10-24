@@ -38,7 +38,14 @@
 
   export default {
     name: 'queue',
-    props: ['userId', 'accessToken'],
+    props: {
+      userid: {
+        required: true
+      },
+      accessToken: {
+        required: true
+      }
+    },
     data() {
       return {
         queue: [],
@@ -60,9 +67,51 @@
           votes: event.votes,
         }),
         db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
-          voters: this.userId
+          voters: this.userid
         }),
         this.getQueue()
+      },
+      createPlaylist: function() {
+        if(this.userid == '') {
+          console.log('No user ID found')
+        }
+        else {
+          this.axios({
+            url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists',
+            headers: {'Authorization': 'Bearer ' + this.accessToken},
+            method: 'GET'
+          }).then((res) => {
+            if (res.status === 401) {
+              throw new Error('Unauthorized')
+            } else {
+              if (res.data !== undefined) {
+                let playlistIDs = []
+                for (var i = 0; i < res.data.items.length; i++) {
+                  playlistIDs.push(res.data.items[i].name)
+                }
+                if(!playlistIDs.includes('jukebox')) {
+                  this.axios({
+                    url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists',
+                    headers: {'Authorization': 'Bearer ' + this.accessToken},
+                    data: {
+                      'description': 'jukebox',
+                      'public': true,
+                      'name': 'jukebox'
+                    },
+                    method: 'POST'
+                  }).then((res) => {
+                    if (res.status === 401) {
+                      throw new Error('Unauthorized')
+                    } else {
+                      if (res.data !== undefined) {
+                      }
+                    }
+                  })
+                }
+              }
+            }
+          })
+        }
       },
       playSong: function() {
         this.getQueue()
@@ -99,7 +148,8 @@
       }
     },
     mounted() {
-      this.playSong()
+      this.createPlaylist()
+      //this.playSong()
     }
   }
 </script>

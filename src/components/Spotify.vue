@@ -20,7 +20,7 @@
       </li>
     </ul>
 
-    <queue v-if="loggedIn" :userId="this.userId" :accessToken="this.accessToken"></queue>
+    <queue v-if="loggedIn && userid!=''" :userid="this.userid" :accessToken="this.accessToken"></queue>
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@
         newDuration: '',
         newVotes: 0,
         voters: false,
-        userId: '',
+        userid: '',
 
         notificationShowing: false
       }
@@ -61,7 +61,7 @@
     methods: {
       authorize: () => {
         let clientId = 'acda5dc270674c59be88eca853c1d4ff'
-        let scopes = 'user-read-private user-read-email user-read-birthdate user-library-read streaming user-read-playback-state user-modify-playback-state user-read-currently-playing'
+        let scopes = 'user-read-private user-read-email user-read-birthdate user-library-read streaming user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-modify-public playlist-modify-private'
         // Authorize Spotify user
         let url = 'https://accounts.spotify.com/authorize?'
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
@@ -78,13 +78,14 @@
             throw new Error('Unauthorized')
           } else {
             if (res.data !== undefined) {
-              this.userId = res.data.id
+              this.userid = res.data.id
             }
           }
+          return this.userid
         })
       },
       searchTracks: function (query) {
-        this.tracks = []
+        this.tracks = [],
         this.axios({
           url: 'https://api.spotify.com/v1/search?q=' + query + '&type=track&market=DE',
           headers: {'Authorization': 'Bearer ' + this.accessToken},
@@ -110,7 +111,7 @@
           artist: this.newArtist,
           duration: this.newDuration,
           title: this.newTitle,
-          userId: this.userId,
+          userid: this.userid,
           votes: this.newVotes,
           voters: this.voters
         }),
