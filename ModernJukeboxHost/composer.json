@@ -1,0 +1,7 @@
+{
+    "require": {
+        "jwilsson/spotify-web-api-php": "^2.0",
+        "kreait/firebase-php": "^3.3",
+        "ktamas77/firebase-php": "dev-master"
+    }
+}
