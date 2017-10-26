@@ -149,6 +149,7 @@
     },
     mounted() {
       this.createPlaylist()
+      this.getQueue()
       //this.playSong()
     }
   }
