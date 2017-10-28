@@ -8,28 +8,16 @@ if(!isset($_SESSION['userid'])) {
 $pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
 $userid = $_SESSION['userid'];
 
-//echo "Hallo User: ".$userid;
-
 // Spotify Stuff ---------------------------------------------------------------
 
 require '../vendor/autoload.php';
 
-$session = new SpotifyWebAPI\Session(
-    '500ecf1e7acc47b7980a91efd66b9a9c',
-    '9a3f95e414f2409f9c70490b199e521c',
-    'http://localhost/ModernJukeboxHost/server/home.php'
-);
+// Get access token from database
+$statement = $pdo->prepare("SELECT accessToken FROM users WHERE id = $userid");
+$statement->execute();
+$result = $statement->fetch();
+$accessToken = $result;
 
-// Request a access token using the code from Spotify
-if($_GET['code'] != null) {
-  $session->requestAccessToken($_GET['code']);
-
-  $accessToken = $session->getAccessToken();
-
-
-  header('Location: home.php');
-  die();
-}
 
 $api = new SpotifyWebAPI\SpotifyWebAPI();
 $api->setAccessToken($accessToken);
@@ -58,9 +46,10 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script>
-    var source = new EventSource('https://modern-jukebox.firebaseio.com/'<?php echo $path; ?>'.json');
+    var source = new EventSource('https://modern-jukebox.firebaseio.com/<?php echo $path; ?>.json');
     source.onmessage = function(e){
       document.getElementById("queue").innerHTML += e.data + '<br>';
+      console.log('message');
     };
 
     source.addEventListener("message", function(e) {
@@ -79,8 +68,12 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       console.log("Patch UP - " + e.data);
     }, false);
 
-    source.addEventListener("put", function(e) {
+    source.addChildEventListener("put", function(e) {
       console.log("Put UP - " + e.data);
+      var dataVar = JSON.parse(e.data);
+      console.log(dataVar);
+      console.log(dataVar["path"]);
+      //document.getElementById("queue").innerHTML += dataVar + '<br>';
     }, false);
   </script>
 </head>
