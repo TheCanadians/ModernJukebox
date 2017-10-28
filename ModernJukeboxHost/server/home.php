@@ -21,11 +21,15 @@ $session = new SpotifyWebAPI\Session(
 );
 
 // Request a access token using the code from Spotify
-$session->requestAccessToken($_GET['code']);
+if($_GET['code'] != null) {
+  $session->requestAccessToken($_GET['code']);
 
-$accessToken = $session->getAccessToken();
+  $accessToken = $session->getAccessToken();
 
-//echo $accessToken;
+
+  header('Location: home.php');
+  die();
+}
 
 $api = new SpotifyWebAPI\SpotifyWebAPI();
 $api->setAccessToken($accessToken);
@@ -40,6 +44,8 @@ $path = '';
 
 $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
  ?>
 
 <html !DOCTYPE>
@@ -51,6 +57,32 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    var source = new EventSource('https://modern-jukebox.firebaseio.com/'<?php echo $path; ?>'.json');
+    source.onmessage = function(e){
+      document.getElementById("queue").innerHTML += e.data + '<br>';
+    };
+
+    source.addEventListener("message", function(e) {
+      console.log(e.data);
+    }, false);
+
+    source.addEventListener("open", function(e) {
+      console.log("Connection was opened");
+    }, false);
+
+    source.addEventListener("error", function(e) {
+      console.log("Error - connection was lost.");
+    }, false);
+
+    source.addEventListener("patch", function(e) {
+      console.log("Patch UP - " + e.data);
+    }, false);
+
+    source.addEventListener("put", function(e) {
+      console.log("Put UP - " + e.data);
+    }, false);
+  </script>
 </head>
 <body>
 <div class="container col-md-12" style="padding: 0;">
@@ -78,6 +110,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
               $statement->execute();
               $result = $statement->fetch();
               $path = DEFAULT_PATH . $result[0];
+
       ?>
       <select class="form-control">
         <!-- Get restaurants from Database -->
@@ -127,6 +160,16 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       <h4>Playlist</h4>
       <div id="queue" class="col-md-12" style="overflow-y: scroll; min-height: 50%">
         <!-- Get Playlist from Firebase -->
+        <?php
+        /*
+          $songs = json_decode($firebase->get($path . '/songs'), true);
+          foreach($songs as $song) {
+            echo '<div class="col-md-12">';
+              echo $song['title'] . ' - ' . $song['artist'];
+            echo '</div>';
+          }
+          */
+        ?>
 
       </div>
     </div>
