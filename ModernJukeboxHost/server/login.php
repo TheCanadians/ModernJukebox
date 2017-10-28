@@ -10,7 +10,7 @@ if(isset($_GET['login'])) {
   $result = $statement->execute(array('email' => $email));
   $user = $statement->fetch();
 
-  if($user !== false && password_verify($password, $user['password'])) {
+  if($user !== false && password_verify($password, $user['pw'])) {
     $_SESSION['userid'] = $user['id'];
     header('Location: spotifyLogin.php');
     //die('Login erfolgreich. Weiter zu <a href="spotifyLogin.php">Home</a>');
