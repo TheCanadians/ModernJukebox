@@ -20,8 +20,13 @@
       </li>
     </ul>
 
-    <queue v-if="loggedIn && userid!=''" :userid="this.userid" :accessToken="this.accessToken"></queue>
-    </div>
+    <queue
+      v-if="loggedIn && userid!=''"
+      :userid="this.userid"
+      :accessToken="this.accessToken"
+      :queue="this.queue"
+      @getQueue="this.getQueue"
+    ></queue>
   </div>
 </template>
 
@@ -55,7 +60,9 @@
         voters: false,
         userid: '',
 
-        notificationShowing: false
+        notificationShowing: false,
+
+        queue: []
       }
     },
     methods: {
@@ -67,6 +74,14 @@
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
         let urlWithQueryString = url + '&' + query
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('/#')[0])
+      },
+      getQueue: function() {
+        this.queue.length = 0,
+        db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
+          snapshot.forEach(child => {
+            this.queue.push(child.val())
+          })
+        })
       },
       setUserId: function() {
         this.axios({

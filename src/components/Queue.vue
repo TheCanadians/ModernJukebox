@@ -44,22 +44,19 @@
       },
       accessToken: {
         required: true
+      },
+      queue: {
+        required: true
       }
     },
     data() {
       return {
-        queue: [],
         nowPlaying: ''
       }
     },
     methods: {
       getQueue: function() {
-        this.queue.length = 0,
-        db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
-          snapshot.forEach(child => {
-            this.queue.push(child.val())
-          })
-        })
+        this.$emit('getQueue')
       },
       upvoteTrack: function(event) {
         event.votes -= 1,
@@ -150,7 +147,7 @@
     mounted() {
       this.createPlaylist()
       this.getQueue()
-      //this.playSong()
+      this.playSong()
     }
   }
 </script>
