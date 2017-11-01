@@ -180,7 +180,7 @@
               let hasJukebox = []
 
               for (var i = 0; i < res.data.items.length; i++) {
-                if(res.data.items[i].name) {
+                if(res.data.items[i].name == 'jukebox') {
                   this.playlistID = res.data.items[i].id
                   hasJukebox = true
                 }
@@ -194,21 +194,23 @@
         })
       },
       playSong: function() {
-        console.log('Playlist: ' + this.playlistID)
-        console.log('User: ' + this.userid)
-        console.log('Song: ' + this.queue[0].id)
+        console.log(this.playlistID)
+        let apiurl = 'https://api.spotify.com/v1/users/' + this.userid + '/playlists/' + this.playlistID + '/tracks'
         this.axios({
-          url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists/' + this.playlistID + '/tracks',
-          headers: {'Authorization': 'Bearer ' + this.accessToken},
+          url: apiurl,
+          headers: {
+            'Authorization': 'Bearer ' + this.accessToken,
+            'Content-Type': 'application/json'
+          },
           data: {
             'uris': ['spotify:track:' + this.queue[0].id]
           },
-          method: 'PUT'
+          method: 'POST'
         }).then((res) => {
           if (res.status === 401) {
             throw new Error('Unauthorized')
           } else {
-            console.log('Song added')
+            console.log(res)
           }
         })
       }
