@@ -21,7 +21,7 @@
     </ul>
 
     <queue
-      v-if="loggedIn && userid!=''"
+      v-if="loggedIn && userid!='' && queue!=''"
       :userid="this.userid"
       :accessToken="this.accessToken"
       :queue="this.queue"
@@ -62,7 +62,8 @@
 
         notificationShowing: false,
 
-        queue: []
+        queue: [],
+        playlistID: ''
       }
     },
     methods: {
@@ -140,10 +141,89 @@
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
+      },
+      createPlaylist: function() {
+        if(this.userid == '') {
+          console.log('No user ID found')
+        }
+        else {
+          this.axios({
+            url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists',
+            headers: {'Authorization': 'Bearer ' + this.accessToken},
+            data: {
+              'description': 'jukebox',
+              'public': true,
+              'name': 'jukebox'
+            },
+            method: 'POST'
+          }).then((res) => {
+            if (res.status === 401) {
+              throw new Error('Unauthorized')
+            }
+            else {
+              console.log('Playlist created')
+              this.getPlaylistId()
+            }
+          })
+        }
+      },
+      getPlaylistId: function() {
+        this.axios({
+          url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists',
+          headers: {'Authorization': 'Bearer ' + this.accessToken},
+          method: 'GET'
+        }).then((res) => {
+          if (res.status === 401) {
+            throw new Error('Unauthorized')
+          } else {
+            if (res.data !== undefined) {
+              let hasJukebox = []
+
+              for (var i = 0; i < res.data.items.length; i++) {
+                if(res.data.items[i].name) {
+                  this.playlistID = res.data.items[i].id
+                  hasJukebox = true
+                }
+              }
+
+              if(!hasJukebox) {
+                this.createPlaylist()
+              }
+            }
+          }
+        })
+      },
+      playSong: function() {
+        console.log('Playlist: ' + this.playlistID)
+        console.log('User: ' + this.userid)
+        console.log('Song: ' + this.queue[0].id)
+        this.axios({
+          url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists/' + this.playlistID + '/tracks',
+          headers: {'Authorization': 'Bearer ' + this.accessToken},
+          data: {
+            'uris': ['spotify:track:' + this.queue[0].id]
+          },
+          method: 'PUT'
+        }).then((res) => {
+          if (res.status === 401) {
+            throw new Error('Unauthorized')
+          } else {
+            console.log('Song added')
+          }
+        })
       }
     },
     mounted() {
-      this.setUserId()
+      this.setUserId(),
+      this.getQueue()
+    },
+    updated() {
+      if(this.userid != '') {
+        this.getPlaylistId()
+        if(this.playlistID != '') {
+          this.playSong()
+        }
+      }
     }
   }
 </script>
