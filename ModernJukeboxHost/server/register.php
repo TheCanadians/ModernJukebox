@@ -45,7 +45,7 @@ $pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
      if(!$error) {
        $passwort_hash = password_hash($password, PASSWORD_DEFAULT);
 
-       $statement = $pdo->prepare("INSERT INTO users (email, password, roomName) VALUES (:email, :password, 'Default')");
+       $statement = $pdo->prepare("INSERT INTO users (email, pw, roomName) VALUES (:email, :password, 'Default')");
        $result = $statement->execute(array('email' => $email, 'password' => $passwort_hash));
 
        if($result) {

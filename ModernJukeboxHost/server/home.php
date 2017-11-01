@@ -8,24 +8,16 @@ if(!isset($_SESSION['userid'])) {
 $pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
 $userid = $_SESSION['userid'];
 
-//echo "Hallo User: ".$userid;
-
 // Spotify Stuff ---------------------------------------------------------------
 
 require '../vendor/autoload.php';
 
-$session = new SpotifyWebAPI\Session(
-    '500ecf1e7acc47b7980a91efd66b9a9c',
-    '9a3f95e414f2409f9c70490b199e521c',
-    'http://localhost/ModernJukeboxHost/server/home.php'
-);
+// Get access token from database
+$statement = $pdo->prepare("SELECT accessToken FROM users WHERE id = $userid");
+$statement->execute();
+$result = $statement->fetch();
+$accessToken = $result;
 
-// Request a access token using the code from Spotify
-$session->requestAccessToken($_GET['code']);
-
-$accessToken = $session->getAccessToken();
-
-//echo $accessToken;
 
 $api = new SpotifyWebAPI\SpotifyWebAPI();
 $api->setAccessToken($accessToken);
@@ -40,6 +32,8 @@ $path = '';
 
 $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
  ?>
 
 <html !DOCTYPE>
@@ -51,6 +45,37 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    var source = new EventSource('https://modern-jukebox.firebaseio.com/<?php echo $path; ?>.json');
+    source.onmessage = function(e){
+      document.getElementById("queue").innerHTML += e.data + '<br>';
+      console.log('message');
+    };
+
+    source.addEventListener("message", function(e) {
+      console.log(e.data);
+    }, false);
+
+    source.addEventListener("open", function(e) {
+      console.log("Connection was opened");
+    }, false);
+
+    source.addEventListener("error", function(e) {
+      console.log("Error - connection was lost.");
+    }, false);
+
+    source.addEventListener("patch", function(e) {
+      console.log("Patch UP - " + e.data);
+    }, false);
+
+    source.addChildEventListener("put", function(e) {
+      console.log("Put UP - " + e.data);
+      var dataVar = JSON.parse(e.data);
+      console.log(dataVar);
+      console.log(dataVar["path"]);
+      //document.getElementById("queue").innerHTML += dataVar + '<br>';
+    }, false);
+  </script>
 </head>
 <body>
 <div class="container col-md-12" style="padding: 0;">
@@ -78,6 +103,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
               $statement->execute();
               $result = $statement->fetch();
               $path = DEFAULT_PATH . $result[0];
+
       ?>
       <select class="form-control">
         <!-- Get restaurants from Database -->
@@ -127,6 +153,16 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       <h4>Playlist</h4>
       <div id="queue" class="col-md-12" style="overflow-y: scroll; min-height: 50%">
         <!-- Get Playlist from Firebase -->
+        <?php
+        /*
+          $songs = json_decode($firebase->get($path . '/songs'), true);
+          foreach($songs as $song) {
+            echo '<div class="col-md-12">';
+              echo $song['title'] . ' - ' . $song['artist'];
+            echo '</div>';
+          }
+          */
+        ?>
 
       </div>
     </div>
