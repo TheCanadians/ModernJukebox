@@ -10,7 +10,20 @@ $session = new SpotifyWebAPI\Session(
   'http://localhost/ModernJukeboxHost/server/forwarding.php'
 );
 
-header('Location: ' . $session->getAuthorizeUrl());
+$options = [
+  'scope' => [
+    'user-library-modify',
+    'playlist-read-private',
+    'playlist-modify-public',
+    'playlist-modify-private',
+    'user-read-playback-state',
+    'user-modify-playback-state',
+    'user-read-currently-playing',
+    'user-read-recently-played',
+  ],
+];
+
+header('Location: ' . $session->getAuthorizeUrl($options));
 die();
 
  ?>

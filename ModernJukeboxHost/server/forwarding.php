@@ -16,11 +16,12 @@ $spotify = new SpotifyWebAPI\Session(
 $spotify->requestAccessToken($_GET['code']);
 
 $accessToken = $spotify->getAccessToken();
+$refreshToken = $spotify->getRefreshToken();
 
-$statement = $pdo->prepare("UPDATE users SET accessToken = :accessToken WHERE id = :userid");
-$result = $statement->execute(array('accessToken' => $accessToken, 'userid' => $userid));
+$statement = $pdo->prepare("UPDATE users SET accessToken = :accessToken, refreshToken = :refreshToken WHERE id = :userid");
+$result = $statement->execute(array('accessToken' => $accessToken, 'refreshToken' => $refreshToken, 'userid' => $userid));
 
-header('Location: home.php');
+header('Location: homeJS.php');
 die();
 
 ?>

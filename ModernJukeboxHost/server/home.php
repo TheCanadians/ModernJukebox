@@ -22,13 +22,18 @@ $accessToken = $result;
 $api = new SpotifyWebAPI\SpotifyWebAPI();
 $api->setAccessToken($accessToken);
 
-// Firebase Stuff --------------------------------------------------------------
+// Firebase PHP Stuff ----------------------------------------------------------
 
-const DEFAULT_URL = 'https://modern-jukebox.firebaseio.com';
+const DEFAULT_URL = 'https://modern-jukebox.firebaseio.com/';
 const DEFAULT_TOKEN = 'oi5JKlnTahYEyORi9YvlvY36pn9nxByDJjx0FX0j';
 const DEFAULT_PATH = '/';
 
 $path = '';
+
+$statement = $pdo->prepare("SELECT roomName FROM users WHERE id = $userid");
+$statement->execute();
+$result = $statement->fetch();
+$path = DEFAULT_PATH . $result[0] . "/";
 
 $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 
@@ -45,8 +50,10 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="../script/jquery-3.2.1.js"></script>
   <script>
-    var source = new EventSource('https://modern-jukebox.firebaseio.com/<?php echo $path; ?>.json');
+    var source = new EventSource('<?php echo DEFAULT_URL . $path; ?>/songs.json');
+    console.log(<?php echo $path ?>);
     source.onmessage = function(e){
       document.getElementById("queue").innerHTML += e.data + '<br>';
       console.log('message');
@@ -68,12 +75,34 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       console.log("Patch UP - " + e.data);
     }, false);
 
-    source.addChildEventListener("put", function(e) {
+    source.addEventListener("put", function(e) {
       console.log("Put UP - " + e.data);
       var dataVar = JSON.parse(e.data);
-      console.log(dataVar);
-      console.log(dataVar["path"]);
-      //document.getElementById("queue").innerHTML += dataVar + '<br>';
+
+      var songs = dataVar.data;
+
+      if(dataVar.path != "/" && dataVar.data.artist != null) {
+        var element = document.createElement('div');
+        element.class = "col-md-12";
+
+        var content = document.createTextNode(dataVar.data.title + " - " + dataVar.data.artist);
+        element.appendChild(content);
+
+        var queue = document.getElementById("queue");
+        queue.appendChild(element);
+      }
+      else {
+        for(var key in songs) {
+          var element = document.createElement('div');
+          element.class = "col-md-12";
+
+          var content = document.createTextNode(songs[key].title + " - " + songs[key].artist);
+          element.appendChild(content);
+
+          var queue = document.getElementById("queue");
+          queue.appendChild(element);
+        }
+      }
     }, false);
   </script>
 </head>
@@ -89,7 +118,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
         <li><a href="newRestaurant.php"><span class="glyphicon glyphicon-plus"></span> Add New Room</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -97,19 +126,10 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <div class="col-md-4" style="height: 100%;">
     <!-- Restaurant Info -->
     <div class="col-md-12">
-      <?php
-
-              $statement = $pdo->prepare("SELECT roomName FROM users WHERE id = $userid");
-              $statement->execute();
-              $result = $statement->fetch();
-              $path = DEFAULT_PATH . $result[0];
-
-      ?>
       <select class="form-control">
         <!-- Get restaurants from Database -->
         <?php
         $i = 1;
-
         // some kind of foreach loop that loops through the Database
         //foreach () {}
         $name = trim($firebase->get($path . "/name"), '""');
@@ -117,18 +137,26 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
         ?>
       </select>
       <!-- Restaurant Info Formular -->
-      <form>
+      <form action="javascript:void(0);" method="post">
         <div class="form-group">
           <label for="maxQ">Max Queue: </label>
-          <input type="text" id="maxQ" class="form-control" value=<?php echo $firebase->get($path . '/maxQueue'); ?>>
+          <input type="text" name="maxQ" class="form-control" value=<?php echo $firebase->get($path . '/maxQueue'); ?>>
         </div>
         <div class="form-group">
           <label for="maxSpU">Max Songs per User: </label>
-          <input type="text" id="maxSpU" class="form-control" value=<?php echo $firebase->get($path . '/limit') ?>>
+          <input type="text" name="maxSpU" class="form-control" value=<?php echo $firebase->get($path . '/limit') ?>>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary" value="submit">Update</button>
       </form>
-
+      <script>
+        $("form").submit(function() {
+          var str = $(this).serialize();
+          $.ajax('update.php', str, function(result) {
+            console.log(result);
+          });
+          return false;
+        });
+      </script>
     </div>
   </div>
   <!-- Left side End -->
