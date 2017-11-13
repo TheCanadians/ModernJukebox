@@ -118,6 +118,7 @@ $path = DEFAULT_PATH . $result[0] . "/";
   }
   // Check if Player is open
   function checkPlayer() {
+    console.log(win);
     if (win.closed) {
       document.getElementById("player").className = "btn btn-danger";
     }
@@ -134,6 +135,16 @@ $path = DEFAULT_PATH . $result[0] . "/";
     qrNode.setAttribute("id", "qrcode");
     var parentNode = document.getElementById("qrCodeHolder");
     parentNode.appendChild(qrNode);
+
+    database.ref(path + 'name').once('value').then(function(snapshot) {
+      var roomName = (snapshot.val());
+      var resField = document.createNode("p");
+      resField.setAttribute("class", "");
+      var resName = document.createTextNode("Ihr QR Code für: " + roomName);
+      resField.appendChild(resName);
+      qrNode.appendChild(resField);
+    });
+
     // Create QR Code
     var qrCodePic = new QRCode(document.getElementById("qrcode"), {
       width : 400,

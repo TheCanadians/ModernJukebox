@@ -26,7 +26,14 @@ $api->setAccessToken($accessToken);
 $play = $_POST['PlayID'];
 $pause = $_POST['PauseID'];
 
-$api->play(false, [
-  'uris' => ['https://api.spotify.com/v1/tracks/3n3Ppam7vgaVa1iaRUc9Lp'],
-]);
+if ($_POST['PlayID'] != null) {
+  $api->play(false, [
+    'uris' => ['https://api.spotify.com/v1/tracks/' . $play],
+  ]);
+}
+
+if ($_POST['PauseID'] != null) {
+  $api->pause();
+}
+
 ?>
