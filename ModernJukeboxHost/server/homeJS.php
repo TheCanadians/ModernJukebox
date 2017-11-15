@@ -5,82 +5,16 @@ if(!isset($_SESSION['userid'])) {
   die('Bitte zuerst <a href="login.php">einloggen</a>');
 }
 
+// Start Database
 $pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
+// Get User ID from Session
 $userid = $_SESSION['userid'];
 
 // Get Composer Packages -------------------------------------------------------
 
 require '../vendor/autoload.php';
-
-// Spotify Stuff ---------------------------------------------------------------
-// Get access token from database
-$statement = $pdo->prepare("SELECT accessToken FROM users WHERE id = $userid");
-$statement->execute();
-$result = $statement->fetch();
-$accessToken = $result;
-
-$api = new SpotifyWebAPI\SpotifyWebAPI();
-//$api->setAccessToken($accessToken);
-
-try {
-  $api->setAccessToken($accessToken['accessToken']);
-  $test = $api->getTrack('4ig5yrQLjlT10HzZDPV1cG');
-} catch (Exception $e) {
-  $spotify = new SpotifyWebAPI\Session(
-      '500ecf1e7acc47b7980a91efd66b9a9c',
-      '9a3f95e414f2409f9c70490b199e521c',
-      'http://localhost/ModernJukeboxHost/server/forwarding.php'
-  );
-  // Get refresh token from database
-  $statement = $pdo->prepare("SELECT refreshToken FROM users WHERE id = $userid");
-  $statement->execute();
-  $result = $statement->fetch();
-  $refreshToken = $result;
-
-  $spotify->refreshAccessToken($refreshToken['refreshToken']);
-
-  $accessToken = $spotify->getAccessToken();
-  $api->setAccessToken($accessToken);
-
-  $test = $api->getTrack('4ig5yrQLjlT10HzZDPV1cG');
-
-  try{
-    /*
-    $wasPaused = $api->play(false, [
-      'uris' => ['spotify:track:0tgVpDi06FyKpA1z0VMD4v'],
-    ]);
-
-    $lastResponse = $api->getLastResponse();
-    */
-    //print_r($lastResponse);
-  }
-  catch (Exception $e) {
-    //print_r($e);
-  }
-}
-
-// Firebase Path ---------------------------------------------------------------
-
-const DEFAULT_PATH = '/';
-
-$path = '';
-
-$statement = $pdo->prepare("SELECT roomName FROM users WHERE id = $userid");
-$statement->execute();
-$result = $statement->fetch();
-$path = DEFAULT_PATH . $result[0] . "/";
-
-$statement = $pdo->prepare("SELECT * FROM users WHERE id = $userid");
-$statement->execute();
-$result = $statement->fetch();
-
-$email = $result['email'];
-
-$statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-$statement->execute(array(":email" => $email));
-$result = $statement->fetchAll();
-
-$rooms = json_encode($result);
+require_once '../script/PHP/spotify.php';
+require_once '../script/PHP/firebase.php';
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -97,7 +31,7 @@ $rooms = json_encode($result);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- JQuery -->
-  <script src="../script/jquery-3.2.1.js"></script>
+  <script src="../script/JS/jquery-3.2.1.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
   <!-- JsPDF -->
@@ -105,87 +39,15 @@ $rooms = json_encode($result);
   <!-- QRCodeJs -->
   <script type="text/javascript" src="../qrcodejs-master/jquery.min.js"></script>
   <script type="text/javascript" src="../qrcodejs-master/qrcode.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCW-yHDVzJT7IgK6exI1AElYZ85BKiKeBc",
-      authDomain: "modern-jukebox.firebaseapp.com",
-      databaseURL: "https://modern-jukebox.firebaseio.com",
-      storageBucket: "",
-      messagingSenderId: "560034994179"
-    };
-    firebase.initializeApp(config);
+  <!-- Load Scripts -->
+  <script type="text/javascript" src="../script/JS/firebase.js"></script>
+  <script type="text/javascript" src="../script/JS/qrCode.js"></script>
+  <script type="text/javascript" src="../script/JS/spotify.js"></script>
 
-    var database = firebase.database();
+  <script>
     var path = <?php echo $path; ?>;
   </script>
-  <script>
-  // Open Spotify Player
-  function openPlayer() {
-      win = window.open('https://open.spotify.com/browse/featured', '_blank');
-      setInterval(checkPlayer(), 5000);
-      if (win.closed) {
-        document.getElementById("player").className = "btn btn-danger";
-      }
-      else {
-        document.getElementById("player").className = "btn btn-success";
-      }
-  }
-  // Check if Player is open
-  function checkPlayer() {
-    console.log(win);
-    if (win.closed) {
-      document.getElementById("player").className = "btn btn-danger";
-    }
-    else {
-      document.getElementById("player").className = "btn btn-success";
-    }
-  }
-  </script>
-  <script>
-  // QR code
-  function qrCode() {
-    // Create  DIV node
-    var qrNode = document.createElement("div");
-    qrNode.setAttribute("id", "qrcode");
-    var parentNode = document.getElementById("qrCodeHolder");
-    parentNode.appendChild(qrNode);
 
-    database.ref(path + 'name').once('value').then(function(snapshot) {
-      var roomName = (snapshot.val());
-      var resField = document.createNode("p");
-      resField.setAttribute("class", "");
-      var resName = document.createTextNode("Ihr QR Code für: " + roomName);
-      resField.appendChild(resName);
-      qrNode.appendChild(resField);
-    });
-
-    // Create QR Code
-    var qrCodePic = new QRCode(document.getElementById("qrcode"), {
-      width : 400,
-      height : 400
-    });
-    if(path == null) {
-      alert("No Restaurant chosen");
-      return;
-    }
-
-    qrCodePic.makeCode(path);
-    // Select Canvas
-    var canvas = document.querySelector('#qrcode canvas');
-    var imgData = canvas.toDataURL("image/jpeg", 1.0);
-    // Make PDF out of the Canvas
-    var qrCodeDoc = new jsPDF();
-    qrCodeDoc.addImage(imgData, 'JPEG', 0, 0);
-
-    qrCodeDoc.save('qrCode.pdf');
-    // Remove DIV Node
-    var parent = document.getElementById("qrCodeHolder");
-    var child = document.getElementById("qrcode");
-    parent.removeChild(child);
-  }
-
-  </script>
 </head>
 <body>
 <div class="container col-md-12" style="padding: 0;">
