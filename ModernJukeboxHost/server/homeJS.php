@@ -230,7 +230,7 @@ $rooms = json_encode($result);
     function setRoom(event) {
 
     }
-    $('.dropdown-menu li a').on('click', function() {
+    $('.dropdown-menu').on('click', "a", function() {
       console.log("hello");
       $(this).parent().addClass('active');
     });
