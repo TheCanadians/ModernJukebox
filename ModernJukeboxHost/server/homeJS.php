@@ -45,11 +45,14 @@ try {
   $test = $api->getTrack('4ig5yrQLjlT10HzZDPV1cG');
 
   try{
+    /*
     $wasPaused = $api->play(false, [
       'uris' => ['spotify:track:0tgVpDi06FyKpA1z0VMD4v'],
     ]);
+
     $lastResponse = $api->getLastResponse();
-    print_r($lastResponse);
+    */
+    //print_r($lastResponse);
   }
   catch (Exception $e) {
     //print_r($e);
@@ -66,6 +69,18 @@ $statement = $pdo->prepare("SELECT roomName FROM users WHERE id = $userid");
 $statement->execute();
 $result = $statement->fetch();
 $path = DEFAULT_PATH . $result[0] . "/";
+
+$statement = $pdo->prepare("SELECT * FROM users WHERE id = $userid");
+$statement->execute();
+$result = $statement->fetch();
+
+$email = $result['email'];
+
+$statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+$statement->execute(array(":email" => $email));
+$result = $statement->fetchAll();
+
+$rooms = json_encode($result);
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -177,10 +192,14 @@ $path = DEFAULT_PATH . $result[0] . "/";
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">ModernJukebox Host</a>
+        <a class="navbar-brand" href="homeJS.php">ModernJukebox Host</a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Rooms <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="rooms">
+          </ul>
+        </li>
         <li><a href="newRestaurant.php"><span class="glyphicon glyphicon-plus"></span> Add New Room</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -188,6 +207,34 @@ $path = DEFAULT_PATH . $result[0] . "/";
         <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
+    <script>
+    var rooms = <?php echo $rooms; ?>;
+    for (i = 0; i < rooms.length; i++) {
+      getRoomName(rooms[i]['roomName']);
+    }
+    function getRoomName(path) {
+      database.ref('/' + path + '/name').once('value').then(function(snapshot) {
+        var roomName = (snapshot.val());
+        var listEl = document.createElement("LI")
+        var linkEl = document.createElement("A");
+        linkEl.setAttribute("href", "#");
+        linkEl.setAttribute("id", path);
+        //linkEl.setAttribute("onclick", "setRoom()");
+        var roomText = document.createTextNode(roomName);
+        linkEl.appendChild(roomText);
+        listEl.appendChild(linkEl);
+        var list = document.getElementById("rooms");
+        list.insertBefore(listEl, list.childNodes[0]);
+      });
+    }
+    function setRoom(event) {
+
+    }
+    $('.dropdown-menu li a').on('click', function() {
+      console.log("hello");
+      $(this).parent().addClass('active');
+    });
+    </script>
   </nav>
   <!-- QRCode -->
   <div id="qrCodeHolder"></div>
@@ -196,18 +243,6 @@ $path = DEFAULT_PATH . $result[0] . "/";
   <div class="col-md-4" style="height: 100%;">
     <!-- Restaurant Info -->
     <div class="col-md-12">
-      <select class="form-control" id="ResSelect">
-        <!-- Get restaurants from Database -->
-        <script>
-        database.ref(path + 'name').once('value').then(function(snapshot) {
-          var roomName = (snapshot.val());
-          var option = document.createElement("OPTION");
-          var optionText = document.createTextNode(roomName);
-          option.appendChild(optionText);
-          document.getElementById("ResSelect").appendChild(option);
-        });
-        </script>
-      </select>
       <!-- Restaurant Info Formular -->
       <form id="ResInfo" method="post">
         <div class="form-group">
