@@ -7,10 +7,9 @@ $(document).ready(function() {
 
     $('#play').click(function() {
       var songID = document.getElementById("queue").firstChild.id;
-      console.log(songID);
       $.ajax({
         type: "POST",
-        url: "functions.php",
+        url: "../script/PHP/functions.php",
         data: {PlayID : songID}
       }).done(function(msg) {
         console.log(msg);
@@ -22,10 +21,10 @@ $(document).ready(function() {
       console.log(songID);
       $.ajax({
         type: "POST",
-        url: "functions.php",
+        url: "../script/PHP/functions.php",
         data: {PauseID : songID}
       }).done(function(msg) {
-        console.log(msg);
+        //console.log(msg);
       });
     });
 

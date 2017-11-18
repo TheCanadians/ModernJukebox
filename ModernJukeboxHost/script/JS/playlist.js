@@ -12,10 +12,8 @@
       }
       else {
         var element = document.createElement('div');
-        element.className = "col-md-12";
+        element.className = "col-md-12 list-group-item";
         element.id = song.id;
-        element.style.border = "thin solid #000";
-        element.style.padding = "2px";
 
         var p = document.createElement('p');
         p.style.margin = "0px";

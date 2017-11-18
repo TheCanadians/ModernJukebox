@@ -18,7 +18,7 @@ function setInfoPath() {
 
 function update() {
   var form = document.getElementById("ResInfo");
-  var link = document.getElementById("imgLink");
+  var link = form.elements["imgLink"].value;
   var maxQ = form.elements["maxQ"].value;
   var maxSpU = form.elements["maxSpU"].value;
 

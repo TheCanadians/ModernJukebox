@@ -13,11 +13,13 @@ $userid = $_SESSION['userid'];
 // Get Composer Packages -------------------------------------------------------
 
 require '../vendor/autoload.php';
-require_once '../script/PHP/spotify.php';
+//require_once '../script/PHP/spotify.php';
 require_once '../script/PHP/firebase.php';
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+
+
  ?>
 
 <html !DOCTYPE>
@@ -76,9 +78,8 @@ require_once '../script/PHP/firebase.php';
   </nav>
   <!-- QRCode -->
   <div id="qrCodeHolder"></div>
-  <div id="editor"></div>
   <!-- Left side -->
-  <div class="col-md-4" style="height: 100%;">
+  <div class="col-md-4" style="height: 100%; border-right: thin solid #000;">
     <!-- Restaurant Info -->
     <div class="col-md-12">
       <!-- Restaurant Info Formular -->
@@ -110,7 +111,7 @@ require_once '../script/PHP/firebase.php';
     <!-- Playlist -->
     <div class="col-md-12">
       <h4>Playlist</h4>
-      <div id="queue" class="col-md-12" style="overflow-y: scroll; min-height: 50%">
+      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; min-height: 50%">
       </div>
     </div>
     <!-- Playlist functions -->
