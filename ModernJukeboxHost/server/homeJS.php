@@ -120,7 +120,7 @@ require_once '../script/PHP/firebase.php';
       <button type="submit" id="pause" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
       <button type="submit" id="clearPlaylist" class="btn btn-danger"><span>Clear Playlist</button>
       <button type="submit" id="deleteSel" class="btn btn-danger"><span>Delete Selected</button>
-      <button type="submit" id="player" class="btn btn-danger" onclick="openPlayer()"><span>Open Player</button>
+      <button type="submit" id="player" class="btn btn-danger"><span>Open Player</button>
     </div>
   </div>
   <!-- Right side End -->

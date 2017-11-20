@@ -1,21 +1,26 @@
+//win = "";
 // Open Spotify Player
 function openPlayer() {
-    win = window.open('https://open.spotify.com/browse/featured', '_blank');
-    setInterval(checkPlayer(), 5000);
-    if (win.closed) {
-      document.getElementById("player").className = "btn btn-danger";
-    }
-    else {
-      document.getElementById("player").className = "btn btn-success";
-    }
+    win = window.open('https://open.spotify.com/browse/featured', 'player');
+
+    document.getElementById("player").className = "btn btn-success";
 }
 // Check if Player is open
 function checkPlayer() {
-  console.log(win);
+  try {
+    if (win.closed) {
+      document.getElementById("player").className = "btn btn-danger";
+      openPlayer();
+    }
+  }
+  catch (e) {
+    openPlayer();
+    intervalID = setInterval(setButton, 1000);
+  }
+}
+// Set Button Color
+function setButton() {
   if (win.closed) {
     document.getElementById("player").className = "btn btn-danger";
-  }
-  else {
-    document.getElementById("player").className = "btn btn-success";
   }
 }

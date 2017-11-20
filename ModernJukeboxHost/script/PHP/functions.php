@@ -42,23 +42,97 @@ try {
   $api->setAccessToken($accessToken);
 }
 
-if ($_POST['PlayID'] != null) {
-  $play = (string)$_POST['PlayID'];
-  ?>
-  <script>console.log(" Hello: " + <?php echo $play; ?>);</script>
-  <?php
-  $wasPaused = $api->play(false, [
-    'uris' => ['spotify:track:0tgVpDi06FyKpA1z0VMD4v'],
-  ]);
-  $lastResponse = $api->getLastResponse();
-  ?>
-  <script>console.log(" Hello: " + <?php echo $lastResponse; ?>);</script>
-  <?php
-}
+if ($_POST['firstID'] != null) {
+  $firstID = $_POST['firstID'];
+  $secondID = $_POST['secondID'];
+  if($secondID == null) {
+    fillPlaylist($firstID);
+  }
+  else {
+    fillPlaylist($firstID, $secondID);
+  }
 
+  //play($playID);
+  //playPlaylist();
+}
+/*
 if ($_POST['PauseID'] != null) {
   $pause = $POST['PauseID'];
   $api->pause();
 }
+*/
+function fillPlaylist ($first, $second = null) {
+  if ($second != null) {
+    $GLOBALS['api']->replaceUserPlaylistTracks('guildwhoops', '6bQ7gg4w5uTvnVatgtNitu', [
+      'spotify:track:' . $first,
+      'spotify:track:' . $second
+    ]);
+    playPlaylist();
+  }
+  else {
+    $playlistTracks = $GLOBALS['api']->getUserPlaylistTracks('guildwhoops', '6bQ7gg4w5uTvnVatgtNitu');
+    $deleteID = [
+      ['id' => $playlistTracks->items[0]->id]
+    ];
+    $GLOBALS['api']->deleteUserPlaylistTracks('guildwhoops', '6bQ7gg4w5uTvnVatgtNitu', $deleteID);
+    //somehow get new "first" song from queue and add to spotify playlist
+    $GLOBALS['api']->addUserPlaylistTracks('guildwhoops', '6bQ7gg4w5uTvnVatgtNitu', [
+      $first
+    ]);
+  }
+}
 
+function playPlaylist() {
+  try {
+    $playlists = $GLOBALS['api']->getUserPlaylists($GLOBALS['api']->me()->id, [
+        'limit' => 1
+    ]);
+    $context_uri = $playlists->items[0]->uri;
+    $GLOBALS['api']->play(false, [
+      'context_uri' => $context_uri,
+    ]);
+    $lastResponse = $GLOBALS['api']->getLastResponse();
+    if ($lastResponse['status'] == 202) {
+      print_r($lastResponse);
+      sleep(5);
+      playPlaylist();
+    }
+    else {
+      print_r($lastResponse);
+      echo "SUCCESS!";
+
+      $current = $GLOBALS['api']->getMyCurrentTrack();
+      checkTime($current->item->duration_ms);
+    }
+  }
+  catch (Exception $e) {
+    echo $e;
+  }
+}
+
+function checkTime($length) {
+  sleep ($length / 1000);
+  print_r("Delete And add Song");
+}
+
+function play($id) {
+  try {
+    $GLOBALS['api']->play(false, [
+      'uris' => ['spotify:track:' . $id],
+    ]);
+      $lastResponse = $GLOBALS['api']->getLastResponse();
+      if ($lastResponse['status'] == 202) {
+        print_r($lastResponse);
+        sleep(5);
+        play($id);
+      }
+      else {
+        print_r($lastResponse);
+        echo "SUCCESS!";
+      }
+  }
+  catch (Exception $e) {
+    echo $e;
+  }
+}
 ?>

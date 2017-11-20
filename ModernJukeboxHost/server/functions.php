@@ -28,7 +28,7 @@ $pause = $_POST['PauseID'];
 
 if ($_POST['PlayID'] != null) {
   $api->play(false, [
-    'uris' => ['https://api.spotify.com/v1/tracks/' . $play],
+    'uris' => ['spotify:track:' . $play],
   ]);
 }
 

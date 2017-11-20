@@ -91,5 +91,8 @@ if(isset($_GET['newRes'])) {
 
   $statement2 = $pdo->prepare("INSERT INTO users (email, pw, roomName, accessToken, refreshToken) VALUES (:email, :password, :roomName, :accessToken, :refreshToken)");
   $result = $statement2->execute(array(':email' => $email, ':password' => $pw, ':roomName' => $roomName, ':accessToken' => $accessToken, ':refreshToken' => $refreshToken));
+
+  header('Location: homeJS.php');
+  die();
 }
 ?>

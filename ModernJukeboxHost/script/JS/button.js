@@ -6,15 +6,25 @@ $(document).ready(function() {
   });
 
     $('#play').click(function() {
-      var songID = document.getElementById("queue").firstChild.id;
-      $.ajax({
-        type: "POST",
-        url: "../script/PHP/functions.php",
-        data: {PlayID : songID}
-      }).done(function(msg) {
-        console.log(msg);
-      });
+      var parentDIV = document.getElementById("queue");
+      var firstID = parentDIV.getElementsByTagName("div")[0].id;
+      var secondID = parentDIV.getElementsByTagName("div")[1].id;
+      //checkPlayer();
+        $.ajax({
+          type: "POST",
+          url: "../script/PHP/functions.php",
+          data: {
+            firstID : firstID,
+            secondID : secondID
+          }
+        }).done(function(msg) {
+          console.log(msg);
+        });
     });
+
+    $('#player').click(function() {
+      checkPlayer();
+    }),
 
     $('#pause').click(function() {
       var songID = document.getElementById("queue").firstChild.id;

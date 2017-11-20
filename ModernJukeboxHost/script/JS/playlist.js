@@ -1,35 +1,38 @@
-//Get Playlist from Firebase
-  database.ref(path + 'songs/').orderByChild('votes').on('value', function(snapshot) {
-    var playlist = document.getElementById("queue");
-    while(playlist.firstChild) {
-      playlist.removeChild(playlist.firstChild);
-    }
-    snapshot.forEach(function(child) {
-      var song = child.val();
-      console.log(song.artist+': '+song.votes);
-      if(document.getElementById(song.id) != null) {
-
+function setPlaylist() {
+  //Get Playlist from Firebase
+    database.ref(path + 'songs/').orderByChild('votes').on('value', function(snapshot) {
+      var playlist = document.getElementById("queue");
+      while(playlist.firstChild) {
+        playlist.removeChild(playlist.firstChild);
       }
-      else {
-        var element = document.createElement('div');
-        element.className = "col-md-12 list-group-item";
-        element.id = song.id;
+      snapshot.forEach(function(child) {
+        var song = child.val();
+        console.log(song.artist+': '+song.votes);
+        if(document.getElementById(song.id) != null) {
 
-        var p = document.createElement('p');
-        p.style.margin = "0px";
-        element.appendChild(p);
+        }
+        else {
+          var element = document.createElement('div');
+          element.className = "col-md-12 list-group-item";
+          element.id = song.id;
 
-        var content = document.createTextNode(song.title + " - " + song.artist + " Votes: " + song.votes);
-        p.appendChild(content);
+          var p = document.createElement('p');
+          p.style.margin = "0px";
+          element.appendChild(p);
 
-        var checkbox = document.createElement('input');
-        checkbox.type = "checkbox";
-        checkbox.className = "checkbox";
-        checkbox.style.cssFloat = "right";
-        p.appendChild(checkbox);
+          var content = document.createTextNode(song.title + " - " + song.artist + " Votes: " + song.votes);
+          p.appendChild(content);
 
-        var queue = document.getElementById("queue");
-        queue.appendChild(element);
-      }
+          var checkbox = document.createElement('input');
+          checkbox.type = "checkbox";
+          checkbox.className = "checkbox";
+          checkbox.style.cssFloat = "right";
+          p.appendChild(checkbox);
+
+          var queue = document.getElementById("queue");
+          queue.appendChild(element);
+        }
+      });
     });
-  });
+
+}
