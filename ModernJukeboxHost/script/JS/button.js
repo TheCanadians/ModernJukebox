@@ -31,7 +31,7 @@ $(document).ready(function() {
       console.log(songID);
       $.ajax({
         type: "POST",
-        url: "../script/PHP/functions.php",
+        url: "../script/PHP/pause.php",
         data: {PauseID : songID}
       }).done(function(msg) {
         //console.log(msg);

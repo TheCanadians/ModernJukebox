@@ -1,7 +1,7 @@
 //win = "";
 // Open Spotify Player
 function openPlayer() {
-    win = window.open('https://open.spotify.com/browse/featured', 'player');
+    win = window.open('https://open.spotify.com/browse/featured', 'player', 'height=400,width=400');
 
     document.getElementById("player").className = "btn btn-success";
 }
