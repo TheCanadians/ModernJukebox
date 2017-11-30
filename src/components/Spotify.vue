@@ -59,6 +59,8 @@
         newVotes: 0,
         voters: false,
         userid: '',
+        playing: false,
+        nextSong: false,
 
         notificationShowing: false,
 
@@ -129,7 +131,9 @@
           title: this.newTitle,
           userid: this.userid,
           votes: this.newVotes,
-          voters: this.voters
+          voters: this.voters,
+          playing: this.playing,
+          nextSong: this.nextSong
         }),
         this.toggleShow(),
         this.newId = '',
@@ -192,7 +196,7 @@
             }
           }
         })
-      },
+      }/*,
       playSong: function() {
         console.log(this.playlistID)
         let apiurl = 'https://api.spotify.com/v1/users/' + this.userid + '/playlists/' + this.playlistID + '/tracks'
@@ -213,7 +217,7 @@
             console.log(res)
           }
         })
-      }
+      } */
     },
     mounted() {
       this.setUserId(),
