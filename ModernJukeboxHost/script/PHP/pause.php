@@ -1,10 +1,18 @@
 <?php
+// is User logged in?
+session_start();
+if(!isset($_SESSION['userid'])) {
+  die('Bitte zuerst <a href="login.php">einloggen</a>');
+}
+
 $pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
 $userid = $_SESSION['userid'];
 
+ini_set('max_execution_time', 3000);
+
 // Get Composer Packages -------------------------------------------------------
 
-require '../vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 // Spotify Stuff ---------------------------------------------------------------
 // Get access token from database
@@ -13,9 +21,8 @@ $statement->execute();
 $result = $statement->fetch();
 $accessToken = $result;
 
-$api = new SpotifyWebAPI\SpotifyWebAPI();
-//$api->setAccessToken($accessToken);
 
+$api = new SpotifyWebAPI\SpotifyWebAPI();
 try {
   $api->setAccessToken($accessToken['accessToken']);
   $test = $api->getTrack('4ig5yrQLjlT10HzZDPV1cG');
@@ -36,21 +43,10 @@ try {
   $accessToken = $spotify->getAccessToken();
   $api->setAccessToken($accessToken);
 
-  $test = $api->getTrack('4ig5yrQLjlT10HzZDPV1cG');
-
-  try{
-/*
-    $wasPaused = $api->play(false, [
-      'uris' => ['spotify:track:0tgVpDi06FyKpA1z0VMD4v'],
-    ]);
-
-    $lastResponse = $api->getLastResponse();
-*/
-    //print_r($lastResponse);
+  if ($_POST['PauseID'] != null) {
+    print_r("Pause");
+    $pause = $POST['PauseID'];
+    $api->pause();
   }
-  catch (Exception $e) {
-    //print_r($e);
-  }
-}
 
-?>
+  ?>

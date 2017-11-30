@@ -25,7 +25,6 @@ function qrCode() {
     alert("No Restaurant chosen");
     return;
   }
-
   qrCodePic.makeCode(path);
   // Select Canvas
   var canvas = document.querySelector('#qrcode canvas');
