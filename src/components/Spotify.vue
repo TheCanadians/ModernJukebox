@@ -70,26 +70,27 @@
     },
     methods: {
       authorize: () => {
-        const SpotifyStrategy = require('passport-spotify').Strategy;
+        // const SpotifyStrategy = require('passport-spotify').Strategy;
+        //
+        // passport.use(new SpotifyStrategy({
+        //     clientID: 'acda5dc270674c59be88eca853c1d4ff',
+        //     clientSecret: '804ae867f1ad414ab4b2f1a3b68f4bcc',
+        //     callbackURL: "http://localhost:8080/"
+        //   },
+        //   function(accessToken, refreshToken, profile, done) {
+        //     User.findOrCreate({ spotifyId: profile.id }, function (err, user) {
+        //       return done(err, user);
+        //     });
+        //   }
+        // ));
 
-        passport.use(new SpotifyStrategy({
-            clientID: 'acda5dc270674c59be88eca853c1d4ff',
-            clientSecret: '804ae867f1ad414ab4b2f1a3b68f4bcc',
-            callbackURL: "http://localhost:8080/"
-          },
-          function(accessToken, refreshToken, profile, done) {
-            User.findOrCreate({ spotifyId: profile.id }, function (err, user) {
-              return done(err, user);
-            });
-          }
-        ));
-
+        let clientId = 'acda5dc270674c59be88eca853c1d4ff'
         let scopes = 'user-read-private user-read-email user-read-birthdate user-library-read streaming user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-modify-public playlist-modify-private'
         // Authorize Spotify user
         let url = 'https://accounts.spotify.com/authorize?'
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
         let urlWithQueryString = url + '&' + query
-        window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('/')[0])
+        window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#')[0])
       },
       getQueue: function() {
         this.queue.length = 0,
