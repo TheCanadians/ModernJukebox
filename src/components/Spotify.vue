@@ -220,8 +220,10 @@
       } */
     },
     mounted() {
-      this.setUserId(),
-      this.getQueue()
+      if(this.userid != '') {
+        this.setUserId(),
+        this.getQueue()
+      }
     },
     updated() {
       if(this.userid != '') {
