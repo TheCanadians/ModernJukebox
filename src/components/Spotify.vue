@@ -12,7 +12,7 @@
       </div>
     </transition>
 
-    <search v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
+    <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
 
     <div id="currentTrack" v-if="!searching">
       <h2>Now playing:</h2>
@@ -23,9 +23,6 @@
               Title
               <span>Artist</span>
             </p>
-          </div>
-          <div class="votes">
-            <p>Votes</p>
           </div>
         </li>
       </ul>
@@ -117,6 +114,9 @@
           return this.userid
         })
       },
+      clearSearch: function() {
+        this.searching = false
+      },
       searchTracks: function (query) {
         this.searching = true,
         this.tracks = [],
@@ -156,7 +156,8 @@
         this.newTitle = '',
         this.newArtist = '',
         this.newDuration = '',
-        this.getQueue()
+        this.getQueue(),
+        this.searching = false
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,

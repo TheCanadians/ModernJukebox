@@ -8,7 +8,8 @@
           placeholder="Search for song title"
           v-model="query"
         />
-        <button type="submit" @click="searchSong">Search</button>
+        <div id="clearBtn" @click="clearSearch"></div>
+        <button id="submitBtn" type="submit" @click="searchSong">Search</button>
       </form>
     </div>
   </div>
@@ -19,15 +20,21 @@
     name: 'app',
     data() {
       return {
-        query: ''
+        query: '',
+        searching: false
       }
     },
     methods: {
       searchSong(event) {
         if (event != null) {
+          this.searching = true
           this.$emit('keyedUp', this.query)
         }
       },
+      clearSearch() {
+        this.query = ''
+        this.$emit('cleared')
+      }
     }
   }
 </script>
@@ -52,6 +59,7 @@
   form {
     display: flex;
     width: 100%;
+    align-items: center;
   }
   input {
     width: auto;
@@ -69,7 +77,7 @@
     margin: 0;
     flex-grow: 2;
   }
-  button {
+  #submitBtn {
     display: inline;
     background: none;
     border: none;
@@ -82,5 +90,18 @@
     font-size: 1rem;
     padding: 16px 48px;
     margin: 0;
+  }
+  #clearBtn {
+    background: white;
+    background-image: url('../assets/ic_clear.svg');
+    width: 24px;
+    height: 24px;
+    margin: 0 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
   }
 </style>
