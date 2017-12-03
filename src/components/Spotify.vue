@@ -70,27 +70,13 @@
     },
     methods: {
       authorize: () => {
-        // const SpotifyStrategy = require('passport-spotify').Strategy;
-        //
-        // passport.use(new SpotifyStrategy({
-        //     clientID: 'acda5dc270674c59be88eca853c1d4ff',
-        //     clientSecret: '804ae867f1ad414ab4b2f1a3b68f4bcc',
-        //     callbackURL: "http://localhost:8080/"
-        //   },
-        //   function(accessToken, refreshToken, profile, done) {
-        //     User.findOrCreate({ spotifyId: profile.id }, function (err, user) {
-        //       return done(err, user);
-        //     });
-        //   }
-        // ));
-
         let clientId = 'acda5dc270674c59be88eca853c1d4ff'
         let scopes = 'user-read-private user-read-email user-read-birthdate user-library-read streaming user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-modify-public playlist-modify-private'
         // Authorize Spotify user
         let url = 'https://accounts.spotify.com/authorize?'
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
         let urlWithQueryString = url + '&' + query
-        window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#')[0])
+        window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('/#')[0])
       },
       getQueue: function() {
         this.queue.length = 0,
@@ -159,85 +145,11 @@
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
-      },
-      createPlaylist: function() {
-        if(this.userid == '') {
-          console.log('No user ID found')
-        }
-        else {
-          this.axios({
-            url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists',
-            headers: {'Authorization': 'Bearer ' + this.accessToken},
-            data: {
-              'description': 'jukebox',
-              'public': true,
-              'name': 'jukebox'
-            },
-            method: 'POST'
-          }).then((res) => {
-            if (res.status === 401) {
-              throw new Error('Unauthorized')
-            }
-            else {
-              console.log('Playlist created')
-              this.getPlaylistId()
-            }
-          })
-        }
-      },
-      getPlaylistId: function() {
-        this.axios({
-          url: 'https://api.spotify.com/v1/users/' + this.userid + '/playlists',
-          headers: {'Authorization': 'Bearer ' + this.accessToken},
-          method: 'GET'
-        }).then((res) => {
-          if (res.status === 401) {
-            throw new Error('Unauthorized')
-          } else {
-            if (res.data !== undefined) {
-              let hasJukebox = []
-
-              for (var i = 0; i < res.data.items.length; i++) {
-                if(res.data.items[i].name == 'jukebox') {
-                  this.playlistID = res.data.items[i].id
-                  hasJukebox = true
-                }
-              }
-
-              if(!hasJukebox) {
-                this.createPlaylist()
-              }
-            }
-          }
-        })
-      }/*,
-      playSong: function() {
-        console.log(this.playlistID)
-        let apiurl = 'https://api.spotify.com/v1/users/' + this.userid + '/playlists/' + this.playlistID + '/tracks'
-        this.axios({
-          url: apiurl,
-          headers: {
-            'Authorization': 'Bearer ' + this.accessToken,
-            'Content-Type': 'application/json'
-          },
-          data: {
-            'uris': ['spotify:track:' + this.queue[0].id]
-          },
-          method: 'POST'
-        }).then((res) => {
-          if (res.status === 401) {
-            throw new Error('Unauthorized')
-          } else {
-            console.log(res)
-          }
-        })
-      } */
+      }
     },
     mounted() {
-      if(this.userid != '') {
-        this.setUserId(),
-        this.getQueue()
-      }
+      this.setUserId(),
+      this.getQueue()
     },
     updated() {
       if(this.userid != '') {
