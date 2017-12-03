@@ -1,5 +1,5 @@
 <template>
-  <div class="spotify">
+  <div id="spotify">
     <button v-if="!loggedIn" @click="authorize">Authorize</button>
 
     <transition name="notification">
@@ -14,7 +14,24 @@
 
     <search v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
 
-    <ul class="results">
+    <div id="currentTrack" v-if="!searching">
+      <h2>Now playing:</h2>
+      <ul>
+        <li>
+          <div class="infos">
+            <p>
+              Title
+              <span>Artist</span>
+            </p>
+          </div>
+          <div class="votes">
+            <p>Votes</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <ul id="results" v-if="searching">
       <li v-for="track in tracks">
         <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
       </li>
@@ -61,11 +78,9 @@
         userid: '',
         playing: false,
         nextSong: false,
-
         notificationShowing: false,
-
         queue: [],
-        playlistID: ''
+        searching: false
       }
     },
     methods: {
@@ -103,6 +118,7 @@
         })
       },
       searchTracks: function (query) {
+        this.searching = true,
         this.tracks = [],
         this.axios({
           url: 'https://api.spotify.com/v1/search?q=' + query + '&type=track&market=DE',
@@ -150,14 +166,6 @@
     mounted() {
       this.setUserId(),
       this.getQueue()
-    },
-    updated() {
-      if(this.userid != '') {
-        this.getPlaylistId()
-        if(this.playlistID != '') {
-          this.playSong()
-        }
-      }
     }
   }
 </script>

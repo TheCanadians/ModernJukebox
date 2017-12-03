@@ -1,20 +1,5 @@
 <template>
   <div id="queue">
-    <h2>Now playing:</h2>
-    <ul v-model="nowPlaying">
-      <li>
-        <div class="infos">
-          <p>
-            {{this.nowPlaying.title}}
-            <span>{{this.nowPlaying.artist}}</span>
-          </p>
-        </div>
-        <div class="votes">
-          <p>{{this.nowPlaying.votes * -1}}</p>
-        </div>
-      </li>
-    </ul>
-
     <h2>Coming up:</h2>
     <ul v-for="song in queue">
       <li>
