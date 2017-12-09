@@ -88,7 +88,7 @@
         let url = 'https://accounts.spotify.com/authorize?'
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
         let urlWithQueryString = url + '&' + query
-        window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('/#')[0])
+        window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#/')[0])
       },
       getQueue: function() {
         this.queue.length = 0,
