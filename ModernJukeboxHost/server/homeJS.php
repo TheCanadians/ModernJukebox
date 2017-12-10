@@ -15,6 +15,7 @@ $userid = $_SESSION['userid'];
 require '../vendor/autoload.php';
 //require_once '../script/PHP/spotify.php';
 require_once '../script/PHP/firebase.php';
+require_once '../script/PHP/spotify.php';
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -32,6 +33,8 @@ require_once '../script/PHP/firebase.php';
   <script>
     path = <?php echo $path; ?>;
     rooms = <?php echo $rooms; ?>;
+    accessToken = <?php echo $accessToken; ?>;
+    refreshToken = <?php echo $refreshToken; ?>;
   </script>
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -47,9 +50,10 @@ require_once '../script/PHP/firebase.php';
   <script type="text/javascript" src="../qrcodejs-master/jquery.min.js"></script>
   <script type="text/javascript" src="../qrcodejs-master/qrcode.js"></script>
   <!-- Load Scripts -->
+  <script type="text/javascript" src="../script/JS/bundle.js"></script>
   <script type="text/javascript" src="../script/JS/firebase.js"></script>
   <script type="text/javascript" src="../script/JS/qrCode.js"></script>
-  <script type="text/javascript" src="../script/JS/spotify.js"></script>
+  <script type="text/javascript" src="../script/JS/player.js"></script>
   <script type="text/javascript" src="../script/JS/jukebox.js"></script>
   <script type="text/javascript" src="../script/JS/playlist.js"></script>
   <script type="text/javascript" src="../script/JS/resInfo.js"></script>

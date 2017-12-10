@@ -9,3 +9,16 @@
   firebase.initializeApp(config);
 
   var database = firebase.database();
+
+function deleteFromQueue(id) {
+  database.ref(path + 'songs/' + id).remove();
+}
+
+function setPlaying(id) {
+  database.ref(path + 'songs/' + id + '/playing').set('true');
+  database.ref(path + 'songs/' + id + '/nextSong').set('false');
+}
+
+function setNextSong(id) {
+  database.ref(path + 'songs/' + id + '/nextSong').set('true');
+}
