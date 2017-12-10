@@ -2,6 +2,8 @@
   <div id="spotify">
     <button v-if="!loggedIn" @click="authorize">Authorize</button>
 
+    <restaurantChooser></restaurantChooser>
+
     <transition name="notification">
       <div
         class="notification"
@@ -46,6 +48,7 @@
 
 <script>
   import Search from './Search.vue';
+  import RestaurantChooser from './RestaurantChooser.vue';
   import Queue from './Queue.vue';
   import {db} from '../firebase';
 
@@ -53,6 +56,7 @@
     name: 'Spotify',
     components: {
       'search': Search,
+      'restaurantChooser': RestaurantChooser,
       'queue': Queue
     },
     data () {
