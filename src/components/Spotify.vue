@@ -2,7 +2,7 @@
   <div id="spotify">
     <button v-if="!loggedIn" @click="authorize">Authorize</button>
 
-    <restaurantChooser></restaurantChooser>
+    <restaurantChooser v-if="loggedIn"></restaurantChooser>
 
     <transition name="notification">
       <div
@@ -81,7 +81,8 @@
         nextSong: false,
         notificationShowing: false,
         queue: [],
-        searching: false
+        searching: false,
+        restaurant: []
       }
     },
     methods: {

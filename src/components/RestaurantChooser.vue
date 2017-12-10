@@ -1,20 +1,13 @@
 <template>
-  <div id="chooser">
-    <ul v-for="restaurant in restaurants">
-      <li>
-        <div class="infos">
-          <p>
-            {{song.title}}
-            <span>{{song.artist}}</span>
-          </p>
-        </div>
-        <div class="votes">
-          <button class="btnUpvote" @click="upvoteTrack(song)"></button>
-          <p>{{song.votes * -1}}</p>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <select id="chooser" @change="setRestaurant(restaurant)">
+    <option disabled value="">Please select restaurant</option>
+    <option
+      v-for="restaurant in restaurants"
+      value="restaurant"
+      :value="restaurant">
+      {{restaurant.name}}
+    </option>
+  </select>
 </template>
 
 <script>
@@ -24,17 +17,21 @@
     name: 'restaurantChooser',
     data() {
       return {
-        restaurants: []
+        restaurants: [],
+        restaurant: ''
       }
     },
     methods: {
-      getRestaurants: function() {
+      getRestaurants() {
         db.ref().on('value', snapshot => {
           snapshot.forEach(child => {
-            this.restaurant.push(child.val())
+            this.restaurants.push(child.val())
           })
-        }),
-        console.log(this.restaurants)
+        })
+      },
+      setRestaurant(event) {
+        console.log(event)
+        this.$emit('setRestaurant', event)
       }
     },
     mounted() {
