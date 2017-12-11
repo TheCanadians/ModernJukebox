@@ -16,7 +16,7 @@
 
     <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
 
-    <div id="currentTrack" v-if="!searching">
+    <div id="currentTrack" v-if="!searching && loggedIn">
       <h2>Now playing:</h2>
       <ul>
         <li>
