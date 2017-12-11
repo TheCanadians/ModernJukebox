@@ -9,7 +9,7 @@
           v-model="query"
         />
         <div id="clearBtn" @click="clearSearch"></div>
-        <button id="submitBtn" type="submit" @click="searchSong">Search</button>
+        <button id="submitBtn" type="submit" @click.prevent="searchSong">Search</button>
       </form>
     </div>
   </div>

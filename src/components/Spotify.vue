@@ -63,7 +63,8 @@
       var accessToken
       var isAccessTokenPresent = window.location.href.indexOf('access_token') !== -1
       if (isAccessTokenPresent) {
-        accessToken = window.location.href.split('access_token=')[1].split('&')[0]
+        accessToken = window.location.href.split('access_token=')[1].split('&')[0];
+        this.$router.push('/');
       }
       return {
         loggedIn: isAccessTokenPresent,
