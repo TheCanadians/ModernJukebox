@@ -1,6 +1,6 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 
-var spotifyApi = new SpotifyWebApi({
+spotifyApi = new SpotifyWebApi({
   clientId : '500ecf1e7acc47b7980a91efd66b9a9c',
   clientSecret : '9a3f95e414f2409f9c70490b199e521c',
   redirectUri : 'http://localhost/ModernJukeboxHost/server/forwarding.php'
@@ -199,7 +199,7 @@ window.SpotifyPause = function() {
   });
 }
 // refresh access token then call function that called this function
-function refreshToken(name) {
+window.refreshToken = function(name) {
   $.ajax({
     type: "POST",
     url: "../script/PHP/refreshToken.php",

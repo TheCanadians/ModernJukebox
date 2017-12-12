@@ -4236,16 +4236,17 @@ module.exports = request;
 },{}],13:[function(require,module,exports){
 var SpotifyWebApi = require('spotify-web-api-node');
 
-var spotifyApi = new SpotifyWebApi({
+spotifyApi = new SpotifyWebApi({
   clientId : '500ecf1e7acc47b7980a91efd66b9a9c',
   clientSecret : '9a3f95e414f2409f9c70490b199e521c',
   redirectUri : 'http://localhost/ModernJukeboxHost/server/forwarding.php'
 });
-
+// set access and refresh token
 spotifyApi.setAccessToken(accessToken[0]);
 spotifyApi.setRefreshToken(refreshToken[0]);
-
+// replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
+  // check if a spotify playlist ID exists in database
   $.ajax({
       type : "POST",
       url : "../script/PHP/database.php",
@@ -4259,6 +4260,7 @@ window.replacePlaylist = function() {
     }).done(function(msg) {
       console.log(msg);
       playlistID = msg;
+      // replace tracks if ID exists
       if (playlistID != "") {
         console.log(playlistID);
         var parentDIV = document.getElementById("queue");
@@ -4277,6 +4279,7 @@ window.replacePlaylist = function() {
           }
         });
       }
+      // create new spotify playlist and return id
       else {
         var trimPath = path.toString().slice(1, -1);
         console.log(trimPath);
@@ -4284,6 +4287,7 @@ window.replacePlaylist = function() {
           console.log("Created Playlist!");
           var playlistID = data.body['id'];
           console.log(playlistID);
+          // save id in database
           $.ajax({
             type: "POST",
             url: "../script/PHP/database.php",
@@ -4307,7 +4311,7 @@ window.replacePlaylist = function() {
     });
 
 }
-
+// add new song to spotify playlist
 function addToPlaylist() {
   var parentDIV = document.getElementById("queue");
   var thirdID = parentDIV.getElementsByTagName("div")[2].id;
@@ -4322,7 +4326,7 @@ function addToPlaylist() {
     }
   });
 }
-
+// delete first song from spotify playlist
 function deleteFromPlaylist() {
   console.log("Delete");
   spotifyApi.getPlaylist('guildwhoops', playlistID).then(function(data) {
@@ -4346,8 +4350,9 @@ function deleteFromPlaylist() {
     }
   });
 }
-
+// timer function to check when song finished playling
 function timer() {
+  // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
     var parentDIV = document.getElementById("queue");
     var firstSongID = parentDIV.getElementsByTagName("div")[0].id;
@@ -4359,6 +4364,7 @@ function timer() {
       setPlaying(songID);
       var nextSongID = parentDIV.getElementsByTagName("div")[1].id;
       setNextSong(nextSongID);
+      // wait for song length + 5 seconds
       setTimeout(function() {
         addToPlaylist();
         deleteFromPlaylist();
@@ -4378,13 +4384,14 @@ function timer() {
   });
 
 }
-
+// start playing spotify playlist
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
     console.log(data.body);
     var deviceId = data.body['devices'][0].id;
     spotifyApi.play({context_uri : 'spotify:user:guildwhoops:playlist:' + playlistID}).then(function(data) {
       spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+        // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
           console.log("204");
           closePlayer();
@@ -4416,7 +4423,7 @@ window.SpotifyPlay = function() {
     }
   });
 }
-
+// stop playback of spotify playlist
 window.SpotifyPause = function() {
   spotifyApi.pause().then(function(data) {
     console.log("Song Paused");
@@ -4427,8 +4434,8 @@ window.SpotifyPause = function() {
     }
   });
 }
-
-function refreshToken(name) {
+// refresh access token then call function that called this function
+window.refreshToken = function(name) {
   $.ajax({
     type: "POST",
     url: "../script/PHP/refreshToken.php",
@@ -4438,6 +4445,7 @@ function refreshToken(name) {
   }).done(function(msg) {
     console.log(msg);
     spotifyApi.setAccessToken(msg);
+    // recall function that called this
     window[name]();
   });
 }

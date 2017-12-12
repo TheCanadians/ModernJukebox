@@ -22,3 +22,7 @@ function setPlaying(id) {
 function setNextSong(id) {
   database.ref(path + 'songs/' + id + '/nextSong').set('true');
 }
+
+function pushWhitelist(id, state) {
+  database.ref(path + 'blacklist/' + id).set(state);
+}

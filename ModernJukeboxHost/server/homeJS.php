@@ -87,7 +87,7 @@ require_once '../script/PHP/spotify.php';
   <!-- QRCode -->
   <div id="qrCodeHolder"></div>
   <!-- Left side -->
-  <div class="col-md-4" style="height: 100%; border-right: thin solid #000;">
+  <div class="col-md-4" style="border-right: thin solid #000;">
     <!-- Restaurant Info -->
     <div class="col-md-12">
       <!-- Restaurant Info Formular -->
@@ -104,22 +104,24 @@ require_once '../script/PHP/spotify.php';
           <label for="maxSpU">Max Songs per User: </label>
           <input type="text" id="maxSpU" name="maxSpU" class="form-control" value="0">
         </div>
-
       </form>
+        <h4>Blacklist</h4>
+        <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; height: 50%; padding-right: 0">
+        </div>
       <button class="btn btn-primary" onclick="update()">Update</button>
     </div>
   </div>
   <!-- Left side End -->
 
   <!-- Right side -->
-  <div class="col-md-8" style="height: 100%;">
+  <div class="col-md-8">
     <!-- Current Song Info -->
     <div class="col-md-12">
     </div>
     <!-- Playlist -->
     <div class="col-md-12">
       <h4>Playlist</h4>
-      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; min-height: 50%">
+      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; height: 77%">
       </div>
     </div>
     <!-- Playlist functions -->
