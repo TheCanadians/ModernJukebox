@@ -8,9 +8,11 @@ function setPlaylist() {
       snapshot.forEach(function(child) {
         var song = child.val();
         console.log(song.artist+': '+song.votes);
+        // filter doubles
         if(document.getElementById(song.id) != null) {
 
         }
+        // Create HTML element for every firebase songs entry
         else {
           var element = document.createElement('div');
           element.className = "col-md-12 list-group-item";

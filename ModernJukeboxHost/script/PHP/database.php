@@ -10,8 +10,8 @@ $userid = $_SESSION['userid'];
 
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+// get playlist id
 if ($_POST['get'] == "true") {
-  //Get playlistID
   $path = $_POST['path'];
   $path = substr($path, 1, -1);
   $statement = $pdo->prepare("SELECT playlistID FROM users WHERE id = :id AND roomName = :roomName");
@@ -20,7 +20,7 @@ if ($_POST['get'] == "true") {
   $playlistID = $result;
   echo $playlistID[0];
 }
-
+// set playlist id
 if ($_POST['set'] == "true") {
   $pID = $_POST['playlistID'];
   $path = $_POST['path'];

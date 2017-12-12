@@ -5,6 +5,7 @@ const DEFAULT_PATH = '/';
 
 $path = '';
 
+// get all restaurants under current email adress
 $statement = $pdo->prepare("SELECT roomName FROM users WHERE id = $userid");
 $statement->execute();
 $result = $statement->fetch();

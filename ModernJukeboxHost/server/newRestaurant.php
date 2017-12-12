@@ -56,6 +56,7 @@ $user = $statement->fetch();
   </body>
 </html>
 <script>
+// Save values in new firebase entry
   function Create() {
     var form = document.getElementById("newRes");
     var name = form.elements["name"].value;
@@ -75,6 +76,7 @@ $user = $statement->fetch();
   }
 </script>
 <?php
+// Save values in new database entry
 if(isset($_GET['newRes'])) {
   $error = false;
   $name = $_POST['name'];

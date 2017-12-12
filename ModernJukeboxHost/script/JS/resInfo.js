@@ -1,3 +1,4 @@
+// get infos from firebase about the restaurant and fill form elements with it
 function setInfoPath() {
   setPlaylist();
   database.ref('/' + path + '/name').once('value').then(function(snapshot) {
@@ -16,7 +17,7 @@ function setInfoPath() {
     document.getElementById("imgLink").value = snapshot.val();
   });
 }
-
+// update firebase entrys on button press
 function update() {
   var form = document.getElementById("ResInfo");
   var link = form.elements["imgLink"].value;

@@ -12,8 +12,8 @@ if(isset($_GET['login'])) {
 
   if($user !== false && password_verify($password, $user['pw'])) {
     $_SESSION['userid'] = $user['id'];
+    // autimatically forward to spotify login
     header('Location: spotifyLogin.php');
-    //die('Login erfolgreich. Weiter zu <a href="spotifyLogin.php">Home</a>');
     die();
   }
   else {

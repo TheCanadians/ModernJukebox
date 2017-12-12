@@ -29,9 +29,9 @@ $path = substr($path, 1, -1);
   $refreshToken = $result;
 
   $spotify->refreshAccessToken($refreshToken['refreshToken']);
-
+  // get new access token
   $accessToken = $spotify->getAccessToken();
-
+  // save access token in database
   $statement = $pdo->prepare("UPDATE users SET accessToken = :accessToken WHERE id = :id AND roomName = :path");
   $result = $statement->execute(array('accessToken' => $accessToken, 'id' => $userid, 'path' => $path));
 

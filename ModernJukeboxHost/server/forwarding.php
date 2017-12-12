@@ -18,6 +18,7 @@ $spotify->requestAccessToken($_GET['code']);
 $accessToken = $spotify->getAccessToken();
 $refreshToken = $spotify->getRefreshToken();
 
+// Save access and refresh token in database
 $statement = $pdo->prepare("UPDATE users SET accessToken = :accessToken, refreshToken = :refreshToken WHERE id = :userid");
 $result = $statement->execute(array('accessToken' => $accessToken, 'refreshToken' => $refreshToken, 'userid' => $userid));
 

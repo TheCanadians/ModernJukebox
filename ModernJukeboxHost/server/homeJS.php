@@ -59,14 +59,17 @@ require_once '../script/PHP/spotify.php';
   <script type="text/javascript" src="../script/JS/resInfo.js"></script>
   <script type="text/javascript" src="../script/JS/button.js"></script>
 </head>
+<!-- Set right firebase Path on load -->
 <body onload="setInfoPath();">
 <div class="container col-md-12" style="padding: 0;">
+  <!-- Navigation bar -->
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="homeJS.php">ModernJukebox Host</a>
       </div>
       <ul class="nav navbar-nav">
+        <<!-- Restaurant dropdown -->
         <li class="dropdown">
           <a class="dropdown-toggle" id="dropdownButton" data-toggle="dropdown" href="#">Your Rooms <span class="caret"></span></a>
           <ul class="dropdown-menu" id="rooms">
@@ -75,6 +78,7 @@ require_once '../script/PHP/spotify.php';
         <li><a href="newRestaurant.php"><span class="glyphicon glyphicon-plus"></span> Add New Room</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <!-- saves QR-Code of path variable as PDF -->
         <li><a href="#" onclick="qrCode()"><span class="glyphicon glyphicon-file"></span> QR-Code</a></li>
         <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
