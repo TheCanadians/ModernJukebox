@@ -2,47 +2,49 @@
   <div id="spotify">
     <button v-if="!loggedIn" @click="authorize">Authorize</button>
 
-    <restaurantChooser v-if="loggedIn"></restaurantChooser>
+    <restaurantChooser v-if="loggedIn && !restaurant" @setRestaurant="setRestaurant"></restaurantChooser>
 
-    <transition name="notification">
-      <div
-        class="notification"
-        v-if="notificationShowing"
-        enter-active-class="notificationIn"
-        leave-active-class="notificationOut">
-        Song added
+    <div id="restaurantChosen" v-if="restaurant">
+      <transition name="notification">
+        <div
+          class="notification"
+          v-if="notificationShowing"
+          enter-active-class="notificationIn"
+          leave-active-class="notificationOut">
+          Song added
+        </div>
+      </transition>
+
+      <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
+
+      <div id="currentTrack" v-if="!searching && loggedIn">
+        <h2>Now playing:</h2>
+        <ul>
+          <li>
+            <div class="infos">
+              <p>
+                Title
+                <span>Artist</span>
+              </p>
+            </div>
+          </li>
+        </ul>
       </div>
-    </transition>
 
-    <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
-
-    <div id="currentTrack" v-if="!searching && loggedIn">
-      <h2>Now playing:</h2>
-      <ul>
-        <li>
-          <div class="infos">
-            <p>
-              Title
-              <span>Artist</span>
-            </p>
-          </div>
+      <ul id="results" v-if="searching">
+        <li v-for="track in tracks">
+          <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
         </li>
       </ul>
+
+      <queue
+        v-if="loggedIn && userid!='' && queue!=''"
+        :userid="this.userid"
+        :accessToken="this.accessToken"
+        :queue="this.queue"
+        @getQueue="this.getQueue"
+      ></queue>
     </div>
-
-    <ul id="results" v-if="searching">
-      <li v-for="track in tracks">
-        <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
-      </li>
-    </ul>
-
-    <queue
-      v-if="loggedIn && userid!='' && queue!=''"
-      :userid="this.userid"
-      :accessToken="this.accessToken"
-      :queue="this.queue"
-      @getQueue="this.getQueue"
-    ></queue>
   </div>
 </template>
 
@@ -83,7 +85,7 @@
         notificationShowing: false,
         queue: [],
         searching: false,
-        restaurant: []
+        restaurant: false
       }
     },
     methods: {
@@ -168,6 +170,9 @@
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
+      },
+      setRestaurant(restaurant) {
+        this.restaurant = restaurant
       }
     },
     mounted() {

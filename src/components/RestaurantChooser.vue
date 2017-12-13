@@ -32,8 +32,7 @@
         })
       },
       setRestaurant() {
-        console.log(this.restaurant)
-        this.$emit('setRestaurant', event)
+        this.$emit('setRestaurant', this.restaurant)
       }
     },
     mounted() {
