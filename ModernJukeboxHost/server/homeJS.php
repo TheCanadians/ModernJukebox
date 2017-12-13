@@ -59,14 +59,17 @@ require_once '../script/PHP/spotify.php';
   <script type="text/javascript" src="../script/JS/resInfo.js"></script>
   <script type="text/javascript" src="../script/JS/button.js"></script>
 </head>
+<!-- Set right firebase Path on load -->
 <body onload="setInfoPath();">
 <div class="container col-md-12" style="padding: 0;">
+  <!-- Navigation bar -->
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="homeJS.php">ModernJukebox Host</a>
       </div>
       <ul class="nav navbar-nav">
+        <<!-- Restaurant dropdown -->
         <li class="dropdown">
           <a class="dropdown-toggle" id="dropdownButton" data-toggle="dropdown" href="#">Your Rooms <span class="caret"></span></a>
           <ul class="dropdown-menu" id="rooms">
@@ -75,6 +78,7 @@ require_once '../script/PHP/spotify.php';
         <li><a href="newRestaurant.php"><span class="glyphicon glyphicon-plus"></span> Add New Room</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <!-- saves QR-Code of path variable as PDF -->
         <li><a href="#" onclick="qrCode()"><span class="glyphicon glyphicon-file"></span> QR-Code</a></li>
         <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
@@ -83,7 +87,7 @@ require_once '../script/PHP/spotify.php';
   <!-- QRCode -->
   <div id="qrCodeHolder"></div>
   <!-- Left side -->
-  <div class="col-md-4" style="height: 100%; border-right: thin solid #000;">
+  <div class="col-md-4" style="border-right: thin solid #000;">
     <!-- Restaurant Info -->
     <div class="col-md-12">
       <!-- Restaurant Info Formular -->
@@ -100,22 +104,24 @@ require_once '../script/PHP/spotify.php';
           <label for="maxSpU">Max Songs per User: </label>
           <input type="text" id="maxSpU" name="maxSpU" class="form-control" value="0">
         </div>
-
       </form>
+        <h4>Blacklist</h4>
+        <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; height: 50%; padding-right: 0">
+        </div>
       <button class="btn btn-primary" onclick="update()">Update</button>
     </div>
   </div>
   <!-- Left side End -->
 
   <!-- Right side -->
-  <div class="col-md-8" style="height: 100%;">
+  <div class="col-md-8">
     <!-- Current Song Info -->
     <div class="col-md-12">
     </div>
     <!-- Playlist -->
     <div class="col-md-12">
       <h4>Playlist</h4>
-      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; min-height: 50%">
+      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; height: 77%">
       </div>
     </div>
     <!-- Playlist functions -->

@@ -9,16 +9,20 @@
   firebase.initializeApp(config);
 
   var database = firebase.database();
-
+// delete single song from firebase songs array
 function deleteFromQueue(id) {
   database.ref(path + 'songs/' + id).remove();
 }
-
+// set firebase attributes of currently playling song
 function setPlaying(id) {
   database.ref(path + 'songs/' + id + '/playing').set('true');
   database.ref(path + 'songs/' + id + '/nextSong').set('false');
 }
-
+// set firebase attribute of next song
 function setNextSong(id) {
   database.ref(path + 'songs/' + id + '/nextSong').set('true');
+}
+
+function pushWhitelist(id, state) {
+  database.ref(path + 'blacklist/' + id).set(state);
 }

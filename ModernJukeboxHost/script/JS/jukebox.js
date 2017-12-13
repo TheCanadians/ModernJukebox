@@ -1,3 +1,4 @@
+// create dropdown menu entrys, set first entry active
 for (i = 0; i < rooms.length; i++) {
   if(i == 0) {
     getRoomName(rooms[i]['roomName'], true);
@@ -7,6 +8,7 @@ for (i = 0; i < rooms.length; i++) {
   }
 
 }
+// get name of database entry from firebase and create HTML element
 function getRoomName(path, active) {
   database.ref('/' + path + '/name').once('value').then(function(snapshot) {
     var roomName = (snapshot.val());
@@ -25,10 +27,7 @@ function getRoomName(path, active) {
     list.insertBefore(listEl, list.childNodes[0]);
   });
 }
-function setRoom(event) {
-
-}
-
+// set path of currently active dropdown entry
 function setPath() {
   var active = document.getElementsByClassName("active");
   var activeID = active[0].id;

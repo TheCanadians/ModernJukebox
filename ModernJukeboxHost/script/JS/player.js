@@ -23,7 +23,7 @@ function setButton() {
     document.getElementById("player").className = "btn btn-danger";
   }
 }
-
+// Close and reopen player
 function closePlayer() {
   win.close();
   checkPlayer();
