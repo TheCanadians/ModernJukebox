@@ -1,8 +1,8 @@
 <template>
   <div id="spotify">
-    <button v-if="!loggedIn" @click="authorize">Authorize</button>
+    <button v-if="!loggedIn" @click.prevent="authorize">Authorize</button>
 
-    <restaurantChooser v-if="loggedIn && !restaurant" @setRestaurant="setRestaurant"></restaurantChooser>
+    <restaurantChooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurantChooser>
 
     <div id="restaurantChosen" v-if="restaurant">
       <transition name="notification">
@@ -23,8 +23,8 @@
           <li>
             <div class="infos">
               <p>
-                Title
-                <span>Artist</span>
+                {{active.title}}
+                <span>{{active.artist}}</span>
               </p>
             </div>
           </li>
@@ -61,6 +61,9 @@
       'restaurantChooser': RestaurantChooser,
       'queue': Queue
     },
+    firebase: {
+      queue: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes')
+    },
     data () {
       var accessToken
       var isAccessTokenPresent = window.location.href.indexOf('access_token') !== -1
@@ -83,9 +86,9 @@
         playing: false,
         nextSong: false,
         notificationShowing: false,
-        queue: [],
         searching: false,
-        restaurant: false
+        restaurant: false,
+        active: false
       }
     },
     methods: {
@@ -104,7 +107,8 @@
           snapshot.forEach(child => {
             this.queue.push(child.val())
           })
-        })
+        }),
+        this.setCurrentTrack()
       },
       setUserId: function() {
         this.axios({
@@ -173,11 +177,19 @@
       },
       setRestaurant(restaurant) {
         this.restaurant = restaurant
+        this.getQueue()
+      },
+      setCurrentTrack() {
+        this.active = false
+
+        for (var i = 0; i < this.queue.length; i++) {
+          if(this.queue[i].playing)
+            this.active = this.queue[i]
+        }
       }
     },
     mounted() {
-      this.setUserId(),
-      this.getQueue()
+      this.setUserId()
     }
   }
 </script>
