@@ -1,13 +1,15 @@
 <template>
-  <select id="chooser" @change="setRestaurant(restaurant)">
-    <option disabled value="">Please select restaurant</option>
-    <option
-      v-for="restaurant in restaurants"
-      value="restaurant"
-      :value="restaurant">
-      {{restaurant.name}}
-    </option>
-  </select>
+  <div>
+    <select id="chooser" v-model="restaurant">
+      <option disabled value="">Please select restaurant</option>
+      <option
+        v-for="restaurant in restaurants"
+        value="restaurant"
+        :value="restaurant">
+        {{restaurant.name}}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script>
@@ -18,7 +20,7 @@
     data() {
       return {
         restaurants: [],
-        restaurant: ''
+        restaurant: 'false'
       }
     },
     methods: {
@@ -29,13 +31,16 @@
           })
         })
       },
-      setRestaurant(event) {
-        console.log(event)
+      setRestaurant() {
+        console.log(this.restaurant)
         this.$emit('setRestaurant', event)
       }
     },
     mounted() {
       this.getRestaurants()
+    },
+    updated() {
+      this.setRestaurant()
     }
   }
 </script>
