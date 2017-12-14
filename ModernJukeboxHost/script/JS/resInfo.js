@@ -1,5 +1,6 @@
 // get infos from firebase about the restaurant and fill form elements with it
 function setInfoPath() {
+  clearAttribute();
   setPlaylist();
   blacklist();
   database.ref('/' + path + '/name').once('value').then(function(snapshot) {

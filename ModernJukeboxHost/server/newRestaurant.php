@@ -73,6 +73,7 @@ $user = $statement->fetch();
     database.ref(nodeName + '/limit').set(maxSpU);
     database.ref(nodeName + '/name').set(name);
     database.ref(nodeName + '/image').set(imageLink);
+    database.ref(nodeName + '/id').set(nodeName);
   }
 </script>
 <?php

@@ -117,11 +117,19 @@ require_once '../script/PHP/spotify.php';
   <div class="col-md-8">
     <!-- Current Song Info -->
     <div class="col-md-12">
+      <div class="col-md-12 list-group" id="currentSong" style="border: 1px solid #ddd">
+        <div class="col-md-12 list-group-item" style="border: none">
+          <p id="playing" style="margin: 0px">Playing: -</p>
+        </div>
+        <div class="col-md-12 list-group-item" style="border: none">
+          <p id="next" style="margin: 0px">Next Song: -</p>
+        </div>
+      </div>
     </div>
     <!-- Playlist -->
     <div class="col-md-12">
       <h4>Playlist</h4>
-      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; height: 77%">
+      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; height: 65%">
       </div>
     </div>
     <!-- Playlist functions -->

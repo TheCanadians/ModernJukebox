@@ -26,3 +26,13 @@ function setNextSong(id) {
 function pushWhitelist(id, state) {
   database.ref(path + 'blacklist/' + id).set(state);
 }
+
+function clearAttribute() {
+  database.ref(path + 'songs/').once('value').then(function(snapshot) {
+    snapshot.forEach(function(child) {
+      var entry = child.val();
+      database.ref(path + 'songs/' + entry.id + '/playing').set('false');
+      database.ref(path + 'songs/' + entry.id + '/nextSong').set('false');
+    });
+  });
+}

@@ -8,6 +8,7 @@ $(document).ready(function() {
   // JQuery for play button
     $('#play').click(function() {
       replacePlaylist();
+      setPlayer();
     });
   // JQuery for open Webplayer button
     $('#player').click(function() {

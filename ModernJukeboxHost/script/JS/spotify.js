@@ -115,30 +115,47 @@ function deleteFromPlaylist() {
   });
 }
 // timer function to check when song finished playling
-function timer() {
+function timer(first) {
+  var firstSongID = document.getElementById("playing").className;
   // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
-    var parentDIV = document.getElementById("queue");
-    var firstSongID = parentDIV.getElementsByTagName("div")[0].id;
-    if (data.body['item']['id'] == firstSongID) {
-      console.log(data.body['item']['duration_ms']);
-      console.log(data.body);
-      var songLength = data.body['item']['duration_ms'];
-      var songID = data.body['item']['id'];
-      setPlaying(songID);
-      var nextSongID = parentDIV.getElementsByTagName("div")[1].id;
-      setNextSong(nextSongID);
-      // wait for song length + 5 seconds
-      setTimeout(function() {
-        addToPlaylist();
-        deleteFromPlaylist();
-        timer();
-      }, songLength + 5000);
+    if(first) {
+      if (data.body['item']['id'] == firstSongID) {
+        var songLength = data.body['item']['duration_ms'];
+        // wait for song length + 5 seconds
+        setTimeout(function() {
+          addToPlaylist();
+          deleteFromPlaylist();
+          timer();
+        }, songLength + 5000);
+      }
+      else {
+        setTimeout(function() {
+          timer(true);
+        }, 1000);
+      }
     }
     else {
-      setTimeout(function() {
-        timer();
-      }, 1000);
+      if (data.body['item']['id'] == firstSongID) {
+        console.log(data.body['item']['duration_ms']);
+        console.log(data.body);
+        var songLength = data.body['item']['duration_ms'];
+        var songID = data.body['item']['id'];
+        setPlaying(songID);
+        var nextSongID = document.getElementById("next").className;
+        setNextSong(nextSongID);
+        // wait for song length + 5 seconds
+        setTimeout(function() {
+          addToPlaylist();
+          deleteFromPlaylist();
+          timer();
+        }, songLength + 5000);
+      }
+      else {
+        setTimeout(function() {
+          timer(true);
+        }, 1000);
+      }
     }
   }, function(err) {
     console.log('Current Song: ', err);
@@ -166,7 +183,11 @@ window.SpotifyPlay = function() {
         else {
           console.log(data.body['item']['duration_ms']);
           var songLength = data.body['item']['duration_ms'];
-          timer();
+          setPlaying(data.body['item']['id']);
+          var parentDIV = document.getElementById("queue");
+          var nextSongID = parentDIV.getElementsByTagName("div")[1].id;
+          setNextSong(nextSongID);
+          timer(true);
         }
       }, function(err) {
         console.log('Current Song: ', err);
