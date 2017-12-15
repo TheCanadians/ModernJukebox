@@ -87,7 +87,8 @@
         searching: false,
         restaurant: false,
         active: false,
-        queue: []
+        queue: [],
+        limit: 0
       }
     },
     methods: {
@@ -101,7 +102,8 @@
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#/')[0])
       },
       getQueue: function() {
-        this.queue.length = 0,
+        this.queue.length = 0
+        this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
           if(snapshot.val() == null) {
             this.queue.push('Queue is empty. Why not add some songs?')
@@ -149,6 +151,17 @@
             }
           }
         })
+      },
+      setLimit() {
+        let limit = 0
+        db.ref(this.restaurant.id).child('limit').on('value', snapshot => {
+          console.log(snapshot.val())
+        })
+        /* for (var i = 0; i < this.queue.length; i++) {
+          if(this.queue[i].userid == this.userid) {
+
+          }
+        } */
       },
       addTrack: function(event) {
         this.newId = event.id,
