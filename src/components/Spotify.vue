@@ -61,9 +61,6 @@
       'restaurantChooser': RestaurantChooser,
       'queue': Queue
     },
-    firebase: {
-      queue: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes')
-    },
     data () {
       var accessToken
       var isAccessTokenPresent = window.location.href.indexOf('access_token') !== -1
@@ -88,7 +85,8 @@
         notificationShowing: false,
         searching: false,
         restaurant: false,
-        active: false
+        active: false,
+        queue: []
       }
     },
     methods: {
@@ -103,11 +101,16 @@
       },
       getQueue: function() {
         this.queue.length = 0,
-        db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
-          snapshot.forEach(child => {
-            this.queue.push(child.val())
-          })
-        }),
+        db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
+          if(snapshot.val() == null) {
+            this.queue.push('Queue is empty. Why not add some songs?')
+          }
+          else {
+            snapshot.forEach(child => {
+              this.queue.push(child.val())
+            })
+          }
+        })
         this.setCurrentTrack()
       },
       setUserId: function() {
