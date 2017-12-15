@@ -161,24 +161,22 @@
         })
       },
       checkLimit() {
-        let limitCounter = 0;
+        let songCounter = 0;
         for (var i = 0; i < this.queue.length; i++) {
           if(!this.limitReached) {
-            console.log('Limit not reached. Feel free to add songs!')
             if(this.queue[i].userid == this.userid) {
-              if(limitCounter < this.limit) {
-                limitCounter++;
-              }
-              else {
-                this.limitReached = true;
-                console.log('Limit reached');
-              }
+              songCounter++;
             }
           }
-          else {
-            console.log('Limit reached');
-          }
         }
+        if (songCounter < this.limit) {
+          this.limitReached = false
+        }
+        else {
+          this.limitReached = true
+        }
+
+        return this.limitReached
       },
       addTrack: function(event) {
         this.checkLimit()
