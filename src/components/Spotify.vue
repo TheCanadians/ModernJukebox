@@ -42,6 +42,7 @@
         :userid="this.userid"
         :accessToken="this.accessToken"
         :queue="this.queue"
+        :restaurant="this.restaurant"
         @getQueue="this.getQueue"
       ></queue>
     </div>
@@ -155,7 +156,7 @@
         this.newArtist = event.artists[0].name,
         this.newDuration = event.duration_ms,
         this.newVotes = 0,
-        db.ref('schweinske-dehnhaide').child('songs').child(this.newId).set({
+        db.ref(this.restaurant.id).child('songs').child(this.newId).set({
           id: this.newId,
           artist: this.newArtist,
           duration: this.newDuration,

@@ -32,6 +32,9 @@
       },
       queue: {
         required: true
+      },
+      restaurant: {
+        required: true
       }
     },
     data() {
@@ -45,10 +48,10 @@
       },
       upvoteTrack: function(event) {
         event.votes -= 1,
-        db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
+        db.ref(this.restaurant.id).child('songs').child(event.id).update({
           votes: event.votes,
         }),
-        db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
+        db.ref(this.restaurant.id).child('songs').child(event.id).update({
           voters: this.userid
         }),
         this.getQueue()
