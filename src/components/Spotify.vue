@@ -6,13 +6,13 @@
 
     <div id="restaurantChosen" v-if="restaurant">
       <transition name="notification">
-        <div
+        <span
           class="notification"
           v-if="notificationShowing"
           enter-active-class="notificationIn"
           leave-active-class="notificationOut">
-          Song added
-        </div>
+          {{this.notificationText}}
+        </span>
       </transition>
 
       <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
@@ -83,12 +83,14 @@
         userid: '',
         playing: false,
         nextSong: false,
+        notificationText: '',
         notificationShowing: false,
         searching: false,
         restaurant: false,
         active: false,
         queue: [],
-        limit: 0
+        limit: 0,
+        limitReached: false
       }
     },
     methods: {
@@ -114,6 +116,7 @@
             })
           }
         })
+        this.checkLimit()
         this.setCurrentTrack()
       },
       setUserId: function() {
@@ -153,40 +156,62 @@
         })
       },
       setLimit() {
-        let limit = 0
         db.ref(this.restaurant.id).child('limit').on('value', snapshot => {
-          console.log(snapshot.val())
+          this.limit = snapshot.val()
         })
-        /* for (var i = 0; i < this.queue.length; i++) {
-          if(this.queue[i].userid == this.userid) {
-
+      },
+      checkLimit() {
+        let limitCounter = 0;
+        for (var i = 0; i < this.queue.length; i++) {
+          if(!this.limitReached) {
+            console.log('Limit not reached. Feel free to add songs!')
+            if(this.queue[i].userid == this.userid) {
+              if(limitCounter < this.limit) {
+                limitCounter++;
+              }
+              else {
+                this.limitReached = true;
+                console.log('Limit reached');
+              }
+            }
           }
-        } */
+          else {
+            console.log('Limit reached');
+          }
+        }
       },
       addTrack: function(event) {
-        this.newId = event.id,
-        this.newTitle = event.name,
-        this.newArtist = event.artists[0].name,
-        this.newDuration = event.duration_ms,
-        this.newVotes = 0,
-        db.ref(this.restaurant.id).child('songs').child(this.newId).set({
-          id: this.newId,
-          artist: this.newArtist,
-          duration: this.newDuration,
-          title: this.newTitle,
-          userid: this.userid,
-          votes: this.newVotes,
-          voters: this.voters,
-          playing: this.playing,
-          nextSong: this.nextSong
-        }),
-        this.toggleShow(),
-        this.newId = '',
-        this.newTitle = '',
-        this.newArtist = '',
-        this.newDuration = '',
-        this.getQueue(),
-        this.searching = false
+        this.checkLimit()
+        if(!this.limitReached) {
+          this.newId = event.id,
+          this.newTitle = event.name,
+          this.newArtist = event.artists[0].name,
+          this.newDuration = event.duration_ms,
+          this.newVotes = 0,
+          db.ref(this.restaurant.id).child('songs').child(this.newId).set({
+            id: this.newId,
+            artist: this.newArtist,
+            duration: this.newDuration,
+            title: this.newTitle,
+            userid: this.userid,
+            votes: this.newVotes,
+            voters: this.voters,
+            playing: this.playing,
+            nextSong: this.nextSong
+          }),
+          this.notificationText = 'Song added',
+          this.toggleShow(),
+          this.newId = '',
+          this.newTitle = '',
+          this.newArtist = '',
+          this.newDuration = '',
+          this.getQueue(),
+          this.searching = false
+        }
+        else {
+          this.notificationText = 'Limit reached. Song was not added.',
+          this.toggleShow()
+        }
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
