@@ -15,7 +15,7 @@
         </span>
       </transition>
 
-      <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
+      <search v-if="loggedIn" :query="query" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
 
       <div id="currentTrack" v-if="!searching && loggedIn">
         <h2>Now playing:</h2>
@@ -73,7 +73,7 @@
         loggedIn: isAccessTokenPresent,
         accessToken: accessToken,
         tracks: [],
-        searchQuery: '',
+        query: '',
         newId: '',
         newTitle: '',
         newArtist: '',
@@ -136,6 +136,7 @@
         })
       },
       clearSearch: function() {
+        this.query = ''
         this.searching = false
       },
       searchTracks: function (query) {
@@ -205,6 +206,7 @@
           this.newDuration = '',
           this.getQueue(),
           this.searching = false
+          this.$emit('trackAdded')
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
@@ -229,7 +231,9 @@
       }
     },
     mounted() {
-      this.setUserId()
+      if(this.loggedIn) {
+        this.setUserId()
+      }
     }
   }
 </script>

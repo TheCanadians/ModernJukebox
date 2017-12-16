@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="restaurants != null">
     <select id="chooser" v-model="restaurant">
       <option disabled value="">Please select restaurant</option>
       <option
@@ -32,7 +32,9 @@
         })
       },
       setRestaurant() {
-        this.$emit('setRestaurant', this.restaurant)
+        if(this.restaurant != null) {
+          this.$emit('setRestaurant', this.restaurant)
+        }
       }
     },
     mounted() {
