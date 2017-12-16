@@ -15,7 +15,7 @@
         </span>
       </transition>
 
-      <search v-if="loggedIn" :query="query" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
+      <search v-if="loggedIn" :searchQuery="searchQuery" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
 
       <div id="currentTrack" v-if="!searching && loggedIn">
         <h2>Now playing:</h2>
@@ -73,7 +73,7 @@
         loggedIn: isAccessTokenPresent,
         accessToken: accessToken,
         tracks: [],
-        query: '',
+        searchQuery: '',
         newId: '',
         newTitle: '',
         newArtist: '',
@@ -136,7 +136,7 @@
         })
       },
       clearSearch: function() {
-        this.query = ''
+        this.searchQuery = ''
         this.searching = false
       },
       searchTracks: function (query) {

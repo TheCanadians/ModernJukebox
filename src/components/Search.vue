@@ -19,13 +19,14 @@
   export default {
     name: 'app',
     props: {
-      query: {
+      searchQuery: {
         required: true
       }
     },
     data() {
       return {
         searching: false,
+        query: this.searchQuery
       }
     },
     methods: {
