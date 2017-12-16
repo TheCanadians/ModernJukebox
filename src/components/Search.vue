@@ -18,15 +18,10 @@
 <script>
   export default {
     name: 'app',
-    props: {
-      searchQuery: {
-        required: true
-      }
-    },
     data() {
       return {
         searching: false,
-        query: this.searchQuery
+        query: ''
       }
     },
     methods: {
@@ -37,7 +32,8 @@
         }
       },
       clearSearch() {
-        this.$emit('cleared')
+        this.query = '',
+        this.searching = false
       }
     }
   }
