@@ -10,7 +10,7 @@
           </p>
         </div>
         <div class="votes">
-          <button class="btnUpvote" @click="upvoteTrack(song)"></button>
+          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)"></button>
           <p>{{song.votes * -1}}</p>
         </div>
       </li>
@@ -45,6 +45,14 @@
     methods: {
       getQueue: function() {
         this.$emit('getQueue')
+      },
+      isVotable(track) {
+        if(track.userid == this.userid) {
+          return false;
+        }
+        else {
+          return true;
+        }
       },
       upvoteTrack: function(event) {
         event.votes -= 1,

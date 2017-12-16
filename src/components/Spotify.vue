@@ -206,7 +206,7 @@
           this.newDuration = '',
           this.getQueue(),
           this.searching = false
-          this.$emit('trackAdded')
+          this.searchQuery = ''
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
