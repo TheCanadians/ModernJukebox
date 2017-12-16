@@ -2,7 +2,7 @@
   <div id="spotify">
     <button v-if="!loggedIn" @click.prevent="authorize">Authorize</button>
 
-    <restaurantChooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurantChooser>
+    <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
 
     <div id="restaurantChosen" v-if="restaurant">
       <transition name="notification">

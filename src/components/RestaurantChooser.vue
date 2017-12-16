@@ -1,5 +1,5 @@
 <template>
-  <div v-if="restaurants != null">
+  <div>
     <select id="chooser" v-model="restaurant">
       <option disabled value="">Please select restaurant</option>
       <option
