@@ -89,7 +89,8 @@
         active: false,
         queue: [],
         limit: 0,
-        limitReached: false
+        limitReached: false,
+        search: this.$refs.search
       }
     },
     methods: {
@@ -200,8 +201,7 @@
           this.newArtist = '',
           this.newDuration = '',
           this.getQueue(),
-          this.searching = false
-          this.searchQuery = ''
+          this.$refs.search.clearSearch()
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
