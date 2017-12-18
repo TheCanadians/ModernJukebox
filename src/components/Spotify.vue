@@ -167,14 +167,19 @@
       checkLimit() {
         console.log('Limit: ' + this.limit)
         let songCounter = 0;
-        for (var i = 0; i < this.queue.length; i++) {
-          songCounter++;
-        }
-        if (songCounter < this.limit) {
-          this.limitReached = false
+        if (this.queue.length >= this.maxQueue) {
+          this.limitReached = true
         }
         else {
-          this.limitReached = true
+          for (var i = 0; i < this.queue.length; i++) {
+            songCounter++;
+          }
+          if (songCounter < this.limit) {
+            this.limitReached = false
+          }
+          else {
+            this.limitReached = true
+          }
         }
 
         return this.limitReached
