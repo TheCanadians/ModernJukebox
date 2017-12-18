@@ -31,7 +31,7 @@
         </ul>
       </div>
 
-      <ul id="results" v-if="searching">
+      <ul id="results" v-if="this.searching">
         <li v-for="track in tracks">
           <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
         </li>
@@ -73,6 +73,7 @@
         loggedIn: isAccessTokenPresent,
         accessToken: accessToken,
         tracks: [],
+        searching: false,
 
         newId: '',
         newTitle: '',
@@ -87,7 +88,6 @@
 
         notificationText: '',
         notificationShowing: false,
-        searching: false,
         restaurant: false,
         active: false,
         queue: [],
@@ -207,6 +207,7 @@
           this.newDuration = '',
           this.newImage = '',
           this.getQueue(),
+          this.searching = false,
           this.$refs.search.clearSearch()
         }
         else {
