@@ -38,7 +38,7 @@
       </ul>
 
       <queue
-        v-if="loggedIn && userid!='' && queue!=''"
+        v-if="loggedIn && userid!='' && this.queue!='Queue is empty. Why not add some songs?' "
         :userid="this.userid"
         :accessToken="this.accessToken"
         :queue="this.queue"
@@ -161,13 +161,10 @@
         })
       },
       checkLimit() {
+        console.log('Limit: ' + this.limit)
         let songCounter = 0;
         for (var i = 0; i < this.queue.length; i++) {
-          if(!this.limitReached) {
-            if(this.queue[i].userid == this.userid) {
-              songCounter++;
-            }
-          }
+          songCounter++;
         }
         if (songCounter < this.limit) {
           this.limitReached = false
@@ -206,14 +203,15 @@
           this.newArtist = '',
           this.newDuration = '',
           this.newImage = '',
-          this.getQueue(),
-          this.searching = false,
-          this.$refs.search.clearSearch()
+          this.getQueue()
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
           this.toggleShow()
         }
+
+        this.searching = false,
+        this.$refs.search.clearSearch()
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
@@ -221,7 +219,8 @@
       },
       setRestaurant(restaurant) {
         this.restaurant = restaurant
-        this.getQueue()
+        this.getQueue(),
+        console.log(this.queue)
       },
       setCurrentTrack() {
         this.active = false
