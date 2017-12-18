@@ -24,7 +24,7 @@
             <div class="infos">
               <p>
                 {{active.title}}
-                <span>{{active.artist}}</span>
+                <span>{{active.artists}}</span>
               </p>
             </div>
           </li>
@@ -77,7 +77,7 @@
 
         newId: '',
         newTitle: '',
-        newArtist: '',
+        newArtists: [],
         newDuration: '',
         newVotes: -1,
         newImage: '',
@@ -165,7 +165,6 @@
         })
       },
       checkLimit() {
-        console.log('Limit: ' + this.limit)
         let songCounter = 0;
         if (this.queue.length >= this.maxQueue) {
           this.limitReached = true
@@ -185,17 +184,21 @@
         return this.limitReached
       },
       addTrack: function(event) {
+        console.log(event.artists)
         this.checkLimit()
         if(!this.limitReached) {
           this.newId = event.id,
-          this.newTitle = event.name,
-          this.newArtist = event.artists[0].name,
+          this.newTitle = event.name
+          for (var i = 0; i < event.artists.length; i++) {
+            this.newArtists.push(event.artists[i].name)
+            console.log(this.newArtists)
+          }
           this.newDuration = event.duration_ms,
           this.newVotes = -1,
           this.newImage = event.album.images[1].url
           db.ref(this.restaurant.id).child('songs').child(this.newId).set({
             id: this.newId,
-            artist: this.newArtist,
+            artists: this.newArtists,
             duration: this.newDuration,
             title: this.newTitle,
             userid: this.userid,
@@ -209,7 +212,7 @@
           this.toggleShow(),
           this.newId = '',
           this.newTitle = '',
-          this.newArtist = '',
+          this.newArtists = [],
           this.newDuration = '',
           this.newImage = '',
           this.getQueue()
@@ -228,8 +231,7 @@
       },
       setRestaurant(restaurant) {
         this.restaurant = restaurant
-        this.getQueue(),
-        console.log(this.queue)
+        this.getQueue()
       },
       setCurrentTrack() {
         this.active = false

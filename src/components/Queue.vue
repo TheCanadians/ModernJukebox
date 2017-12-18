@@ -6,8 +6,10 @@
         <div class="infos">
           <img :src="song.image" />
           <p>
-            {{song.title}}
-            <span>{{song.artist}}</span>
+            <span class="title">{{song.title}}</span>
+            <template v-for='(artist, index) in song.artists'>
+             <span class="artist">{{artist}}<template v-if="index + 1 < song.artists.length">, </template></span>
+           </template>
           </p>
         </div>
         <div class="votes">
@@ -103,8 +105,13 @@
     justify-content: space-between;
     align-items: center;
   }
-  li span {
+  li .title {
     display: block;
+    font-size: 1rem;
+    margin-top: 0;
+  }
+  li .artist {
+    display: inline;
     font-size: 0.75rem;
     margin-top: 0.25rem;
   }
