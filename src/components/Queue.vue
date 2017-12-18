@@ -1,7 +1,7 @@
 <template>
   <div id="queue">
     <h2>Open for voting</h2>
-    <ul v-for="song in queue">
+    <ul v-for="song in list">
       <li>
         <div class="infos">
           <img :src="song.image" />
@@ -33,7 +33,7 @@
       accessToken: {
         required: true
       },
-      queue: {
+      list: {
         required: true
       },
       restaurant: {
@@ -61,7 +61,6 @@
         }
       },
       upvoteTrack: function(event) {
-        console.log(event)
         event.votes -= 1,
         db.ref(this.restaurant.id).child('songs').child(event.id).update({
           votes: event.votes,
@@ -73,7 +72,6 @@
       }
     },
     updated() {
-      console.log(this.trackToUpvote)
     }
   }
 </script>

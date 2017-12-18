@@ -44,11 +44,12 @@
       </ul>
 
       <queue
-        v-if="loggedIn && userid!='' && this.queue!='Queue is empty. Why not add some songs?' "
+        ref="queue"
+        v-if="loggedIn && userid!='' && this.list!='Queue is empty. Why not add some songs?' "
         :trackToUpvote="this.trackToUpvote"
         :userid="this.userid"
         :accessToken="this.accessToken"
-        :queue="this.queue"
+        :list="this.list"
         :restaurant="this.restaurant"
         @getQueue="this.getQueue"
       ></queue>
@@ -82,7 +83,8 @@
         tracks: [],
         searching: false,
         trackExists: false,
-        trackToUpvote: [],
+        trackToUpvote: {},
+        vote: false,
 
         newId: '',
         newTitle: '',
@@ -99,11 +101,12 @@
         notificationShowing: false,
         restaurant: false,
         active: false,
-        queue: [],
+        list: [],
         limit: 0,
         maxQueue: 0,
         limitReached: false,
-        search: this.$refs.search
+        search: this.$refs.search,
+        queue: this.$refs.queue
 
       }
     },
@@ -118,15 +121,15 @@
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#/')[0])
       },
       getQueue: function() {
-        this.queue.length = 0
+        this.list.length = 0
         this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
           if(snapshot.val() == null) {
-            this.queue.push('Queue is empty. Why not add some songs?')
+            this.list.push('Queue is empty. Why not add some songs?')
           }
           else {
             snapshot.forEach(child => {
-              this.queue.push(child.val())
+              this.list.push(child.val())
             })
           }
         })
@@ -176,11 +179,11 @@
       },
       checkLimit() {
         let songCounter = 0;
-        if (this.queue.length >= this.maxQueue) {
+        if (this.list.length >= this.maxQueue) {
           this.limitReached = true
         }
         else {
-          for (var i = 0; i < this.queue.length; i++) {
+          for (var i = 0; i < this.list.length; i++) {
             songCounter++;
           }
           if (songCounter < this.limit) {
@@ -205,18 +208,17 @@
           this.newVotes = -1,
           this.newImage = event.album.images[1].url
 
-          for (var i = 0; i < this.queue.length; i++) {
-            if(this.newId == this.queue[i].id) {
+          for (var i = 0; i < this.list.length; i++) {
+            if(this.newId == this.list[i].id) {
               this.trackExists = true
-              this.trackToUpvote = this.queue[i]
+              this.trackToUpvote = this.list[i]
             }
           }
-
-          console.log(this.trackToUpvote)
 
           if(this.trackExists) {
             this.notificationText = 'Song was already in list. Upvoted.'
             this.toggleShow()
+            this.$refs.queue.upvoteTrack(this.trackToUpvote)
           }
           else {
             console.log('Track does not exist')
@@ -242,7 +244,6 @@
           this.newDuration = '',
           this.newImage = '',
           this.trackExists = false,
-          this.trackToUpvote = [],
           this.getQueue()
         }
         else {
@@ -264,9 +265,9 @@
       setCurrentTrack() {
         this.active = false
 
-        for (var i = 0; i < this.queue.length; i++) {
-          if(this.queue[i].playing)
-            this.active = this.queue[i]
+        for (var i = 0; i < this.list.length; i++) {
+          if(this.list[i].playing)
+            this.active = this.list[i]
         }
       }
     },
