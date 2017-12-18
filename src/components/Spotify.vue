@@ -45,6 +45,7 @@
 
       <queue
         v-if="loggedIn && userid!='' && this.queue!='Queue is empty. Why not add some songs?' "
+        :trackToUpvote="this.trackToUpvote"
         :userid="this.userid"
         :accessToken="this.accessToken"
         :queue="this.queue"
@@ -80,6 +81,8 @@
         accessToken: accessToken,
         tracks: [],
         searching: false,
+        trackExists: false,
+        trackToUpvote: [],
 
         newId: '',
         newTitle: '',
@@ -101,6 +104,7 @@
         maxQueue: 0,
         limitReached: false,
         search: this.$refs.search
+
       }
     },
     methods: {
@@ -157,7 +161,6 @@
             throw new Error('Unauthorized')
           } else {
             if (res.data !== undefined) {
-              console.log(res.data.tracks.items)
               this.tracks = res.data.tracks.items
             }
           }
@@ -191,37 +194,55 @@
         return this.limitReached
       },
       addTrack: function(event) {
-        console.log(event.artists)
         this.checkLimit()
         if(!this.limitReached) {
           this.newId = event.id,
           this.newTitle = event.name
           for (var i = 0; i < event.artists.length; i++) {
             this.newArtists.push(event.artists[i].name)
-            console.log(this.newArtists)
           }
           this.newDuration = event.duration_ms,
           this.newVotes = -1,
           this.newImage = event.album.images[1].url
-          db.ref(this.restaurant.id).child('songs').child(this.newId).set({
-            id: this.newId,
-            artists: this.newArtists,
-            duration: this.newDuration,
-            title: this.newTitle,
-            userid: this.userid,
-            votes: this.newVotes,
-            voters: this.voters,
-            playing: this.playing,
-            nextSong: this.nextSong,
-            image: this.newImage
-          }),
-          this.notificationText = 'Song added',
-          this.toggleShow(),
+
+          for (var i = 0; i < this.queue.length; i++) {
+            if(this.newId == this.queue[i].id) {
+              this.trackExists = true
+              this.trackToUpvote = this.queue[i]
+            }
+          }
+
+          console.log(this.trackToUpvote)
+
+          if(this.trackExists) {
+            this.notificationText = 'Song was already in list. Upvoted.'
+            this.toggleShow()
+          }
+          else {
+            console.log('Track does not exist')
+            db.ref(this.restaurant.id).child('songs').child(this.newId).set({
+              id: this.newId,
+              artists: this.newArtists,
+              duration: this.newDuration,
+              title: this.newTitle,
+              userid: this.userid,
+              votes: this.newVotes,
+              voters: this.voters,
+              playing: this.playing,
+              nextSong: this.nextSong,
+              image: this.newImage,
+            })
+            this.notificationText = 'Song added'
+            this.toggleShow()
+          }
+
           this.newId = '',
           this.newTitle = '',
           this.newArtists = [],
           this.newDuration = '',
           this.newImage = '',
+          this.trackExists = false,
+          this.trackToUpvote = [],
           this.getQueue()
         }
         else {

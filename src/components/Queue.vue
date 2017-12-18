@@ -38,6 +38,9 @@
       },
       restaurant: {
         required: true
+      },
+      trackToUpvote: {
+        required: true
       }
     },
     data() {
@@ -58,6 +61,7 @@
         }
       },
       upvoteTrack: function(event) {
+        console.log(event)
         event.votes -= 1,
         db.ref(this.restaurant.id).child('songs').child(event.id).update({
           votes: event.votes,
@@ -67,6 +71,9 @@
         }),
         this.getQueue()
       }
+    },
+    updated() {
+      console.log(this.trackToUpvote)
     }
   }
 </script>
