@@ -92,6 +92,7 @@
         active: false,
         queue: [],
         limit: 0,
+        maxQueue: 0,
         limitReached: false,
         search: this.$refs.search
       }
@@ -158,6 +159,9 @@
       setLimit() {
         db.ref(this.restaurant.id).child('limit').on('value', snapshot => {
           this.limit = snapshot.val()
+        })
+        db.ref(this.restaurant.id).child('maxQueue').on('value', snapshot => {
+          this.maxQueue = snapshot.val()
         })
       },
       checkLimit() {
