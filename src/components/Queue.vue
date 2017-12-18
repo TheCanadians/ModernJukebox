@@ -1,9 +1,10 @@
 <template>
   <div id="queue">
-    <h2>Coming up:</h2>
+    <h2>Open for voting</h2>
     <ul v-for="song in queue">
       <li>
         <div class="infos">
+          <img :src="song.image" />
           <p>
             {{song.title}}
             <span>{{song.artist}}</span>
@@ -96,20 +97,33 @@
     margin-left: 48px;
   }
   li {
-      border-bottom: 1px solid #E0E0E0;
-      padding: 24px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   li span {
-      display: block;
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
   }
 
   a {
-      color: #0097A7;
+    color: #0097A7;
+  }
+  .infos {
+    display: flex;
+    align-items: center;
+  }
+  .infos img {
+    width: 64px;
+    height: 64px;
+    display: inline;
+    margin-right: 24px;
+  }
+  .infos p {
+    display: inline;
   }
   .votes {
     text-align: center;

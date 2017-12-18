@@ -73,15 +73,18 @@
         loggedIn: isAccessTokenPresent,
         accessToken: accessToken,
         tracks: [],
+
         newId: '',
         newTitle: '',
         newArtist: '',
         newDuration: '',
         newVotes: 0,
+        newImage: '',
         voters: false,
         userid: '',
         playing: false,
         nextSong: false,
+
         notificationText: '',
         notificationShowing: false,
         searching: false,
@@ -183,6 +186,7 @@
           this.newArtist = event.artists[0].name,
           this.newDuration = event.duration_ms,
           this.newVotes = 0,
+          this.newImage = event.album.images[1].url
           db.ref(this.restaurant.id).child('songs').child(this.newId).set({
             id: this.newId,
             artist: this.newArtist,
@@ -192,7 +196,8 @@
             votes: this.newVotes,
             voters: this.voters,
             playing: this.playing,
-            nextSong: this.nextSong
+            nextSong: this.nextSong,
+            image: this.newImage
           }),
           this.notificationText = 'Song added',
           this.toggleShow(),
@@ -200,6 +205,7 @@
           this.newTitle = '',
           this.newArtist = '',
           this.newDuration = '',
+          this.newImage = '',
           this.getQueue(),
           this.$refs.search.clearSearch()
         }
