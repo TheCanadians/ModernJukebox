@@ -78,7 +78,7 @@
         newTitle: '',
         newArtist: '',
         newDuration: '',
-        newVotes: 0,
+        newVotes: -1,
         newImage: '',
         voters: false,
         userid: '',
@@ -185,7 +185,7 @@
           this.newTitle = event.name,
           this.newArtist = event.artists[0].name,
           this.newDuration = event.duration_ms,
-          this.newVotes = 0,
+          this.newVotes = -1,
           this.newImage = event.album.images[1].url
           db.ref(this.restaurant.id).child('songs').child(this.newId).set({
             id: this.newId,
