@@ -33,7 +33,13 @@
 
       <ul id="results" v-if="this.searching">
         <li v-for="track in tracks">
-          <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
+          <p>
+            <span class="title">{{track.name}}</span>
+            <template v-for='(artist, index) in track.artists'>
+             <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
+           </template>
+          </p>
+          <button @click="addTrack(track)">Add</button>
         </li>
       </ul>
 
@@ -151,6 +157,7 @@
             throw new Error('Unauthorized')
           } else {
             if (res.data !== undefined) {
+              console.log(res.data.tracks.items)
               this.tracks = res.data.tracks.items
             }
           }
