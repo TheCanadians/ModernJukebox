@@ -94,13 +94,15 @@ function addToPlaylist() {
 function deleteFromPlaylist() {
   console.log("Delete");
   spotifyApi.getPlaylist('guildwhoops', playlistID).then(function(data) {
-    console.log(data.body['snapshot_id']);
     snapshot_id = data.body['snapshot_id']
-    spotifyApi.removeTracksFromPlaylistByPosition('guildwhoops', '6bQ7gg4w5uTvnVatgtNitu', [0], snapshot_id).then(function(data) {
+    spotifyApi.removeTracksFromPlaylistByPosition('guildwhoops', playlistID, [0], snapshot_id).then(function(data) {
       console.log("Deleted successfully");
-      var parentDIV = document.getElementById("queue");
-      var deleteID = parentDIV.getElementsByTagName("div")[0].id;
+      var deleteID = document.getElementById("playing").className;
       deleteFromQueue(deleteID);
+      var songID = document.getElementById("next").id;
+      var nextSongID = document.getElementById("queue").getElementsByTagName('div')[1].id;
+      setPlaying(songID);
+      setNextSong(nextSongID);
     }, function(err) {
       console.log("something went wrong while deleting!", err);
       if(err.statusCode == "401") {
@@ -115,35 +117,13 @@ function deleteFromPlaylist() {
   });
 }
 // timer function to check when song finished playling
-function timer(first) {
+function timer() {
   var firstSongID = document.getElementById("playing").className;
   // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
-    if(first) {
-      if (data.body['item']['id'] == firstSongID) {
-        var songLength = data.body['item']['duration_ms'];
-        // wait for song length + 5 seconds
-        setTimeout(function() {
-          addToPlaylist();
-          deleteFromPlaylist();
-          timer();
-        }, songLength + 5000);
-      }
-      else {
-        setTimeout(function() {
-          timer(true);
-        }, 1000);
-      }
-    }
-    else {
       if (data.body['item']['id'] == firstSongID) {
         console.log(data.body['item']['duration_ms']);
-        console.log(data.body);
         var songLength = data.body['item']['duration_ms'];
-        var songID = data.body['item']['id'];
-        setPlaying(songID);
-        var nextSongID = document.getElementById("next").className;
-        setNextSong(nextSongID);
         // wait for song length + 5 seconds
         setTimeout(function() {
           addToPlaylist();
@@ -153,10 +133,9 @@ function timer(first) {
       }
       else {
         setTimeout(function() {
-          timer(true);
+          timer();
         }, 1000);
       }
-    }
   }, function(err) {
     console.log('Current Song: ', err);
     if(err.statusCode == "401") {
@@ -187,7 +166,7 @@ window.SpotifyPlay = function() {
           var parentDIV = document.getElementById("queue");
           var nextSongID = parentDIV.getElementsByTagName("div")[1].id;
           setNextSong(nextSongID);
-          timer(true);
+          timer();
         }
       }, function(err) {
         console.log('Current Song: ', err);
