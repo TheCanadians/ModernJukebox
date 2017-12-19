@@ -4244,6 +4244,15 @@ spotifyApi = new SpotifyWebApi({
 // set access and refresh token
 spotifyApi.setAccessToken(accessToken[0]);
 spotifyApi.setRefreshToken(refreshToken[0]);
+
+id = "";
+
+spotifyApi.getMe().then(function(data) {
+  id = data.body.id;
+}, function(err) {
+  console.log(err);
+});
+
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
   // check if a spotify playlist ID exists in database
@@ -4266,7 +4275,9 @@ window.replacePlaylist = function() {
         var parentDIV = document.getElementById("queue");
         var firstID = parentDIV.getElementsByTagName("div")[0].id;
         var secondID = parentDIV.getElementsByTagName("div")[1].id;
-        spotifyApi.replaceTracksInPlaylist('guildwhoops', playlistID, [
+        setPlaying(firstID);
+        setNextSong(secondID);
+        spotifyApi.replaceTracksInPlaylist(id, playlistID, [
           'spotify:track:' + firstID,
           'spotify:track:' + secondID
         ]).then(function(data) {
@@ -4283,7 +4294,7 @@ window.replacePlaylist = function() {
       else {
         var trimPath = path.toString().slice(1, -1);
         console.log(trimPath);
-        spotifyApi.createPlaylist('guildwhoops', trimPath, {'public' : false}).then(function(data) {
+        spotifyApi.createPlaylist(id, trimPath, {'public' : false}).then(function(data) {
           console.log("Created Playlist!");
           var playlistID = data.body['id'];
           console.log(playlistID);
@@ -4302,7 +4313,7 @@ window.replacePlaylist = function() {
             replacePlaylist();
           });
         }, function(err) {
-          console.log("Something went wrong!");
+          console.log("Something went wrong!", err);
           if(err.statusCode == "401") {
             refreshToken("replacePlaylist");
           }
@@ -4314,13 +4325,18 @@ window.replacePlaylist = function() {
 // add new song to spotify playlist
 function addToPlaylist() {
   var parentDIV = document.getElementById("queue");
-  var thirdID = parentDIV.getElementsByTagName("div")[2].id;
-  spotifyApi.addTracksToPlaylist('guildwhoops', playlistID, [
-    "spotify:track:" + thirdID
+  var nextID = parentDIV.getElementsByTagName("div")[0].id;
+  if (nextID == null) {
+    //add song from open spotify playlist
+  }
+  spotifyApi.addTracksToPlaylist(id, playlistID, [
+    "spotify:track:" + nextID
   ]).then(function(data) {
     console.log("Song added");
+    console.log(nextID);
+    setNextSong(nextID);
   }, function(err) {
-    console.log("Something went wrong while adding songs!");
+    console.log("Something went wrong while adding songs!", err);
     if(err.statusCode == "401") {
       refreshToken("addToPlaylist");
     }
@@ -4329,16 +4345,16 @@ function addToPlaylist() {
 // delete first song from spotify playlist
 function deleteFromPlaylist() {
   console.log("Delete");
-  spotifyApi.getPlaylist('guildwhoops', playlistID).then(function(data) {
+  spotifyApi.getPlaylist(id, playlistID).then(function(data) {
     snapshot_id = data.body['snapshot_id']
-    spotifyApi.removeTracksFromPlaylistByPosition('guildwhoops', playlistID, [0], snapshot_id).then(function(data) {
+    spotifyApi.removeTracksFromPlaylistByPosition(id, playlistID, [0], snapshot_id).then(function(data) {
       console.log("Deleted successfully");
       var deleteID = document.getElementById("playing").className;
       deleteFromQueue(deleteID);
-      var songID = document.getElementById("next").id;
-      var nextSongID = document.getElementById("queue").getElementsByTagName('div')[1].id;
+      var songID = document.getElementById("next").className;
+      console.log(songID);
       setPlaying(songID);
-      setNextSong(nextSongID);
+      addToPlaylist();
     }, function(err) {
       console.log("something went wrong while deleting!", err);
       if(err.statusCode == "401") {
@@ -4362,7 +4378,6 @@ function timer() {
         var songLength = data.body['item']['duration_ms'];
         // wait for song length + 5 seconds
         setTimeout(function() {
-          addToPlaylist();
           deleteFromPlaylist();
           timer();
         }, songLength + 5000);
@@ -4396,12 +4411,6 @@ window.SpotifyPlay = function() {
           }, 4000);
         }
         else {
-          console.log(data.body['item']['duration_ms']);
-          var songLength = data.body['item']['duration_ms'];
-          setPlaying(data.body['item']['id']);
-          var parentDIV = document.getElementById("queue");
-          var nextSongID = parentDIV.getElementsByTagName("div")[1].id;
-          setNextSong(nextSongID);
           timer();
         }
       }, function(err) {

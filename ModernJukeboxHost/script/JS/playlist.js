@@ -55,7 +55,7 @@ function setPlaylist() {
               var hiphen = " - ";
               text = text.bold();
               hiphen = hiphen.bold();
-              playing.innerHTML = text + song.title + hiphen + song.artist;
+              playing.innerHTML = text + song.title + hiphen + song.artists;
               playing.className = song.id;
             }
             else if (song.nextSong == "true") {
@@ -64,7 +64,7 @@ function setPlaylist() {
               var hiphen = " - ";
               text = text.bold();
               hiphen = hiphen.bold();
-              next.innerHTML = text + song.title + hiphen + song.artist;
+              next.innerHTML = text + song.title + hiphen + song.artists;
               next.className = song.id;
             }
           }
@@ -77,7 +77,7 @@ function setPlaylist() {
             p.style.margin = "0px";
             element.appendChild(p);
 
-            var content = document.createTextNode(song.title + " - " + song.artist + " Votes: " + song.votes);
+            var content = document.createTextNode(song.title + " - " + song.artists + " Votes: " + song.votes);
             p.appendChild(content);
 
             var checkbox = document.createElement('input');
