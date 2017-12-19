@@ -1,16 +1,19 @@
 <template>
   <div id="queue">
-    <h2>Coming up:</h2>
-    <ul v-for="song in queue">
+    <h2>Open for voting</h2>
+    <ul v-for="song in list">
       <li>
         <div class="infos">
+          <img :src="song.image" />
           <p>
-            {{song.title}}
-            <span>{{song.artist}}</span>
+            <span class="title">{{song.title}}</span>
+            <template v-for='(artist, index) in song.artists'>
+             <span class="artist">{{artist}}<template v-if="index + 1 < song.artists.length">, </template></span>
+           </template>
           </p>
         </div>
         <div class="votes">
-          <button class="btnUpvote" @click="upvoteTrack(song)"></button>
+          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)"></button>
           <p>{{song.votes * -1}}</p>
         </div>
       </li>
@@ -30,7 +33,13 @@
       accessToken: {
         required: true
       },
-      queue: {
+      list: {
+        required: true
+      },
+      restaurant: {
+        required: true
+      },
+      trackToUpvote: {
         required: true
       }
     },
@@ -43,16 +52,26 @@
       getQueue: function() {
         this.$emit('getQueue')
       },
+      isVotable(track) {
+        if(track.userid == this.userid) {
+          return false;
+        }
+        else {
+          return true;
+        }
+      },
       upvoteTrack: function(event) {
         event.votes -= 1,
-        db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
+        db.ref(this.restaurant.id).child('songs').child(event.id).update({
           votes: event.votes,
         }),
-        db.ref('schweinske-dehnhaide').child('songs').child(event.id).update({
+        db.ref(this.restaurant.id).child('songs').child(event.id).update({
           voters: this.userid
         }),
         this.getQueue()
       }
+    },
+    updated() {
     }
   }
 </script>
@@ -85,20 +104,38 @@
     margin-left: 48px;
   }
   li {
-      border-bottom: 1px solid #E0E0E0;
-      padding: 24px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  li span {
-      display: block;
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
+  li .title {
+    display: block;
+    font-size: 1rem;
+    margin-top: 0;
+  }
+  li .artist {
+    display: inline;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
   }
 
   a {
-      color: #0097A7;
+    color: #0097A7;
+  }
+  .infos {
+    display: flex;
+    align-items: center;
+  }
+  .infos img {
+    width: 64px;
+    height: 64px;
+    display: inline;
+    margin-right: 24px;
+  }
+  .infos p {
+    display: inline;
   }
   .votes {
     text-align: center;

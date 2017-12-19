@@ -32,7 +32,9 @@
         })
       },
       setRestaurant() {
-        this.$emit('setRestaurant', this.restaurant)
+        if(this.restaurant != null) {
+          this.$emit('setRestaurant', this.restaurant)
+        }
       }
     },
     mounted() {

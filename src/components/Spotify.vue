@@ -2,20 +2,20 @@
   <div id="spotify">
     <button v-if="!loggedIn" @click.prevent="authorize">Authorize</button>
 
-    <restaurantChooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurantChooser>
+    <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
 
     <div id="restaurantChosen" v-if="restaurant">
       <transition name="notification">
-        <div
+        <span
           class="notification"
           v-if="notificationShowing"
           enter-active-class="notificationIn"
           leave-active-class="notificationOut">
-          Song added
-        </div>
+          {{this.notificationText}}
+        </span>
       </transition>
 
-      <search v-if="loggedIn" @keyedUp="searchTracks($event)" @cleared="clearSearch()"></search>
+      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
 
       <div id="currentTrack" v-if="!searching && loggedIn">
         <h2>Now playing:</h2>
@@ -24,24 +24,33 @@
             <div class="infos">
               <p>
                 {{active.title}}
-                <span>{{active.artist}}</span>
+                <span>{{active.artists}}</span>
               </p>
             </div>
           </li>
         </ul>
       </div>
 
-      <ul id="results" v-if="searching">
+      <ul id="results" v-if="this.searching">
         <li v-for="track in tracks">
-          <button @click="addTrack(track)">{{track.name}} &ndash; {{track.artists[0].name}}</button>
+          <p>
+            <span class="title">{{track.name}}</span>
+            <template v-for='(artist, index) in track.artists'>
+             <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
+           </template>
+          </p>
+          <button @click="addTrack(track)">Add</button>
         </li>
       </ul>
 
       <queue
-        v-if="loggedIn && userid!='' && queue!=''"
+        ref="queue"
+        v-if="loggedIn && userid!='' && this.list!='Queue is empty. Why not add some songs?' "
+        :trackToUpvote="this.trackToUpvote"
         :userid="this.userid"
         :accessToken="this.accessToken"
-        :queue="this.queue"
+        :list="this.list"
+        :restaurant="this.restaurant"
         @getQueue="this.getQueue"
       ></queue>
     </div>
@@ -61,9 +70,6 @@
       'restaurantChooser': RestaurantChooser,
       'queue': Queue
     },
-    firebase: {
-      queue: db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes')
-    },
     data () {
       var accessToken
       var isAccessTokenPresent = window.location.href.indexOf('access_token') !== -1
@@ -75,20 +81,33 @@
         loggedIn: isAccessTokenPresent,
         accessToken: accessToken,
         tracks: [],
-        searchQuery: '',
+        searching: false,
+        trackExists: false,
+        trackToUpvote: {},
+        vote: false,
+
         newId: '',
         newTitle: '',
-        newArtist: '',
+        newArtists: [],
         newDuration: '',
-        newVotes: 0,
+        newVotes: -1,
+        newImage: '',
         voters: false,
         userid: '',
         playing: false,
         nextSong: false,
+
+        notificationText: '',
         notificationShowing: false,
-        searching: false,
         restaurant: false,
-        active: false
+        active: false,
+        list: [],
+        limit: 0,
+        maxQueue: 0,
+        limitReached: false,
+        search: this.$refs.search,
+        queue: this.$refs.queue
+
       }
     },
     methods: {
@@ -102,12 +121,19 @@
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#/')[0])
       },
       getQueue: function() {
-        this.queue.length = 0,
-        db.ref('schweinske-dehnhaide').child('songs').orderByChild('votes').on('value', snapshot => {
-          snapshot.forEach(child => {
-            this.queue.push(child.val())
-          })
-        }),
+        this.list.length = 0
+        this.setLimit()
+        db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
+          if(snapshot.val() == null) {
+            this.list.push('Queue is empty. Why not add some songs?')
+          }
+          else {
+            snapshot.forEach(child => {
+              this.list.push(child.val())
+            })
+          }
+        })
+        this.checkLimit()
         this.setCurrentTrack()
       },
       setUserId: function() {
@@ -126,9 +152,6 @@
           return this.userid
         })
       },
-      clearSearch: function() {
-        this.searching = false
-      },
       searchTracks: function (query) {
         this.searching = true,
         this.tracks = [],
@@ -146,30 +169,90 @@
           }
         })
       },
+      setLimit() {
+        db.ref(this.restaurant.id).child('limit').on('value', snapshot => {
+          this.limit = snapshot.val()
+        })
+        db.ref(this.restaurant.id).child('maxQueue').on('value', snapshot => {
+          this.maxQueue = snapshot.val()
+        })
+      },
+      checkLimit() {
+        let songCounter = 0;
+        if (this.list.length >= this.maxQueue) {
+          this.limitReached = true
+        }
+        else {
+          for (var i = 0; i < this.list.length; i++) {
+            songCounter++;
+          }
+          if (songCounter < this.limit) {
+            this.limitReached = false
+          }
+          else {
+            this.limitReached = true
+          }
+        }
+
+        return this.limitReached
+      },
       addTrack: function(event) {
-        this.newId = event.id,
-        this.newTitle = event.name,
-        this.newArtist = event.artists[0].name,
-        this.newDuration = event.duration_ms,
-        this.newVotes = 0,
-        db.ref('schweinske-dehnhaide').child('songs').child(this.newId).set({
-          id: this.newId,
-          artist: this.newArtist,
-          duration: this.newDuration,
-          title: this.newTitle,
-          userid: this.userid,
-          votes: this.newVotes,
-          voters: this.voters,
-          playing: this.playing,
-          nextSong: this.nextSong
-        }),
-        this.toggleShow(),
-        this.newId = '',
-        this.newTitle = '',
-        this.newArtist = '',
-        this.newDuration = '',
-        this.getQueue(),
-        this.searching = false
+        this.checkLimit()
+        if(!this.limitReached) {
+          this.newId = event.id,
+          this.newTitle = event.name
+          for (var i = 0; i < event.artists.length; i++) {
+            this.newArtists.push(event.artists[i].name)
+          }
+          this.newDuration = event.duration_ms,
+          this.newVotes = -1,
+          this.newImage = event.album.images[1].url
+
+          for (var i = 0; i < this.list.length; i++) {
+            if(this.newId == this.list[i].id) {
+              this.trackExists = true
+              this.trackToUpvote = this.list[i]
+            }
+          }
+
+          if(this.trackExists) {
+            this.notificationText = 'Song was already in list. Upvoted.'
+            this.toggleShow()
+            this.$refs.queue.upvoteTrack(this.trackToUpvote)
+          }
+          else {
+            console.log('Track does not exist')
+            db.ref(this.restaurant.id).child('songs').child(this.newId).set({
+              id: this.newId,
+              artists: this.newArtists,
+              duration: this.newDuration,
+              title: this.newTitle,
+              userid: this.userid,
+              votes: this.newVotes,
+              voters: this.voters,
+              playing: this.playing,
+              nextSong: this.nextSong,
+              image: this.newImage,
+            })
+            this.notificationText = 'Song added'
+            this.toggleShow()
+          }
+
+          this.newId = '',
+          this.newTitle = '',
+          this.newArtists = [],
+          this.newDuration = '',
+          this.newImage = '',
+          this.trackExists = false,
+          this.getQueue()
+        }
+        else {
+          this.notificationText = 'Limit reached. Song was not added.',
+          this.toggleShow()
+        }
+
+        this.searching = false,
+        this.$refs.search.clearSearch()
       },
       toggleShow: function() {
         this.notificationShowing = !this.notificationShowing,
@@ -182,14 +265,16 @@
       setCurrentTrack() {
         this.active = false
 
-        for (var i = 0; i < this.queue.length; i++) {
-          if(this.queue[i].playing)
-            this.active = this.queue[i]
+        for (var i = 0; i < this.list.length; i++) {
+          if(this.list[i].playing)
+            this.active = this.list[i]
         }
       }
     },
     mounted() {
-      this.setUserId()
+      if(this.loggedIn) {
+        this.setUserId()
+      }
     }
   }
 </script>

@@ -20,8 +20,8 @@
     name: 'app',
     data() {
       return {
-        query: '',
-        searching: false
+        searching: false,
+        query: ''
       }
     },
     methods: {
@@ -32,8 +32,8 @@
         }
       },
       clearSearch() {
-        this.query = ''
-        this.$emit('cleared')
+        this.query = '',
+        this.searching = false
       }
     }
   }
