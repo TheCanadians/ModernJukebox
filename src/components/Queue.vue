@@ -132,7 +132,8 @@
     width: 64px;
     height: 64px;
     display: inline;
-    margin-right: 24px;
+    margin-right: 16px;
+    border-radius: 4px
   }
   .infos p {
     display: inline;

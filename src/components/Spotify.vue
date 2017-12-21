@@ -21,13 +21,13 @@
       <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
 
       <div id="currentTrack" v-if="!searching && loggedIn">
-        <h2>Now playing:</h2>
         <ul>
-          <li>
+          <li id="trackInfo">
             <div class="infos">
+              <img id="songImage" :src="active.image" />
               <p>
-                {{active.title}}
-                <span>{{active.artists}}</span>
+                <span>Now playing:</span>
+                <span>{{active.title}} · {{active.artists}}</span>
               </p>
             </div>
           </li>
@@ -364,6 +364,35 @@
 
   #restaurantChosen {
     max-width: 100vw;
+  }
+
+  #currentTrack {
+    background: #FFDE22;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  #trackInfo {
+    padding: 16px 24px;
+  }
+
+  #trackInfo .infos {
+    display: flex;
+  }
+
+  #trackInfo .infos span:first-of-type{
+    margin-left: 0;
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  #trackInfo .infos span{
+    display: block;
+    font-size: inherit;
+    margin-top: 2px;
   }
 
   /* Add some padding inside the card container */
