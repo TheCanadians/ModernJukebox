@@ -121,6 +121,7 @@
     text-transform: uppercase;
     font-weight: bold;
     font-family: 'Roboto Condensed', sans-serif;
+    margin-top: 4px;
   }
 
   #heartCount {

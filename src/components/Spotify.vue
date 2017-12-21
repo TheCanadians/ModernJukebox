@@ -35,6 +35,10 @@
       <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
 
       <ul id="results" v-if="this.searching">
+        <div id="resultsHeader">
+        <h2 id="resultsTitle">Results</h2>
+        <button>Cancel</button>
+        </div>
         <li v-for="track in tracks">
           <div class="infos">
           <img id="songImage" :src="track.image" />
@@ -310,11 +314,6 @@
       border: black;
   }
 
-  h1,
-  h2 {
-      font-weight: normal;
-  }
-
   ul {
       list-style-type: none;
       padding: 0;
@@ -415,15 +414,36 @@
     color: #FFDE22;
     text-transform: uppercase;
     font-weight: bold;
+    font-size: 10.5pt;
   }
 
   #addBTN span{
     margin-top: 8px;
   }
 
+  #resultsHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px 24px;
+    align-items: baseline;
+  }
+
+  #resultsTitle{
+    display: inline;
+    margin: 0;
+  }
+
+  #resultsHeader button{
+    color: #FFDE22;
+    font-weight: bold;
+    font-size: 10.5pt;
+    text-transform: uppercase;
+  }
+
   /* Add some padding inside the card container */
   .container {
-      padding: 2px 16px;
+      padding: 16px 24px;
       display: flex;
       flex-direction: column;
 
