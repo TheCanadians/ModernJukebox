@@ -1,6 +1,9 @@
 <template>
   <div id="spotify">
-    <button v-if="!loggedIn" @click.prevent="authorize">Authorize</button>
+    <div v-if="!loggedIn" id="authorizeContainer">
+      <h1>Choose your stuff</h1>
+      <button id="authorizeBTN" @click.prevent="authorize">Sign in with Spotify</button>
+    </div>
 
     <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
 
@@ -317,12 +320,46 @@
     outline: none;
     border: none;
     font-size: 1rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
   }
   button:hover {
       color: #0097A7;
       text-decoration: underline;
       cursor: pointer;
+  }
+
+  #authorizeContainer {
+    height: 100vh;
+    width: 100vw;
+    
+    background: linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #authorizeContainer h1{
+    max-width: 200px;
+    font-weight: bold;
+    font-size: 3rem;
+    text-align: center;
+    padding-bottom: 3rem;
+  }
+
+  #authorizeBTN {
+    background: #2B2B2B;
+    color: #FFDE22;
+    box-shadow: none;
+    outline: none;
+    border: none;
+    border-radius: 10rem;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
   }
 
   /* Add some padding inside the card container */

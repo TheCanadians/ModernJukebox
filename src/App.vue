@@ -16,7 +16,7 @@
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
   * {
     margin: 0;
     padding: 0;
@@ -26,10 +26,10 @@
     position: relative;
   }
   #app {
-    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto Condensed', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
+    color: #282828;
     min-height: 100%;
   }
 </style>
