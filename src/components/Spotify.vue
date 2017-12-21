@@ -362,6 +362,10 @@
     font-weight: bold;
   }
 
+  #restaurantChosen {
+    max-width: 100vw;
+  }
+
   /* Add some padding inside the card container */
   .container {
       padding: 2px 16px;
