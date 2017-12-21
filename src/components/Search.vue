@@ -7,9 +7,9 @@
           type="text"
           placeholder="Search for song title"
           v-model="query"
-        />
+        ></input>
         <div id="clearBtn" @click="clearSearch"></div>
-        <button id="submitBtn" type="submit" @click.prevent="searchSong">Search</button>
+        <div id="submitBtn" type="submit" @click.prevent="searchSong"></div>
       </form>
     </div>
   </div>
@@ -48,13 +48,12 @@
   #search {
     box-sizing: border-box;
     width: 100%;
-    padding: 16px 24px;
-    background-color: #F5F5F5;
+    padding: 24px 24px;
+    background-color: #282828;
     text-align: left;
   }
   #searchBox {
-    border-radius: 8px;
-    border: 1px solid #E0E0E0;
+    border-radius: 10rem;
   }
   form {
     display: flex;
@@ -63,40 +62,41 @@
   }
   input {
     width: auto;
+    height: 20px;
     display: inline;
     box-shadow: none;
     border: none;
     outline: none;
-    background-color: #FFF;
+    background-color: rgba(255, 255, 255, 0.12);
     border-radius: 4px;
-    font-size: 1rem;
-    padding: 16px 24px;
-    border-radius: 8px 0 0 8px;
-    font-family: 'Roboto';
-    color: #616161;
+    font-size: 12.75pt;
+    padding: 10px 20px;
+    border-radius: 10rem 0 0 10rem;
+    font-family: 'Roboto Condensed';
+    color: rgba(255, 255, 255, 1);
     margin: 0;
     flex-grow: 2;
   }
   #submitBtn {
-    display: inline;
-    background: none;
+    background-color: #FFDE22;
+    background-image: url('../assets/ic_search.svg');
+    width: 20px;
+    height: 20px;
+    border-radius: 0 10rem 10rem 0;
+    padding: 10px 15px 10px 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    outline: none;
     border: none;
-    background-color: #0097A7;
-    border-radius: 0 8px 8px 0;
-    height: 100%;
-    font-family: 'Roboto';
-    color: #fff;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 16px 48px;
-    margin: 0;
+    box-shadow: none;
+    cursor: pointer;
   }
   #clearBtn {
-    background: white;
+    background-color: rgba(255, 255, 255, 0.12);
     background-image: url('../assets/ic_clear.svg');
-    width: 24px;
-    height: 24px;
-    margin: 0 16px;
+    width: 20px;
+    height: 20px;
+    padding: 10px;
     background-size: contain;
     background-repeat: no-repeat;
     outline: none;

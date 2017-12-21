@@ -1,6 +1,9 @@
 <template>
   <div id="spotify">
-    <button v-if="!loggedIn" @click.prevent="authorize">Authorize</button>
+    <div v-if="!loggedIn" id="authorizeContainer">
+      <h1>Choose your stuff</h1>
+      <button id="authorizeBTN" @click.prevent="authorize">Sign in with Spotify</button>
+    </div>
 
     <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
 
@@ -15,31 +18,41 @@
         </span>
       </transition>
 
-      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
-
       <div id="currentTrack" v-if="!searching && loggedIn">
-        <h2>Now playing:</h2>
         <ul>
-          <li>
+          <li id="trackInfo">
             <div class="infos">
+              <img id="" :src="active.image" />
               <p>
-                {{active.title}}
-                <span>{{active.artists}}</span>
+                <span>Now playing:</span>
+                <span>{{active.title}} · {{active.artists}}</span>
               </p>
             </div>
           </li>
         </ul>
       </div>
 
+      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
+
       <ul id="results" v-if="this.searching">
+        <div id="resultsHeader">
+        <h2 id="resultsTitle">Results</h2>
+        <button>Cancel</button>
+        </div>
         <li v-for="track in tracks">
+          <div class="infos">
+          <img id="songImage" :src="track.image" />
           <p>
             <span class="title">{{track.name}}</span>
             <template v-for='(artist, index) in track.artists'>
              <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
            </template>
           </p>
-          <button @click="addTrack(track)">Add</button>
+          </div>
+          <button id="addBTN" @click="addTrack(track)">
+            <img src="../assets/ic_add.svg" />
+            <span>add</span>
+          </button>
         </li>
       </ul>
 
@@ -301,11 +314,6 @@
       border: black;
   }
 
-  h1,
-  h2 {
-      font-weight: normal;
-  }
-
   ul {
       list-style-type: none;
       padding: 0;
@@ -317,7 +325,7 @@
     outline: none;
     border: none;
     font-size: 1rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
   }
   button:hover {
       color: #0097A7;
@@ -325,9 +333,117 @@
       cursor: pointer;
   }
 
+  #authorizeContainer {
+    height: 100vh;
+    width: 100vw;
+    
+    background: linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #authorizeContainer h1{
+    max-width: 240px;
+    font-weight: bold;
+    font-size: 45pt;
+    text-align: center;
+    padding-bottom: 3rem;
+  }
+
+  #authorizeBTN {
+    background: #2B2B2B;
+    color: #FFDE22;
+    box-shadow: none;
+    outline: none;
+    border: none;
+    border-radius: 10rem;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    font-size: 15pt;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+  }
+
+  #restaurantChosen {
+    max-width: 100vw;
+  }
+
+  #currentTrack {
+    background: #FFDE22;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  #trackInfo {
+    padding: 16px 24px;
+  }
+
+  #trackInfo .infos {
+    display: flex;
+  }
+
+  #trackInfo .infos span:first-of-type{
+    margin-left: 0;
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  #trackInfo .infos span{
+    font-size: 13.5pt;
+    display: block;
+    margin-top: 2px;
+  }
+
+  #songImage {
+    width: 64px;
+    height: 64px;
+    display: inline;
+    margin-right: 16px;
+    border-radius: 4px;
+  }
+
+  #addBTN {
+    display: flex;
+    flex-direction: column;
+    color: #FFDE22;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 10.5pt;
+  }
+
+  #addBTN span{
+    margin-top: 8px;
+  }
+
+  #resultsHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px 24px;
+    align-items: baseline;
+  }
+
+  #resultsTitle{
+    display: inline;
+    margin: 0;
+  }
+
+  #resultsHeader button{
+    color: #FFDE22;
+    font-weight: bold;
+    font-size: 10.5pt;
+    text-transform: uppercase;
+  }
+
   /* Add some padding inside the card container */
   .container {
-      padding: 2px 16px;
+      padding: 16px 24px;
       display: flex;
       flex-direction: column;
 

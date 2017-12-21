@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_add</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_add" fill="#FFDE22">
+            <path d="M9.5,6.5 L9.5,5.5 C9.5,5.2265625 9.2734375,5 9,5 L7,5 L7,3 C7,2.7265625 6.7734375,2.5 6.5,2.5 L5.5,2.5 C5.2265625,2.5 5,2.7265625 5,3 L5,5 L3,5 C2.7265625,5 2.5,5.2265625 2.5,5.5 L2.5,6.5 C2.5,6.7734375 2.7265625,7 3,7 L5,7 L5,9 C5,9.2734375 5.2265625,9.5 5.5,9.5 L6.5,9.5 C6.7734375,9.5 7,9.2734375 7,9 L7,7 L9,7 C9.2734375,7 9.5,6.7734375 9.5,6.5 Z M12,6 C12,9.3125 9.3125,12 6,12 C2.6875,12 0,9.3125 0,6 C0,2.6875 2.6875,0 6,0 C9.3125,0 12,2.6875 12,6 Z" id="plus-circle---FontAwesome"></path>
+        </g>
+    </g>
+</svg>
