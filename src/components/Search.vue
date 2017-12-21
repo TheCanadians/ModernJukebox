@@ -48,7 +48,7 @@
   #search {
     box-sizing: border-box;
     width: 100%;
-    padding: 16px 24px;
+    padding: 24px 24px;
     background-color: #282828;
     text-align: left;
   }

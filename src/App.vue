@@ -27,7 +27,7 @@
   }
   #app {
     background: #282828;
-    font-family: 'Roboto Condensed', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #282828;

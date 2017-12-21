@@ -18,13 +18,11 @@
         </span>
       </transition>
 
-      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
-
       <div id="currentTrack" v-if="!searching && loggedIn">
         <ul>
           <li id="trackInfo">
             <div class="infos">
-              <img id="songImage" :src="active.image" />
+              <img id="" :src="active.image" />
               <p>
                 <span>Now playing:</span>
                 <span>{{active.title}} · {{active.artists}}</span>
@@ -34,15 +32,23 @@
         </ul>
       </div>
 
+      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
+
       <ul id="results" v-if="this.searching">
         <li v-for="track in tracks">
+          <div class="infos">
+          <img id="songImage" :src="track.image" />
           <p>
             <span class="title">{{track.name}}</span>
             <template v-for='(artist, index) in track.artists'>
              <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
            </template>
           </p>
-          <button @click="addTrack(track)">Add</button>
+          </div>
+          <button id="addBTN" @click="addTrack(track)">
+            <img src="../assets/ic_add.svg" />
+            <span>add</span>
+          </button>
         </li>
       </ul>
 
@@ -393,6 +399,26 @@
     font-size: 13.5pt;
     display: block;
     margin-top: 2px;
+  }
+
+  #songImage {
+    width: 64px;
+    height: 64px;
+    display: inline;
+    margin-right: 16px;
+    border-radius: 4px;
+  }
+
+  #addBTN {
+    display: flex;
+    flex-direction: column;
+    color: #FFDE22;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  #addBTN span{
+    margin-top: 8px;
   }
 
   /* Add some padding inside the card container */

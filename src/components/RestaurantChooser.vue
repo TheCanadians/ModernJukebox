@@ -51,18 +51,6 @@
   h2 {
     margin-left: 48px;
   }
-  li {
-      border-bottom: 1px solid #E0E0E0;
-      padding: 24px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
-  li span {
-      display: block;
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
-  }
 
   a {
       color: #0097A7;
