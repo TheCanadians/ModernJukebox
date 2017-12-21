@@ -1,8 +1,8 @@
 <template>
   <div id="queue">
-    <h2>Open for voting</h2>
+    <h2>Queue</h2>
     <ul v-for="song in list">
-      <li>
+      <li id="queueSong">
         <div class="infos">
           <img :src="song.image" />
           <p>
@@ -13,8 +13,13 @@
           </p>
         </div>
         <div class="votes">
-          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)"></button>
-          <p>{{song.votes * -1}}</p>
+          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)">
+            <div id="heartCount">
+            <img src="../assets/ic_heart.svg" />
+            <p>{{song.votes * -1}}</p>
+            </div>
+            <span>vote</span>
+            </button>
         </div>
       </li>
     </ul>
@@ -77,32 +82,59 @@
 </script>
 
 <style>
+
   #queue {
     position: fixed;
     bottom: 0;
     width: 100%;
-    border-top: 4px solid #E0E0E0;
     padding-top: 24px;
-    background-color: #fff;
-    max-height: 36vh;
+    background-color: #282828;
+    max-height: 66vh;
     overflow: scroll;
   }
+
   .btnUpvote {
     background: none;
+    color: #FFDE22;
+    font-size: 10.5pt;
     outline: none;
     border: none;
     box-shadow: none;
     width: 48px;
     height: 48px;
-    background-image: url('../assets/ic_upvote.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
+
+  .btnUpvote span{
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  #heartCount {
+    display: flex;
+    flex-direction: row;
+  }
+
+  li#queueSong {
+    border: none;
+    padding: 16px 24px;
+  }
+
   h2 {
-    margin-left: 48px;
+    margin-left: 24px;
+    font-size: 21pt;
+    color: #fff;
+    margin-bottom: 8px;
   }
+
   li {
     border-bottom: 1px solid #E0E0E0;
     padding: 24px 48px;
@@ -110,24 +142,30 @@
     justify-content: space-between;
     align-items: center;
   }
+
   li .title {
+    color: #fff;
     display: block;
-    font-size: 1rem;
+    font-size: 13.5pt;;
     margin-top: 0;
   }
+
   li .artist {
+    color: #8C8C8C;
     display: inline;
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
+    font-size: 10.5pt;
+    margin-top: 2px;
   }
 
   a {
     color: #0097A7;
   }
+
   .infos {
     display: flex;
     align-items: center;
   }
+
   .infos img {
     width: 64px;
     height: 64px;
@@ -135,13 +173,13 @@
     margin-right: 16px;
     border-radius: 4px
   }
+
   .infos p {
     display: inline;
   }
-  .votes {
-    text-align: center;
-  }
-  .votes p {
-    margin-top: -16px;
+
+  .votes p{
+    margin-top: 0;
+    margin-left: 4px
   }
 </style>

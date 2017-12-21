@@ -341,9 +341,9 @@
   }
 
   #authorizeContainer h1{
-    max-width: 200px;
+    max-width: 240px;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 45pt;
     text-align: center;
     padding-bottom: 3rem;
   }
@@ -357,7 +357,7 @@
     border-radius: 10rem;
     text-transform: uppercase;
     padding: 1rem 2rem;
-    font-size: 1rem;
+    font-size: 15pt;
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: bold;
   }
@@ -384,14 +384,14 @@
 
   #trackInfo .infos span:first-of-type{
     margin-left: 0;
-    font-size: 10pt;
+    font-size: 10.5pt;
     font-weight: bold;
     text-transform: uppercase;
   }
 
   #trackInfo .infos span{
+    font-size: 13.5pt;
     display: block;
-    font-size: inherit;
     margin-top: 2px;
   }
 
