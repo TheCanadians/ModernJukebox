@@ -37,7 +37,6 @@
       <ul id="results" v-if="this.searching">
         <div id="resultsHeader">
         <h2 id="resultsTitle">Results</h2>
-        <button>Cancel</button>
         </div>
         <li v-for="track in tracks">
           <div class="infos">

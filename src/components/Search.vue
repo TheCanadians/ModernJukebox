@@ -9,7 +9,7 @@
           v-model="query"
         ></input>
         <div id="clearBtn" @click="clearSearch"></div>
-        <div id="submitBtn" type="submit" @click.prevent="searchSong"></div>
+        <input id="submitBtn" type="submit" @click.prevent="searchSong" value="" />
       </form>
     </div>
   </div>
@@ -80,16 +80,17 @@
   #submitBtn {
     background-color: #FFDE22;
     background-image: url('../assets/ic_search.svg');
-    width: 20px;
-    height: 20px;
+    widows: auto;
+    height: 100%;
     border-radius: 0 10rem 10rem 0;
-    padding: 10px 15px 10px 10px;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: calc(50% - 2px);
     outline: none;
     border: none;
     box-shadow: none;
     cursor: pointer;
+    flex-grow: 0.15;
   }
   #clearBtn {
     background-color: rgba(255, 255, 255, 0.12);
