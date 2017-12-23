@@ -127,6 +127,7 @@
   #heartCount {
     display: flex;
     flex-direction: row;
+    font-family: 'Roboto Condensed', sans-serif;
   }
 
   li#queueSong {

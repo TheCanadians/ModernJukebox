@@ -32,7 +32,7 @@
         </ul>
       </div>
 
-      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)"></search>
+      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)" @searchCleared="clearSearch" ></search>
 
       <ul id="results" v-if="this.searching">
         <div id="resultsHeader">
@@ -40,7 +40,7 @@
         </div>
         <li v-for="track in tracks">
           <div class="infos">
-          <img id="songImage" :src="track.image" />
+          <img id="songImage" :src="track.album.images[1].url" />
           <p>
             <span class="title">{{track.name}}</span>
             <template v-for='(artist, index) in track.artists'>
@@ -57,7 +57,7 @@
 
       <queue
         ref="queue"
-        v-if="loggedIn && userid!='' && this.list!='Queue is empty. Why not add some songs?' "
+        v-if="loggedIn && userid!='' && this.list!='Queue is empty. Why not add some songs?' && !searching "
         :trackToUpvote="this.trackToUpvote"
         :userid="this.userid"
         :accessToken="this.accessToken"
@@ -123,6 +123,10 @@
       }
     },
     methods: {
+      clearSearch() {
+        this.searching = false
+      },
+
       authorize: () => {
         let clientId = 'acda5dc270674c59be88eca853c1d4ff'
         let scopes = 'user-read-private user-read-email user-read-birthdate user-library-read streaming user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-modify-public playlist-modify-private'
@@ -414,6 +418,9 @@
     text-transform: uppercase;
     font-weight: bold;
     font-size: 10.5pt;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto Condensed', sans-serif;
   }
 
   #addBTN span{

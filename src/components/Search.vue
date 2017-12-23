@@ -34,6 +34,7 @@
       clearSearch() {
         this.query = '',
         this.searching = false
+        this.$emit("searchCleared")
       }
     }
   }
