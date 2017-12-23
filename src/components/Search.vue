@@ -91,7 +91,7 @@
     border: none;
     box-shadow: none;
     cursor: pointer;
-    flex-grow: 0.15;
+    flex-grow: 0.1;
   }
   #clearBtn {
     background-color: rgba(255, 255, 255, 0.12);
