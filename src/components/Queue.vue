@@ -85,23 +85,13 @@
       },
       upvoteTrack: function(event) {
         event.votes -= 1,
+        event.voters.push(this.userid)
         db.ref(this.restaurant.id).child('songs').child(event.id).update({
           votes: event.votes,
-        })
-        if(!event.voters) {
-          let voters = []
-          voters.push(this.userid)
-          db.ref(this.restaurant.id).child('songs').child(event.id).update({
-            voters: voters,
-          })
-        }
-        else {
-          let voters = event.voters
-          console.log(voters),
-          db.ref(this.restaurant.id).child('songs').child(event.id).update({
-            voters: event.voters,
-          })
-        }
+        }),
+        db.ref(this.restaurant.id).child('songs').child(event.id).update({
+          voters: event.voters,
+        }),
         this.getQueue()
       }
     },

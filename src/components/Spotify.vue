@@ -238,6 +238,7 @@
           }
           else {
             console.log('Track does not exist')
+            this.voters.push(this.userid)
             db.ref(this.restaurant.id).child('songs').child(this.newId).set({
               id: this.newId,
               artists: this.newArtists,
