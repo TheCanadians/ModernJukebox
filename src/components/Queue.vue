@@ -16,11 +16,15 @@
         <div class="votes">
           <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)">
             <div id="heartCount">
-            <img src="../assets/ic_heart.svg" />
-            <p>{{song.votes * -1}}</p>
+              <img src="../assets/ic_heart.svg" />
+              <p>{{song.votes * -1}}</p>
             </div>
             <span>vote</span>
-            </button>
+          </button>
+          <div v-if="!isVotable(song)" id="heartCountVoted">
+              <img src="../assets/ic_heart_gray.svg" />
+              <p>{{song.votes * -1}}</p>
+            </div>
         </div>
       </li>
     </ul>
@@ -110,6 +114,7 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+    width: 60px;
 
     display: flex;
     flex-direction: column;
@@ -128,6 +133,14 @@
     display: flex;
     flex-direction: row;
     font-family: 'Roboto Condensed', sans-serif;
+  }
+
+  #heartCountVoted{
+    width: 60px;
+    color: #8c8c8c;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
   li#queueSong {
