@@ -14,7 +14,7 @@
           </p>
         </div>
         <div class="votes">
-          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)">
+          <button v-if="isVotable(song) && !hasVoted(song)" class="btnUpvote" @click="upvoteTrack(song)">
             <div id="heartCount">
               <img src="../assets/ic_heart_outline.svg" />
               <p>{{song.votes * -1}}</p>
@@ -25,10 +25,10 @@
               <img src="../assets/ic_heart_gray.svg" />
               <p>{{song.votes * -1}}</p>
           </div>
-          <!-- <div v-if="hasVoted(song)" id="heartCountVoted">
-              <img src="../assets/ic_heart.svg" />
+          <div v-if="hasVoted(song)" id="heartCountVoted">
+              <img src="../assets/ic_heart_gray.svg" />
               <p>{{song.votes * -1}}</p>
-          </div> -->
+          </div>
         </div>
       </li>
     </ul>
@@ -76,13 +76,12 @@
         }
       },
       hasVoted(track){
-        /*if(track.voters.includes(this.userid)) {
+        if(track.voters.includes(this.userid)) {
           return true;
         }
         else {
           return false;
-        }*/
-        return true;
+        }
       },
       upvoteTrack: function(event) {
         event.votes -= 1,
