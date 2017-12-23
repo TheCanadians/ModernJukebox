@@ -14,7 +14,7 @@
           </p>
         </div>
         <div class="votes">
-          <button v-if="isVotable(song) && !hasVoted(song)" class="btnUpvote" @click="upvoteTrack(song)">
+          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)">
             <div id="heartCount">
               <img src="../assets/ic_heart_outline.svg" />
               <p>{{song.votes * -1}}</p>
@@ -22,10 +22,6 @@
             <span>vote</span>
           </button>
           <div v-if="!isVotable(song)" id="heartCountAdded">
-              <img src="../assets/ic_heart_gray.svg" />
-              <p>{{song.votes * -1}}</p>
-          </div>
-          <div v-if="hasVoted(song)" id="heartCountVoted">
               <img src="../assets/ic_heart_gray.svg" />
               <p>{{song.votes * -1}}</p>
           </div>
@@ -68,19 +64,11 @@
         this.$emit('getQueue')
       },
       isVotable(track) {
-        if(track.userid == this.userid) {
+        if(track.userid == this.userid || track.voters.includes(this.userid)) {
           return false;
         }
         else {
           return true;
-        }
-      },
-      hasVoted(track){
-        if(track.voters.includes(this.userid)) {
-          return true;
-        }
-        else {
-          return false;
         }
       },
       upvoteTrack: function(event) {
