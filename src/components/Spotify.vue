@@ -104,7 +104,7 @@
         newDuration: '',
         newVotes: -1,
         newImage: '',
-        voters: false,
+        voters: [],
         userid: '',
         playing: false,
         nextSong: false,
@@ -339,7 +339,7 @@
   #authorizeContainer {
     height: 100vh;
     width: 100vw;
-    
+
     background: linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
 
     display: flex;
