@@ -14,14 +14,14 @@
           </p>
         </div>
         <div class="votes">
-          <button v-if="isVotable(song)" class="btnUpvote" @click="upvoteTrack(song)">
+          <button v-if="isVotable(song)" id="btnUpvote" @click="upvoteTrack(song)">
             <div id="heartCount">
               <img src="../assets/ic_heart_outline.svg" />
               <p>{{song.votes * -1}}</p>
             </div>
             <span>vote</span>
           </button>
-          <div v-if="!isVotable(song)" id="heartCountAdded">
+          <div v-if="!isVotable(song)" id="heartCountNotVotable">
               <img src="../assets/ic_heart_gray.svg" />
               <p>{{song.votes * -1}}</p>
           </div>
@@ -102,7 +102,7 @@
     max-height: calc(100vh - 248px);
   }
 
-  .btnUpvote {
+  #btnUpvote {
     background: none;
     color: #FFDE22;
     font-size: 10.5pt;
@@ -115,7 +115,7 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    width: 60px;
+    width: 80px;
 
     display: flex;
     flex-direction: column;
@@ -123,7 +123,7 @@
     align-items: center;
   }
 
-  .btnUpvote span{
+  #btnUpvote span{
     text-transform: uppercase;
     font-weight: bold;
     font-family: 'Roboto Condensed', sans-serif;
@@ -136,8 +136,8 @@
     font-family: 'Roboto Condensed', sans-serif;
   }
 
-  #heartCountVoted, #heartCountAdded{
-    width: 60px;
+  #heartCountNotVotable{
+    width: 80px;
     color: #8c8c8c;
     display: flex;
     flex-direction: row;
