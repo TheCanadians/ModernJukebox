@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', 'root');
  ?>
 
  <!DOCTYPE html>

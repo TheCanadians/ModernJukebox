@@ -5,7 +5,7 @@ if(!isset($_SESSION['userid'])) {
   die('Bitte zuerst <a href="login.php">einloggen</a>');
 }
 
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', 'root');
 $userid = $_SESSION['userid'];
 
 // Spotify Stuff ---------------------------------------------------------------
