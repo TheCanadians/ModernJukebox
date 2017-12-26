@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+    font-size: 16px;
+}
+
+body{
+    font-family: 'Roboto Condensed', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #282828;
+    color: #fff;
+    font-size: 10.5pt;
+    min-height: 100vh;
+}
+
+.glyphicon{
+    padding-right: .5rem;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
+    color: #FFDE22;
+}
+
+.navbar-inverse .navbar-brand{
+    color: #fff;
+    font-size: 21pt;
+    font-weight: bold;
+    padding: 15px 1.5rem;
+}
+
+.navbar-nav>li>a{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 24px;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color: #FFDE22;
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+label{
+    font-size: 13.5pt;
+
+}
+
+.btn-primary{
+    background: #FFDE22;
+    border-color: none;
+}
+
+.btn-primary:hover{
+    background: #FFDE22;
+    color: #0097A7;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn {
+    padding: 1rem 3rem;
+    font-size: 13.5pt;
+    color: #282828;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 10rem;
+    border: none;
+    margin-top: 2rem;
+}
+
+#left-side{
+    margin-bottom: 3rem;
+    padding: 0 1.5rem;
+}
+
+.form-group{
+    width: 100%;
+    margin-bottom: 0;
+    margin-top: 1rem;
+}
+
+#restForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-control{
+    font-size: 10.5pt;
+    padding: .5rem 1rem;
+    color: #282828;
+    border: none;
+    box-shadow: none;
+}
+
+#right-side{
+    padding: 0;
+}
+
+#currenSong{
+    background: #FFDE22;
+    width: 100%;
+    padding: 0;
+}
+
+.jumbotron{
+    background: none;
+}
+
+#nowPlaying{
+    font-weight: bold;
+    font-size: 10.5pt;
+    text-transform: uppercase;
+    color: #282828;
+    margin: 0;
+}
+
+#nowPlayingInfo{
+    font-size: 13.5pt;
+    color: #282828;
+    margin: 2px 0 0 0;
+}
+
+#playlist{
+    padding: 0 1.5rem;
+}
+
+#playlist h4{
+    font-size: 21pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#queue{
+    overflow-y: scroll;
+    min-height: 10%;
+    max-height: 50%;
+}
+
+#functions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.5rem;
+    margin-bottom: 3rem;
+}
+
+#controls{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#controls .btn{
+    background: #FFDE22;
+}
+
+#controls .btn:first-of-type{
+    margin-right: 2rem;
+}
+
+#controls .btn .glyphicon{
+    padding: 0;
+}
+
+.btn-danger{
+    width: 260px;
+}

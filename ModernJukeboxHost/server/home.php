@@ -48,6 +48,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Modern Jukebox Host - Home</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="../script/jquery-3.2.1.js"></script>
@@ -83,7 +84,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 
       if(dataVar.path != "/" && dataVar.data.artist != null) {
         var element = document.createElement('div');
-        element.class = "col-md-12";
+        element.class = "col-12";
 
         var content = document.createTextNode(dataVar.data.title + " - " + dataVar.data.artist);
         element.appendChild(content);
@@ -94,7 +95,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       else {
         for(var key in songs) {
           var element = document.createElement('div');
-          element.class = "col-md-12";
+          element.class = "col-12";
 
           var content = document.createTextNode(songs[key].title + " - " + songs[key].artist);
           element.appendChild(content);
@@ -107,7 +108,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   </script>
 </head>
 <body>
-<div class="container col-md-12" style="padding: 0;">
+<div class="container col-12" style="padding: 0;">
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -123,9 +124,9 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
     </div>
   </nav>
   <!-- Left side -->
-  <div class="col-md-4" style="height: 100%;">
+  <div class="col-12" id="left-side" >
     <!-- Restaurant Info -->
-    <div class="col-md-12">
+    <div class="col-12">
       <select class="form-control">
         <!-- Get restaurants from Database -->
         <?php
@@ -137,7 +138,7 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
         ?>
       </select>
       <!-- Restaurant Info Formular -->
-      <form action="javascript:void(0);" method="post">
+      <form id="restForm" action="javascript:void(0);" method="post">
         <div class="form-group">
           <label for="maxQ">Max Queue: </label>
           <input type="text" name="maxQ" class="form-control" value=<?php echo $firebase->get($path . '/maxQueue'); ?>>
@@ -162,13 +163,13 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
   <!-- Left side End -->
 
   <!-- Right side -->
-  <div class="col-md-8" style="height: 100%;">
+  <div class="col-12" id="right-side">
     <!-- Current Song Info -->
-    <div class="col-md-12">
+    <div class="col-12" id="currenSong">
       <!-- maybe restaurant picture? -->
-      <div class="jumbotron" style="padding: 20px;">
-        <h2>Currently Playing:</h2>
-        <p>Numb - Linkin Park</p>
+      <div class="jumbotron" style="padding: 24px;">
+        <h2 id="nowPlaying">Now Playing:</h2>
+        <p id="nowPlayingInfo">Numb - Linkin Park</p>
         <!--
         Output of Song name and artist,
         maybe song length and current status (how many seconds has this song played)
@@ -177,9 +178,9 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       </div>
     </div>
     <!-- Playlist -->
-    <div class="col-md-12">
+    <div class="col-12" id="playlist">
       <h4>Playlist</h4>
-      <div id="queue" class="col-md-12" style="overflow-y: scroll; min-height: 50%">
+      <div id="queue" class="col-12">
         <!-- Get Playlist from Firebase -->
         <?php
         /*
@@ -195,9 +196,11 @@ $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
       </div>
     </div>
     <!-- Playlist functions -->
-    <div class="col-md-12">
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+    <div class="col-12" id="functions">
+      <div id="controls">
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+      </div>
       <button type="submit" class="btn btn-danger"><span>Clear Playlist</button>
       <button type="submit" class="btn btn-danger"><span>Delete Selected</button>
     </div>
