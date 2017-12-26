@@ -5,7 +5,7 @@ if(!isset($_SESSION['userid'])) {
   die('Bitte zuerst <a href="login.php">einloggen</a>');
 }
 
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', 'root');
+$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
 $userid = $_SESSION['userid'];
 
 // Get Composer Packages -------------------------------------------------------

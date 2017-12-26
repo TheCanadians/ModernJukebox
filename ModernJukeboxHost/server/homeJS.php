@@ -6,7 +6,7 @@ if(!isset($_SESSION['userid'])) {
 }
 
 // Start Database
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', 'root');
+$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
 // Get User ID from Session
 $userid = $_SESSION['userid'];
 
