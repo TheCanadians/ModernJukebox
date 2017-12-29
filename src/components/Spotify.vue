@@ -25,7 +25,11 @@
               <img id="" :src="active.image" />
               <p>
                 <span>Now playing:</span>
-                <span>{{active.title}} · {{active.artists}}</span>
+                <span>{{active.title}} ·
+                  <template v-for='(artist, index) in active.artists'>
+                    <span class="artist">{{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
+                  </template>
+                </span>
               </p>
             </div>
           </li>
