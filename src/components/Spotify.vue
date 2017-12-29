@@ -283,14 +283,17 @@
         this.active = false
 
         for (var i = 0; i < this.list.length; i++) {
-          if(this.list[i].playing)
+          if(this.list[i].playing == "true") {
+            console.log(this.list[i])
             this.active = this.list[i]
+          }
         }
       }
     },
     mounted() {
       if(this.loggedIn) {
-        this.setUserId()
+        this.setUserId(),
+        this.getQueue()
       }
     }
   }
