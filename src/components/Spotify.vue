@@ -18,7 +18,7 @@
         </span>
       </transition>
 
-      <div id="currentTrack" v-if="!searching && loggedIn">
+      <div id="currentTrack" v-if="active && loggedIn">
         <ul>
           <li id="trackInfo">
             <div class="infos">
@@ -59,16 +59,21 @@
         </li>
       </ul>
 
-      <queue
-        ref="queue"
-        v-if="loggedIn && userid!='' && this.list!='Queue is empty. Why not add some songs?' && !searching "
-        :trackToUpvote="this.trackToUpvote"
-        :userid="this.userid"
-        :accessToken="this.accessToken"
-        :list="this.list"
-        :restaurant="this.restaurant"
-        @getQueue="this.getQueue"
-      ></queue>
+      <section id="queue">
+        <p>
+          There's nothing here!
+        </p>
+        <queue
+          ref="queue"
+          v-if="loggedIn && userid!='' && this.list!='empty' && !searching "
+          :trackToUpvote="this.trackToUpvote"
+          :userid="this.userid"
+          :accessToken="this.accessToken"
+          :list="this.list"
+          :restaurant="this.restaurant"
+          @getQueue="this.getQueue"
+        ></queue>
+      </section>
     </div>
   </div>
 </template>
@@ -145,7 +150,7 @@
         this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
           if(snapshot.val() == null) {
-            this.list.push('Queue is empty. Why not add some songs?')
+            this.list.push('empty')
           }
           else {
             snapshot.forEach(child => {
@@ -155,6 +160,7 @@
         })
         this.checkLimit()
         this.setCurrentTrack()
+        console.log(this.list[0])
       },
       setUserId: function() {
         this.axios({
@@ -453,6 +459,10 @@
     font-weight: bold;
     font-size: 10.5pt;
     text-transform: uppercase;
+  }
+
+  #queue p {
+    color: #fff;
   }
 
   /* Add some padding inside the card container */
