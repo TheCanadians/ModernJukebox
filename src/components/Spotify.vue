@@ -22,14 +22,12 @@
         <ul>
           <li id="trackInfo">
             <div class="infos">
-              <img id="" :src="active.image" />
+              <!-- <img id="" :src="active.image" /> -->
               <p>
-                <span>Now playing:</span>
-                <span>{{active.title}} ·
-                  <template v-for='(artist, index) in active.artists'>
-                    <span class="artist">{{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
-                  </template>
-                </span>
+                <span>Now playing:</span> {{active.title}} ·
+                <template v-for='(artist, index) in active.artists'>
+                  <span class="artist">{{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
+                </template>
               </p>
             </div>
           </li>
@@ -60,7 +58,8 @@
       </ul>
 
       <section id="queue">
-        <p>
+        <h2>Queue</h2>
+        <p v-if="this.list=='empty'">
           There's nothing here!
         </p>
         <queue
@@ -331,6 +330,13 @@
       border: black;
   }
 
+  h2 {
+    margin-left: 24px;
+    font-size: 21pt;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
   ul {
       list-style-type: none;
       padding: 0;
@@ -413,7 +419,7 @@
 
   #trackInfo .infos span{
     font-size: 13.5pt;
-    display: block;
+    display: inline;
     margin-top: 2px;
   }
 

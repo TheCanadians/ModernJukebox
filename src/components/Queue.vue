@@ -1,35 +1,34 @@
 <template>
-<div id="queue">
-  <h2>Queue</h2>
-  <div id="queueList">
-    <ul v-for="song in list">
-      <li id="queueSong">
-        <div class="infos">
-          <img :src="song.image" />
-          <p>
-            <span class="title">{{song.title}}</span>
-            <template v-for='(artist, index) in song.artists'>
-             <span class="artist">{{artist}}<template v-if="index + 1 < song.artists.length">, </template></span>
-           </template>
-          </p>
-        </div>
-        <div class="votes">
-          <button v-if="isVotable(song)" id="btnUpvote" @click="upvoteTrack(song)">
-            <div id="heartCount">
-              <img src="../assets/ic_heart_outline.svg" />
-              <p>{{song.votes * -1}}</p>
-            </div>
-            <span>vote</span>
-          </button>
-          <div v-if="!isVotable(song)" id="heartCountNotVotable">
-              <img src="../assets/ic_heart_gray.svg" />
-              <p>{{song.votes * -1}}</p>
+  <div id="queue">
+    <div id="queueList">
+      <ul v-for="song in list">
+        <li id="queueSong">
+          <div class="infos">
+            <img :src="song.image" />
+            <p>
+              <span class="title">{{song.title}}</span>
+              <template v-for='(artist, index) in song.artists'>
+               <span class="artist">{{artist}}<template v-if="index + 1 < song.artists.length">, </template></span>
+             </template>
+            </p>
           </div>
-        </div>
-      </li>
-    </ul>
+          <div class="votes">
+            <button v-if="isVotable(song)" id="btnUpvote" @click="upvoteTrack(song)">
+              <div id="heartCount">
+                <img src="../assets/ic_heart_outline.svg" />
+                <p>{{song.votes * -1}}</p>
+              </div>
+              <span>vote</span>
+            </button>
+            <div v-if="!isVotable(song)" id="heartCountNotVotable">
+                <img src="../assets/ic_heart_gray.svg" />
+                <p>{{song.votes * -1}}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -147,13 +146,6 @@
   li#queueSong {
     border: none;
     padding: 16px 24px;
-  }
-
-  h2 {
-    margin-left: 24px;
-    font-size: 21pt;
-    color: #fff;
-    margin-bottom: 16px;
   }
 
   li {
