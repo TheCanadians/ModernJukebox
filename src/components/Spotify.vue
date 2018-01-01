@@ -34,7 +34,14 @@
         </ul>
       </div>
 
-      <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)" @searchCleared="clearSearch" ></search>
+      <section id="search">
+        <div v-if="!limitReached && !maxQueueReached">
+          <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)" @searchCleared="clearSearch" ></search>
+          <p>You can add {{this.calcSongsLeft}} more songs.</p>
+        </div>
+        <p v-if="limitReached">You have added your maximum amount of songs. Wait until one of your songs has been played.</p>
+        <p v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
+      </section>
 
       <ul id="results" v-if="this.searching">
         <div id="resultsHeader">
@@ -125,8 +132,11 @@
         limit: 0,
         maxQueue: 0,
         limitReached: false,
+        maxQueueReached: false,
         search: this.$refs.search,
-        queue: this.$refs.queue
+        queue: this.$refs.queue,
+        songsAdded: 0,
+        songsLeft: 0,
 
       }
     },
@@ -159,7 +169,6 @@
         })
         this.checkLimit()
         this.setCurrentTrack()
-        console.log(this.list[0])
       },
       setUserId: function() {
         this.axios({
@@ -203,27 +212,29 @@
         })
       },
       checkLimit() {
-        let songCounter = 0;
+        this.songsAdded = 0;
         if (this.list.length >= this.maxQueue) {
-          this.limitReached = true
+          this.maxQueueReached = true
         }
         else {
+          this.maxQueueReached = false
+
           for (var i = 0; i < this.list.length; i++) {
-            songCounter++;
+            if(this.list[i].userid == this.userid) {
+              this.songsAdded++;
+            }
           }
-          if (songCounter < this.limit) {
+          if (this.songsAdded < this.limit) {
             this.limitReached = false
           }
           else {
             this.limitReached = true
           }
         }
-
-        return this.limitReached
       },
       addTrack: function(event) {
         this.checkLimit()
-        if(!this.limitReached) {
+        if(!this.limitReached && !this.maxQueueReached) {
           this.newId = event.id,
           this.newTitle = event.name
           for (var i = 0; i < event.artists.length; i++) {
@@ -246,7 +257,6 @@
             this.$refs.queue.upvoteTrack(this.trackToUpvote)
           }
           else {
-            console.log('Track does not exist')
             this.voters.push(this.userid)
             db.ref(this.restaurant.id).child('songs').child(this.newId).set({
               id: this.newId,
@@ -293,9 +303,18 @@
 
         for (var i = 0; i < this.list.length; i++) {
           if(this.list[i].playing == "true") {
-            console.log(this.list[i])
             this.active = this.list[i]
           }
+        }
+      }
+    },
+    computed: {
+      calcSongsLeft() {
+        if(this.limit < this.maxQueue) {
+          return this.songsLeft = this.limit - this.songsAdded
+        }
+        else {
+          return this.songsLeft = this.maxQueue - this.songsAdded
         }
       }
     },
@@ -310,6 +329,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #search p {
+    color: #fff;
+  }
   .notification {
     background-color: #424242;
     color: #fff;
