@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Spotify from '@/components/Spotify'
+import Main from '@/components/Main'
 
 Vue.use(Router)
 
@@ -8,18 +8,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Spotify',
-      component: Spotify
+      name: 'Main',
+      component: Main
     },
     {
       path: '/:id',
-      name: 'Spotify',
-      component: Spotify
+      name: 'Main',
+      component: Main
     },
     {
-      path: '/spotify',
-      name: 'Spotify',
-      component: Spotify
+      path: '/main',
+      name: 'Main',
+      component: Main
     }
   ]
 })

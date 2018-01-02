@@ -75,7 +75,7 @@
   import {db} from '../firebase';
 
   export default {
-    name: 'Spotify',
+    name: 'Main',
     components: {
       'login': Login,
       'results': Results,
