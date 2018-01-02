@@ -1,16 +1,6 @@
 <template>
   <div id="spotify">
-    <div v-if="!loggedIn" id="authorizeContainer">
-      <h1>Define the sound of the venue you're in</h1>
-      <p>
-        ModernJukebox is an app that lets you pick millions of songs from Spotify and add them to the quere of the venue you are in.
-      </p>
-      <p>
-        To use ModernJukebox, you only need a Spotify account.
-      </p>
-      <button id="authorizeBTN" @click.prevent="authorize">Sign in with Spotify</button>
-      <p>It's free.</p>
-    </div>
+    <login v-if="!loggedIn" @loggingIn="authorize"></login>
 
     <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
 
@@ -92,6 +82,7 @@
 </template>
 
 <script>
+  import Login from './Login.vue';
   import Search from './Search.vue';
   import RestaurantChooser from './RestaurantChooser.vue';
   import Queue from './Queue.vue';
@@ -100,6 +91,7 @@
   export default {
     name: 'Spotify',
     components: {
+      'login': Login,
       'search': Search,
       'restaurantChooser': RestaurantChooser,
       'queue': Queue
