@@ -40,6 +40,10 @@
         <p v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
       </section>
 
+      <results v-if="this.searching">
+        
+      </results>
+
       <ul id="results" v-if="this.searching">
         <div id="resultsHeader">
         <h2 id="resultsTitle">Results</h2>
