@@ -1,8 +1,15 @@
 <template>
   <div id="spotify">
     <div v-if="!loggedIn" id="authorizeContainer">
-      <h1>Choose your stuff</h1>
+      <h1>Define the sound of the venue you're in</h1>
+      <p>
+        ModernJukebox is an app that lets you pick millions of songs from Spotify and add them to the quere of the venue you are in.
+      </p>
+      <p>
+        To use ModernJukebox, you only need a Spotify account.
+      </p>
       <button id="authorizeBTN" @click.prevent="authorize">Sign in with Spotify</button>
+      <p>It's free.</p>
     </div>
 
     <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
@@ -137,6 +144,7 @@
         queue: this.$refs.queue,
         songsAdded: 0,
         songsLeft: 0,
+        showRestaurantInfo: false
 
       }
     },
