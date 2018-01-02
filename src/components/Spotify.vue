@@ -40,30 +40,11 @@
         <p v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
       </section>
 
-      <results v-if="this.searching">
-        
-      </results>
-
-      <ul id="results" v-if="this.searching">
-        <div id="resultsHeader">
-        <h2 id="resultsTitle">Results</h2>
-        </div>
-        <li v-for="track in tracks">
-          <div class="infos">
-          <img id="songImage" :src="track.album.images[1].url" />
-          <p>
-            <span class="title">{{track.name}}</span>
-            <template v-for='(artist, index) in track.artists'>
-             <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
-           </template>
-          </p>
-          </div>
-          <button id="addBTN" @click="addTrack(track)">
-            <img src="../assets/ic_add.svg" />
-            <span>add</span>
-          </button>
-        </li>
-      </ul>
+      <results
+        v-if="this.searching"
+        :tracks="this.tracks"
+        @addTrack="addTrack($event)"
+      ></results>
 
       <section id="queue">
         <h2>Queue</h2>
@@ -87,6 +68,7 @@
 
 <script>
   import Login from './Login.vue';
+  import Results from './Results.vue';
   import Search from './Search.vue';
   import RestaurantChooser from './RestaurantChooser.vue';
   import Queue from './Queue.vue';
@@ -96,6 +78,7 @@
     name: 'Spotify',
     components: {
       'login': Login,
+      'results': Results,
       'search': Search,
       'restaurantChooser': RestaurantChooser,
       'queue': Queue
