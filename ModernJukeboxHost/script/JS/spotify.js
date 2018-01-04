@@ -10,12 +10,14 @@ spotifyApi.setAccessToken(accessToken[0]);
 spotifyApi.setRefreshToken(refreshToken[0]);
 
 id = "";
+counter = 0;
 
 spotifyApi.getMe().then(function(data) {
   id = data.body.id;
 }, function(err) {
   console.log(err);
 });
+
 
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
@@ -31,16 +33,25 @@ window.replacePlaylist = function() {
         playlistID : null
       }
     }).done(function(msg) {
-      console.log(msg);
       playlistID = msg;
       // replace tracks if ID exists
       if (playlistID != "") {
-        console.log(playlistID);
         var parentDIV = document.getElementById("queue");
-        var firstID = parentDIV.getElementsByTagName("div")[0].id;
-        var secondID = parentDIV.getElementsByTagName("div")[1].id;
-        setPlaying(firstID);
-        setNextSong(secondID);
+        var first = parentDIV.getElementsByTagName("div")[0];
+        var second = parentDIV.getElementsByTagName("div")[1];
+        if (first == null && second == null) {
+          var songs = addSpotifyPlaylistSong(2);
+        }
+        else if (second == null && first != null) {
+          var songs = addSpotifyPlaylistSong(1);
+        }
+        else {
+          var firstID = parentDIV.getElementsByTagName("div")[0].id;
+          var secondID = parentDIV.getElementsByTagName("div")[1].id;
+          setPlaying(firstID);
+          setNextSong(secondID);
+        }
+        console.log(firstID);
         spotifyApi.replaceTracksInPlaylist(id, playlistID, [
           'spotify:track:' + firstID,
           'spotify:track:' + secondID
@@ -86,13 +97,51 @@ window.replacePlaylist = function() {
     });
 
 }
+
+function addSpotifyPlaylistSong(int) {
+  spotifyApi.getPlaylist('spotify', '37i9dQZF1DX274mITVX0K3').then(function(data) {
+    for (i = int; i > 0; i--) {
+      console.log(counter);
+      var playlist = data.body.tracks.items[counter].track;
+      artists = [];
+      for (j = 0; j < playlist['artists'].length; j++) {
+        artists.push(playlist['artists'][j]['name']);
+      }
+      console.log(artists);
+      var duration = playlist['duration_ms'];
+      var id = playlist['id'];
+      //var image = playlist[''];
+      if (i == 2) {
+        var nextSong = "false";
+        var playing = "true";
+        firstID = id;
+      }
+      else {
+        var nextSong = "true";
+        var playing = "false";
+        secondID = id;
+      }
+      var title = playlist['name'];
+      addSong(artists, duration, id, nextSong, playing, title);
+      counter++;
+    }
+  }, function(err) {
+    console.log(err);
+    if(err.statusCode == "401") {
+      refreshToken("addSpotifyPlaylistSong");
+    }
+  });
+}
+
 // add new song to spotify playlist
 function addToPlaylist() {
   var parentDIV = document.getElementById("queue");
-  var nextID = parentDIV.getElementsByTagName("div")[0].id;
-  if (nextID == null) {
+  var next = parentDIV.getElementsByTagName("div")[0];
+  if (next == null) {
     //add song from open spotify playlist
+    addSpotifyPlaylistSong(1);
   }
+  var nextID = parentDIV.getElementsByTagName("div")[0].id;
   spotifyApi.addTracksToPlaylist(id, playlistID, [
     "spotify:track:" + nextID
   ]).then(function(data) {

@@ -1,38 +1,3 @@
-function setPlayer() {
-  console.log("setPlayer");
-  database.ref(path + 'songs/').on('value', function(snapshot) {
-    snapshot.forEach(function(child) {
-      var song = child.val();
-      // filter doubles
-      if(document.getElementById(song.id) != null) {
-
-      }
-      // Create HTML element for every firebase songs entry
-      else {
-        if (song.playing == "true") {
-          var playing = document.getElementById("playing");
-          var text = "Playing: ";
-          var hiphen = " - ";
-          text = text.bold();
-          hiphen = hiphen.bold();
-          playing.innerHTML = text + song.title + hiphen + song.artist;
-          playing.class = song.id;
-        }
-        else if (song.nextSong == "true") {
-          var next = document.getElementById("next");
-          var text = "Next Song: ";
-          var hiphen = " - ";
-          text = text.bold();
-          hiphen = hiphen.bold();
-          next.innerHTML = text + song.title + hiphen + song.artist;
-          next.class = song.id;
-        }
-
-      }
-    });
-  });
-}
-
 function setPlaylist() {
   //Get Playlist from Firebase
     database.ref(path + 'songs/').orderByChild('votes').on('value', function(snapshot) {

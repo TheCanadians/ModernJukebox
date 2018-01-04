@@ -36,3 +36,13 @@ function clearAttribute() {
     });
   });
 }
+
+function addSong(artists, duration, id, nextSong, playing, title) {
+  database.ref(path + 'songs/' + id + '/artists').set(artists);
+  database.ref(path + 'songs/' + id + '/duration').set(duration);
+  database.ref(path + 'songs/' + id + '/id').set(id);
+  //database.ref(path + 'songs/' + id + '/image').set(image);
+  database.ref(path + 'songs/' + id + '/nextSong').set(nextSong);
+  database.ref(path + 'songs/' + id + '/playing').set(playing);
+  database.ref(path + 'songs/' + id + '/title').set(title);
+}

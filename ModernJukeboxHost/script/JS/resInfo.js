@@ -31,26 +31,20 @@ function update() {
   database.ref(path + 'maxQueue').set(maxQ);
   database.ref(path + 'limit').set(maxSpU);
 
-  var updates = {};
+  var updates = [];
   var checkboxes = document.getElementsByClassName("blacklistCheck");
   for (i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].checked == true) {
       var id = checkboxes[i].parentElement.parentElement;
       var checkID = id.getAttribute('id');
-      updates[path + 'blacklist/' + checkID] = 'true';
-    }
-    else {
-      var id = checkboxes[i].parentElement.parentElement;
-      var checkID = id.getAttribute('id');
-      updates[path + 'blacklist/' + checkID] = 'false';
+      updates.push(checkID);
     }
   }
-  firebase.database().ref().update(updates);
+  firebase.database().ref(path + 'blacklist').set(updates);
 }
 
 function blacklist() {
   spotifyApi.getAvailableGenreSeeds().then(function(data) {
-    console.log(data);
     genres = data.body['genres'];
     for(i = 0; i < genres.length; i++) {
       var element = document.createElement('div');
@@ -72,12 +66,7 @@ function blacklist() {
 
       var whitelist = document.getElementById("blacklist");
       whitelist.appendChild(element);
-
-      firebase.database().ref(path + 'blacklist/' + genres[i]).once('value').then(function(snapshot) {
-        firebaseState = snapshot.val();
-        firebaseKey = snapshot.key;
-        detectState(firebaseKey, firebaseState);
-      });
+      detectState(genres[i]);
     }
   }, function(err) {
     console.log(err);
@@ -85,12 +74,12 @@ function blacklist() {
   });
 }
 
-function detectState(id, state) {
-  if (state == 'true') {
-    document.getElementById(id).childNodes[0].childNodes[1].checked = true;
-    pushWhitelist(id, 'true');
-  }
-  else {
-    pushWhitelist(id, 'false');
-  }
+function detectState(id) {
+  database.ref(path + 'blacklist').once('value').then(function(snapshot) {
+    snapshot.forEach(function(child) {
+      if(child.val() == id) {
+        document.getElementById(id).childNodes[0].childNodes[1].checked = true;
+      }
+    });
+  });
 }
