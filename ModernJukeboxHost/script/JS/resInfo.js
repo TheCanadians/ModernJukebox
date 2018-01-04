@@ -1,8 +1,8 @@
 // get infos from firebase about the restaurant and fill form elements with it
 function setInfoPath() {
   clearAttribute();
-  setPlaylist();
   blacklist();
+  setPlaylist();
   database.ref('/' + path + '/name').once('value').then(function(snapshot) {
     document.getElementById("dropdownButton").innerHTML = (snapshot.val()) + ' <span class="caret"></span>';
   });
@@ -49,20 +49,19 @@ function update() {
 }
 
 function blacklist() {
-  spotifyApi.getCategories({
-    limit : 50
-  }).then(function(data) {
-    genres = data.body['categories']['items'];
+  spotifyApi.getAvailableGenreSeeds().then(function(data) {
+    console.log(data);
+    genres = data.body['genres'];
     for(i = 0; i < genres.length; i++) {
       var element = document.createElement('div');
       element.className = "col-md-12 list-group-item";
-      element.id = genres[i].id;
+      element.id = genres[i];
 
       var p = document.createElement('p');
       p.style.margin = "0px";
       element.appendChild(p);
 
-      var content = document.createTextNode(genres[i].name);
+      var content = document.createTextNode(genres[i]);
       p.appendChild(content);
 
       var checkbox = document.createElement('input');
@@ -74,7 +73,7 @@ function blacklist() {
       var whitelist = document.getElementById("blacklist");
       whitelist.appendChild(element);
 
-      firebase.database().ref(path + 'blacklist/' + genres[i].id).once('value').then(function(snapshot) {
+      firebase.database().ref(path + 'blacklist/' + genres[i]).once('value').then(function(snapshot) {
         firebaseState = snapshot.val();
         firebaseKey = snapshot.key;
         detectState(firebaseKey, firebaseState);
