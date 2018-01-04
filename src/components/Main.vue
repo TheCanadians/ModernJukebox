@@ -19,8 +19,11 @@
         <div id="trackInfo">
           <div class="infos">
             <!-- <img id="" :src="active.image" /> -->
+            <img id="restaurantInfoIcon" src="../assets/ic_info.svg" />
             <p>
-              <span>Now playing:</span>
+              <span>
+                Now playing:
+              </span>
               {{active.title}} <span id="separator">·</span>
               <template v-for='(artist, index) in active.artists'>
                 <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
@@ -430,6 +433,21 @@
   #trackInfo .infos {
     display: flex;
     font-size: 1rem;
+    align-items: flex-start;
+  }
+
+  #trackInfo .infos p{
+    order: 1;
+    padding-right: .5rem;
+  }
+
+  #restaurantInfoIcon{
+    height: 1rem;
+    width: auto;
+    padding: .25rem .25rem 1rem 1rem;
+    margin: 0;
+    order: 2;
+    cursor: pointer;
   }
 
   #trackInfo .infos span:first-of-type{
