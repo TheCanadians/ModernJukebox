@@ -16,19 +16,18 @@
       </transition>
 
       <div id="currentTrack" v-if="active && loggedIn">
-        <ul>
-          <li id="trackInfo">
-            <div class="infos">
-              <!-- <img id="" :src="active.image" /> -->
-              <p>
-                <span>Now playing:</span> {{active.title}} ·
-                <template v-for='(artist, index) in active.artists'>
-                  <span class="artist">{{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
-                </template>
-              </p>
-            </div>
-          </li>
-        </ul>
+        <div id="trackInfo">
+          <div class="infos">
+            <!-- <img id="" :src="active.image" /> -->
+            <p>
+              <span>Now playing:</span>
+              {{active.title}} <span id="separator">·</span>
+              <template v-for='(artist, index) in active.artists'>
+                <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
+              </template>
+            </p>
+          </div>
+        </div>
       </div>
 
       <section id="search">
@@ -418,25 +417,36 @@
     flex-direction: row;
   }
 
+  #currentTrack ul {
+    display: flex;
+  }
+
   #trackInfo {
-    padding: 16px 24px;
+    width: 100%;
+    margin: 1.5rem 1.5rem;
+    padding: 0;
   }
 
   #trackInfo .infos {
     display: flex;
+    font-size: 1rem;
   }
 
   #trackInfo .infos span:first-of-type{
     margin-left: 0;
-    font-size: 1rem;
+    font-size: .8rem;
     font-weight: bold;
     text-transform: uppercase;
+    display: block;
   }
 
   #trackInfo .infos span{
-    font-size: 1.5rem;
     display: inline;
     margin-top: 2px;
+  }
+
+  #separator{
+    font-weight: bold;
   }
 
   #songImage {

@@ -155,13 +155,6 @@
     margin-top: 0;
   }
 
-  li .artist {
-    color: #8C8C8C;
-    display: inline;
-    font-size: 1rem;
-    margin-top: 2px;
-  }
-
   a {
     color: #0097A7;
   }
