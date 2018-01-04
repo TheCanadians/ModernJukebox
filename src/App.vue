@@ -16,7 +16,7 @@
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700');
   * {
     margin: 0;
     padding: 0;

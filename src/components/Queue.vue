@@ -87,14 +87,6 @@
 
 <style>
 
-  #queue {
-    width: 100%;
-    background-color: #282828;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
   #queueList{
     overflow: scroll;
     flex-grow: 1;

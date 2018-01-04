@@ -48,8 +48,8 @@
 
       <section id="queue">
         <h2>Queue</h2>
-        <p v-if="this.list=='empty'">
-          There's nothing here!
+        <p id="emptyQueue" v-if="this.list=='empty'">
+          <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
         </p>
         <queue
           ref="queue"
@@ -323,6 +323,28 @@
 
   #songsLeft{
     padding: 0rem 2rem 1.5rem 2rem;
+  }
+
+  #queue {
+    width: 100%;
+    background-color: #282828;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #emptyQueue{
+    align-self: center;
+    margin: auto;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0 1.5rem;
+    line-height: 1.5rem;
+    font-weight: lighter;
+  }
+
+  #emptyQueue span{
+    line-height: 2rem;
   }
 
   .searchDisclaimer{

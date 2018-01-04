@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="chooserContainer">
     <select id="chooser" v-model="restaurant">
       <option disabled value="">Please select restaurant</option>
       <option
@@ -47,6 +47,13 @@
 </script>
 
 <style>
+
+  #chooserContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+  }
 
   h2 {
     margin-left: 48px;
