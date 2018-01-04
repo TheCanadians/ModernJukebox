@@ -1,8 +1,7 @@
 <template>
   <ul id="results">
-    <div id="resultsHeader">
     <h2 id="resultsTitle">Results</h2>
-    </div>
+    <div id="resultsList">
     <li v-for="track in tracks">
       <div class="infos">
       <img id="songImage" :src="track.album.images[1].url" />
@@ -18,6 +17,7 @@
         <span>add</span>
       </button>
     </li>
+    </div>
   </ul>
 </template>
 
@@ -38,5 +38,39 @@
 </script>
 
 <style>
+  #addBTN {
+    display: flex;
+    flex-direction: column;
+    color: #FFDE22;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto Condensed', sans-serif;
+    background: none;
+    border: none;
+  }
 
+  #addBTN span{
+    margin-top: 8px;
+  }
+
+  #resultsTitle{
+    display: inline;
+    margin: 0;
+    color: #FFF;
+    font-size: 2rem;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  #resultsList{
+    overflow: scroll;
+  }
+
+  #results{
+    display: flex;
+    flex-direction: column;
+  }
 </style>

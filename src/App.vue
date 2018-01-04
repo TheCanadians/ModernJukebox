@@ -22,7 +22,7 @@
     padding: 0;
   }
   html, body {
-    height: 100%;
+    min-height: 100vh;
     position: relative;
   }
   #app {
@@ -31,6 +31,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #282828;
-    min-height: 100%;
+    min-height: 100vh;
   }
 </style>

@@ -34,10 +34,10 @@
       <section id="search">
         <div v-if="!limitReached && !maxQueueReached">
           <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)" @searchCleared="clearSearch" ></search>
-          <p>You can add {{this.calcSongsLeft}} more songs.</p>
+          <p class="searchDisclaimer" id="songsLeft">You can add {{this.calcSongsLeft}} more songs.</p>
         </div>
-        <p v-if="limitReached">You have added your maximum amount of songs. Wait until one of your songs has been played.</p>
-        <p v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
+        <p class="searchDisclaimer" v-if="limitReached">You have added your maximum amount of songs. Wait until one of your songs has been played.</p>
+        <p class="searchDisclaimer" v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
       </section>
 
       <results
@@ -316,6 +316,19 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  #spotify{
+    min-height: 100vh;
+  }
+
+  #songsLeft{
+    padding: 0rem 2rem 1.5rem 2rem;
+  }
+
+  .searchDisclaimer{
+    padding: 0 1.5rem;
+  }
+
   #search p {
     color: #fff;
   }
@@ -341,7 +354,7 @@
 
   h2 {
     margin-left: 24px;
-    font-size: 21pt;
+    font-size: 2rem;
     color: #fff;
     margin-bottom: 16px;
   }
@@ -365,42 +378,14 @@
       cursor: pointer;
   }
 
-  #authorizeContainer {
-    height: 100vh;
-    width: 100vw;
-
-    background: linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #authorizeContainer h1{
-    max-width: 240px;
-    font-weight: bold;
-    font-size: 45pt;
-    text-align: center;
-    padding-bottom: 3rem;
-  }
-
-  #authorizeBTN {
-    background: #2B2B2B;
-    color: #FFDE22;
-    box-shadow: none;
-    outline: none;
-    border: none;
-    border-radius: 10rem;
-    text-transform: uppercase;
-    padding: 1rem 2rem;
-    font-size: 15pt;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-weight: bold;
-  }
-
   #restaurantChosen {
     max-width: 100vw;
+    min-height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
   }
 
   #currentTrack {
@@ -421,13 +406,13 @@
 
   #trackInfo .infos span:first-of-type{
     margin-left: 0;
-    font-size: 10.5pt;
+    font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
   }
 
   #trackInfo .infos span{
-    font-size: 13.5pt;
+    font-size: 1.5rem;
     display: inline;
     margin-top: 2px;
   }
@@ -438,42 +423,6 @@
     display: inline;
     margin-right: 16px;
     border-radius: 4px;
-  }
-
-  #addBTN {
-    display: flex;
-    flex-direction: column;
-    color: #FFDE22;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 10.5pt;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Roboto Condensed', sans-serif;
-  }
-
-  #addBTN span{
-    margin-top: 8px;
-  }
-
-  #resultsHeader{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 16px 24px;
-    align-items: baseline;
-  }
-
-  #resultsTitle{
-    display: inline;
-    margin: 0;
-  }
-
-  #resultsHeader button{
-    color: #FFDE22;
-    font-weight: bold;
-    font-size: 10.5pt;
-    text-transform: uppercase;
   }
 
   #queue p {

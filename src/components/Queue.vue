@@ -1,5 +1,4 @@
 <template>
-  <div id="queue">
     <div id="queueList">
       <ul v-for="song in list">
         <li id="queueSong">
@@ -28,7 +27,6 @@
         </li>
       </ul>
     </div>
-  </div>
 </template>
 
 <script>
@@ -90,21 +88,22 @@
 <style>
 
   #queue {
-    position: fixed;
-    top: 200;
     width: 100%;
     background-color: #282828;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   #queueList{
     overflow: scroll;
-    max-height: calc(100vh - 248px);
+    flex-grow: 1;
   }
 
   #btnUpvote {
     background: none;
     color: #FFDE22;
-    font-size: 10.5pt;
+    font-size: 1rem;
     outline: none;
     border: none;
     box-shadow: none;
@@ -114,7 +113,8 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    width: 80px;
+    width: 48px;
+    margin-left: 1.5rem;
 
     display: flex;
     flex-direction: column;
@@ -136,11 +136,12 @@
   }
 
   #heartCountNotVotable{
-    width: 80px;
+    width: 48px;
     color: #8c8c8c;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-left: 1.5rem;
   }
 
   li#queueSong {
@@ -158,14 +159,14 @@
   li .title {
     color: #fff;
     display: block;
-    font-size: 13.5pt;;
+    font-size: 1.2rem;
     margin-top: 0;
   }
 
   li .artist {
     color: #8C8C8C;
     display: inline;
-    font-size: 10.5pt;
+    font-size: 1rem;
     margin-top: 2px;
   }
 

@@ -49,7 +49,7 @@
   #search {
     box-sizing: border-box;
     width: 100%;
-    padding: 24px 24px;
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
     background-color: #282828;
     text-align: left;
   }
@@ -70,7 +70,7 @@
     outline: none;
     background-color: rgba(255, 255, 255, 0.12);
     border-radius: 4px;
-    font-size: 12.75pt;
+    font-size: 1rem;
     padding: 10px 20px;
     border-radius: 10rem 0 0 10rem;
     font-family: 'Roboto Condensed';
