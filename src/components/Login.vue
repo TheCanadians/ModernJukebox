@@ -42,7 +42,7 @@
     font-weight: bold;
     font-size: 2rem;
     text-align: center;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
   }
 
   #authorizeBTN {
@@ -57,7 +57,7 @@
     font-size: 1rem;
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: bold;
-    margin-top: 1rem;
+    margin-top:  3rem;
   }
 
   #authorizeContainer p{
@@ -66,5 +66,16 @@
     padding: 0rem 1rem;
     line-height: 1.6rem;
     padding-top: 1rem;
+  }
+
+  #authorizeContainer p:last-of-type{
+    padding-top: 0.25rem;
+    font-weight: lighter;
+  }
+
+  @media (min-width: 768px){
+    #authorizeContainer p{
+      max-width: 640px;
+    }
   }
 </style>
