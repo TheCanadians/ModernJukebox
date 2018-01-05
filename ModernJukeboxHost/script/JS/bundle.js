@@ -4468,7 +4468,9 @@ window.timer = function() {
 window.transferPlayback = function(id) {
   spotifyApi.transferMyPlayback(
     {
-      device_ids : id,
+      device_ids : [
+        id
+      ],
       play : true
     }
   ).then(function(data) {
@@ -4489,12 +4491,12 @@ window.SpotifyPlay = function() {
         if (data.statusCode == "204") {
           console.log("204");
           transferPlayback(deviceID);
-          /*
+/*
           closePlayer();
           setTimeout(function() {
             SpotifyPlay();
           }, 4000);
-          */
+*/
         }
         else {
           timer();

@@ -5,12 +5,48 @@ if(!isset($_SESSION['userid'])) {
   die('Bitte zuerst <a href="login.php">einloggen</a>');
 }
 
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
+$pdo = new PDO('mysql:host=db6.variomedia.de;dbname=db26677', 'u26677', 'm89UDTTU');
 $userid = $_SESSION['userid'];
 
 $statement = $pdo->prepare("SELECT * FROM users WHERE id = :userid");
 $result = $statement->execute(array('userid' => $userid));
 $user = $statement->fetch();
+?>
+<?php
+// Save values in new database entry
+if(isset($_GET['newRes'])) {
+  $error = false;
+  $name = $_POST['name'];
+  // Change name again
+  $nodeName = strtolower($name);
+  $nodeName = str_replace(" ", "-", $nodeName);
+  $nodeName = preg_replace('/[^A-Za-z\-]/', '', $nodeName);
+
+  $email = $user['email'];
+  $pw = $user['pw'];
+  $roomName = $nodeName;
+  $accessToken = $user['accessToken'];
+  $refreshToken = $user['refreshToken'];
+
+  $statement = $pdo->prepare("SELECT * FROM users WHERE roomName = :roomName");
+  $result = $statement->execute(array('roomName' => $roomName));
+  $roomExist = $statement->fetchAll();
+
+
+
+  if (!empty($roomExist)) {
+    $errorMes = "This room exists already, please name it differently!<br>";
+  }
+  else {
+    $statement2 = $pdo->prepare("INSERT INTO users (email, pw, roomName, accessToken, refreshToken) VALUES (:email, :password, :roomName, :accessToken, :refreshToken)");
+    $result = $statement2->execute(array(':email' => $email, ':password' => $pw, ':roomName' => $roomName, ':accessToken' => $accessToken, ':refreshToken' => $refreshToken));
+
+    header('Location: homeJS.php');
+    die();
+  }
+
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +70,11 @@ $user = $statement->fetch();
     </script>
   </head>
   <body>
+    <?php
+    if(isset($errorMes)) {
+      echo $errorMes;
+    }
+     ?>
     <form id="newRes" action="?newRes=1" method="post">
       <div class="form-group">
         <label for="name">Restaurant Name: </label>
@@ -68,34 +109,20 @@ $user = $statement->fetch();
     nodeName =nodeName.replace(/[^\w\s]/gi, '');
     nodeName = nodeName.replace(/ /g, '-');
     nodeName = nodeName.replace(/_/g, '');
-    // Push data to firebase
-    database.ref(nodeName + '/maxQueue').set(maxQ);
-    database.ref(nodeName + '/limit').set(maxSpU);
-    database.ref(nodeName + '/name').set(name);
-    database.ref(nodeName + '/image').set(imageLink);
-    database.ref(nodeName + '/id').set(nodeName);
+    //check if node exists
+    database.ref().once('value', function(snapshot) {
+      if (snapshot.hasChild(nodeName)) {
+        console.log("exists");
+      }
+      else {
+        // Push data to firebase
+        database.ref(nodeName + '/maxQueue').set(maxQ);
+        database.ref(nodeName + '/limit').set(maxSpU);
+        database.ref(nodeName + '/name').set(name);
+        database.ref(nodeName + '/image').set(imageLink);
+        database.ref(nodeName + '/id').set(nodeName);
+      }
+    });
+
   }
 </script>
-<?php
-// Save values in new database entry
-if(isset($_GET['newRes'])) {
-  $error = false;
-  $name = $_POST['name'];
-  // Change name again
-  $nodeName = strtolower($name);
-  $nodeName = str_replace(" ", "-", $nodeName);
-  $nodeName = preg_replace('/[^A-Za-z\-]/', '', $nodeName);
-
-  $email = $user['email'];
-  $pw = $user['pw'];
-  $roomName = $nodeName;
-  $accessToken = $user['accessToken'];
-  $refreshToken = $user['refreshToken'];
-
-  $statement2 = $pdo->prepare("INSERT INTO users (email, pw, roomName, accessToken, refreshToken) VALUES (:email, :password, :roomName, :accessToken, :refreshToken)");
-  $result = $statement2->execute(array(':email' => $email, ':password' => $pw, ':roomName' => $roomName, ':accessToken' => $accessToken, ':refreshToken' => $refreshToken));
-
-  header('Location: homeJS.php');
-  die();
-}
-?>

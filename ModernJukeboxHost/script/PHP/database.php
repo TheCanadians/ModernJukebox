@@ -5,7 +5,7 @@ if(!isset($_SESSION['userid'])) {
   die('Bitte zuerst <a href="login.php">einloggen</a>');
 }
 
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
+$pdo = new PDO('mysql:host=db6.variomedia.de;dbname=db26677', 'u26677', 'm89UDTTU');
 $userid = $_SESSION['userid'];
 
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
