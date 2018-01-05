@@ -29,7 +29,7 @@ if(isset($_GET['newRes'])) {
   $refreshToken = $user['refreshToken'];
 
   $statement = $pdo->prepare("SELECT * FROM users WHERE roomName = :roomName");
-  $result = $statement->execute(array('roomName' => $roomName));
+  $result = $statement->execute(array(':roomName' => $roomName));
   $roomExist = $statement->fetchAll();
 
 
@@ -37,9 +37,16 @@ if(isset($_GET['newRes'])) {
   if (!empty($roomExist)) {
     $errorMes = "This room exists already, please name it differently!<br>";
   }
+  elseif ($user['roomName'] == "Default") {
+    $statement = $pdo->prepare("UPDATE users SET roomName = :roomName WHERE id = :id");
+    $result = $statement->execute(array(':roomName' => $roomName, ':id' => $userid));
+
+    header('Location: homeJS.php');
+    die();
+  }
   else {
-    $statement2 = $pdo->prepare("INSERT INTO users (email, pw, roomName, accessToken, refreshToken) VALUES (:email, :password, :roomName, :accessToken, :refreshToken)");
-    $result = $statement2->execute(array(':email' => $email, ':password' => $pw, ':roomName' => $roomName, ':accessToken' => $accessToken, ':refreshToken' => $refreshToken));
+    $statement = $pdo->prepare("INSERT INTO users (email, pw, roomName, accessToken, refreshToken) VALUES (:email, :password, :roomName, :accessToken, :refreshToken)");
+    $result = $statement->execute(array(':email' => $email, ':password' => $pw, ':roomName' => $roomName, ':accessToken' => $accessToken, ':refreshToken' => $refreshToken));
 
     header('Location: homeJS.php');
     die();
