@@ -155,6 +155,10 @@
     margin-top: 0;
   }
 
+  li .artist{
+    color: #8c8c8c;
+  }
+
   a {
     color: #0097A7;
   }
