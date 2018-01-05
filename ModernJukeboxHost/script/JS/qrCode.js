@@ -33,7 +33,7 @@ function qrCode() {
   var qrCodeDoc = new jsPDF();
   qrCodeDoc.addImage(imgData, 'JPEG', 0, 0);
 
-  qrCodeDoc.save('qrCode.pdf');
+  qrCodeDoc.save(path + '.pdf');
   // Remove DIV Node
   var parent = document.getElementById("qrCodeHolder");
   var child = document.getElementById("qrcode");

@@ -2,7 +2,9 @@
 function setInfoPath() {
   clearAttribute();
   blacklist();
-  setPlaylist();
+  setTimeout(function() {
+    setPlaylist();
+  }, 1000);
   database.ref('/' + path + '/name').once('value').then(function(snapshot) {
     document.getElementById("dropdownButton").innerHTML = (snapshot.val()) + ' <span class="caret"></span>';
   });

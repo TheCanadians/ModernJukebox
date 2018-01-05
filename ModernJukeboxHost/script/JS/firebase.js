@@ -23,10 +23,6 @@ function setNextSong(id) {
   database.ref(path + 'songs/' + id + '/nextSong').set('true');
 }
 
-function pushWhitelist(id, state) {
-  database.ref(path + 'blacklist/' + id).set(state);
-}
-
 function clearAttribute() {
   database.ref(path + 'songs/').once('value').then(function(snapshot) {
     snapshot.forEach(function(child) {
