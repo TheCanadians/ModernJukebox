@@ -4403,7 +4403,6 @@ window.addToPlaylist = function() {
       "spotify:track:" + nextID
     ]).then(function(data) {
       console.log("Song added");
-      console.log(nextID);
       setNextSong(nextID);
     }, function(err) {
       console.log("Something went wrong while adding songs!", err);
@@ -4415,7 +4414,6 @@ window.addToPlaylist = function() {
 }
 // delete first song from spotify playlist
 window.deleteFromPlaylist = function() {
-  console.log("Delete");
   spotifyApi.getPlaylist(id, playlistID).then(function(data) {
     snapshot_id = data.body['snapshot_id']
     spotifyApi.removeTracksFromPlaylistByPosition(id, playlistID, [0], snapshot_id).then(function(data) {
@@ -4423,7 +4421,6 @@ window.deleteFromPlaylist = function() {
       var deleteID = document.getElementById("playing").className;
       deleteFromQueue(deleteID);
       var songID = document.getElementById("next").className;
-      console.log(songID);
       setPlaying(songID);
       addToPlaylist();
     }, function(err) {
@@ -4444,9 +4441,9 @@ window.timer = function() {
   var firstSongID = document.getElementById("playing").className;
   // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
-    console.log(data.body['item']['id']);
+    console.log("current Song ID: " + data.body['item']['id']);
+    console.log("firstSongID: " + firstSongID);
       if (data.body['item']['id'] == firstSongID) {
-        console.log(data.body['item']['duration_ms']);
         var songLength = data.body['item']['duration_ms'];
         // wait for song length + 5 seconds
         setTimeout(function() {
@@ -4467,20 +4464,37 @@ window.timer = function() {
   });
 
 }
+
+window.transferPlayback = function(id) {
+  spotifyApi.transferMyPlayback(
+    {
+      device_ids : id,
+      play : true
+    }
+  ).then(function(data) {
+    console.log(data);
+  }, function(err) {
+    console.log("Something went wrong while transfering playback: " + err);
+  });
+}
+
 // start playing spotify playlist
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
-    console.log(data.body);
-    var deviceId = data.body['devices'][0].id;
+    console.log("device ID: " + data.body['devices'][0].id);
+    var deviceID = data.body['devices'][0].id;
     spotifyApi.play({context_uri : 'spotify:user:guildwhoops:playlist:' + playlistID}).then(function(data) {
       spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
           console.log("204");
+          transferPlayback(deviceID);
+          /*
           closePlayer();
           setTimeout(function() {
             SpotifyPlay();
           }, 4000);
+          */
         }
         else {
           timer();
