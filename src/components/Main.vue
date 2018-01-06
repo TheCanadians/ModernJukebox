@@ -1,5 +1,14 @@
 <template>
-  <div id="spotify">
+  <main id="spotify">
+    <locationInfo
+      v-if="this.locationInfo==true"
+      :name="this.restaurant.name"
+      :limit="this.limit"
+      :maxQueue="this.maxQueue"
+      :blacklist="this.blacklist"
+      @closedLocationInfo="this.hideLocationInfo">
+    </locationInfo>
+
     <login v-if="!loggedIn" @loggingIn="authorize"></login>
 
     <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
@@ -19,10 +28,10 @@
         <div id="trackInfo">
           <div class="infos">
             <!-- <img id="" :src="active.image" /> -->
-            <img id="restaurantInfoIcon" src="../assets/ic_info.svg" />
+            <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
             <p>
               <span>
-                Now playing:
+                {{this.restaurant.name}}: Now playing:
               </span>
               {{active.title}} <span id="separator">·</span>
               <template v-for='(artist, index) in active.artists'>
@@ -65,7 +74,7 @@
         ></queue>
       </section>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -74,6 +83,7 @@
   import Search from './Search.vue';
   import RestaurantChooser from './RestaurantChooser.vue';
   import Queue from './Queue.vue';
+  import LocationInfo from './LocationInfo.vue';
   import {db} from '../firebase';
 
   export default {
@@ -83,6 +93,7 @@
       'results': Results,
       'search': Search,
       'restaurantChooser': RestaurantChooser,
+      'LocationInfo': LocationInfo,
       'queue': Queue
     },
     data () {
@@ -125,7 +136,7 @@
         queue: this.$refs.queue,
         songsAdded: 0,
         songsLeft: 0,
-        showRestaurantInfo: false,
+        locationInfo: false,
         blacklist: []
 
       }
@@ -143,6 +154,12 @@
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
         let urlWithQueryString = url + '&' + query
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#/')[0])
+      },
+      showLocationInfo() {
+        this.locationInfo = true
+      },
+      hideLocationInfo() {
+        this.locationInfo = false
       },
       getQueue: function() {
         this.list.length = 0
