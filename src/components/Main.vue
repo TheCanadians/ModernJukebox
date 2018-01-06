@@ -1,78 +1,81 @@
 <template>
   <main id="spotify">
-    <locationInfo
-      v-if="this.locationInfo==true"
-      :name="this.restaurant.name"
-      :limit="this.limit"
-      :maxQueue="this.maxQueue"
-      :blacklist="this.blacklist"
-      @closedLocationInfo="this.hideLocationInfo">
-    </locationInfo>
-
     <login v-if="!loggedIn" @loggingIn="authorize"></login>
 
-    <restaurant-chooser v-if="loggedIn" @setRestaurant="setRestaurant"></restaurant-chooser>
+    <div v-if="loggedIn">
+      <locationInfo
+        v-if="this.locationInfo==true"
+        :name="this.restaurant.name"
+        :limit="this.limit"
+        :maxQueue="this.maxQueue"
+        :blacklist="this.blacklist"
+        @closedLocationInfo="this.hideLocationInfo"
+        @loggedOut="this.logout">
+      </locationInfo>
 
-    <div id="restaurantChosen" v-if="restaurant">
-      <transition name="notification">
-        <span
-          class="notification"
-          v-if="notificationShowing"
-          enter-active-class="notificationIn"
-          leave-active-class="notificationOut">
-          {{this.notificationText}}
-        </span>
-      </transition>
+      <restaurant-chooser @setRestaurant="setRestaurant"></restaurant-chooser>
 
-      <div id="currentTrack" v-if="active && loggedIn">
-        <div id="trackInfo">
-          <div class="infos">
-            <!-- <img id="" :src="active.image" /> -->
-            <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
-            <p>
-              <span>
-                {{this.restaurant.name}}: Now playing:
-              </span>
-              {{active.title}} <span id="separator">·</span>
-              <template v-for='(artist, index) in active.artists'>
-                <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
-              </template>
-            </p>
+      <div id="restaurantChosen" v-if="restaurant">
+        <transition name="notification">
+          <span
+            class="notification"
+            v-if="notificationShowing"
+            enter-active-class="notificationIn"
+            leave-active-class="notificationOut">
+            {{this.notificationText}}
+          </span>
+        </transition>
+
+        <div id="currentTrack" v-if="active">
+          <div id="trackInfo">
+            <div class="infos">
+              <!-- <img id="" :src="active.image" /> -->
+              <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
+              <p>
+                <span>
+                  {{this.restaurant.name}}: Now playing:
+                </span>
+                {{active.title}} <span id="separator">·</span>
+                <template v-for='(artist, index) in active.artists'>
+                  <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
+                </template>
+              </p>
+            </div>
           </div>
         </div>
+
+        <section id="search">
+          <div v-if="!limitReached && !maxQueueReached">
+            <search ref="search" @keyedUp="searchTracks($event)" @searchCleared="clearSearch" ></search>
+            <p class="searchDisclaimer" id="songsLeft">You can add {{this.calcSongsLeft}} more songs.</p>
+          </div>
+          <p class="searchDisclaimer" v-if="limitReached">You have added your maximum amount of songs. Wait until one of your songs has been played.</p>
+          <p class="searchDisclaimer" v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
+        </section>
+
+        <results
+          v-if="this.searching"
+          :tracks="this.tracks"
+          @addTrack="addTrack($event)"
+        ></results>
+
+        <section id="queue" v-if="!this.searching">
+          <h2>Queue</h2>
+          <p id="emptyQueue" v-if="this.list=='empty'">
+            <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
+          </p>
+          <queue
+            ref="queue"
+            v-if="userid!='' && this.list!='empty' && !searching "
+            :trackToUpvote="this.trackToUpvote"
+            :userid="this.userid"
+            :accessToken="this.accessToken"
+            :list="this.list"
+            :restaurant="this.restaurant"
+            @getQueue="this.getQueue"
+          ></queue>
+        </section>
       </div>
-
-      <section id="search">
-        <div v-if="!limitReached && !maxQueueReached">
-          <search ref="search" v-if="loggedIn" @keyedUp="searchTracks($event)" @searchCleared="clearSearch" ></search>
-          <p class="searchDisclaimer" id="songsLeft">You can add {{this.calcSongsLeft}} more songs.</p>
-        </div>
-        <p class="searchDisclaimer" v-if="limitReached">You have added your maximum amount of songs. Wait until one of your songs has been played.</p>
-        <p class="searchDisclaimer" v-if="maxQueueReached">The queue is currently full. You can add more songs when the current song is finished.</p>
-      </section>
-
-      <results
-        v-if="this.searching"
-        :tracks="this.tracks"
-        @addTrack="addTrack($event)"
-      ></results>
-
-      <section id="queue" v-if="!this.searching">
-        <h2>Queue</h2>
-        <p id="emptyQueue" v-if="this.list=='empty'">
-          <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
-        </p>
-        <queue
-          ref="queue"
-          v-if="loggedIn && userid!='' && this.list!='empty' && !searching "
-          :trackToUpvote="this.trackToUpvote"
-          :userid="this.userid"
-          :accessToken="this.accessToken"
-          :list="this.list"
-          :restaurant="this.restaurant"
-          @getQueue="this.getQueue"
-        ></queue>
-      </section>
     </div>
   </main>
 </template>
@@ -154,6 +157,11 @@
         let query = 'response_type=token&client_id=' + clientId + '&scope=' + scopes
         let urlWithQueryString = url + '&' + query
         window.location.assign(urlWithQueryString + '&redirect_uri=' + window.location.href.split('#/')[0])
+      },
+      logout() {
+        this.accessToken = '',
+        this.isAccessTokenPresent = false,
+        this.loggedIn = false
       },
       showLocationInfo() {
         this.locationInfo = true

@@ -1,5 +1,5 @@
 <template>
-  <div id="locationInfo">
+  <section id="locationInfo">
     <button @click="this.closeLocationInfo">Close</button>
     <h3>{{this.name}}</h3>
 
@@ -20,7 +20,9 @@
     <p>
       The maximum amount of songs in this playlist: {{this.maxQueue}}
     </p>
-  </div>
+
+    <button @click="this.logout">Logout</button>
+  </section>
 </template>
 
 <script>
@@ -30,6 +32,9 @@
     methods: {
       closeLocationInfo() {
         this.$emit('closedLocationInfo')
+      },
+      logout() {
+        this.$emit('loggedOut')
       }
     }
   }
