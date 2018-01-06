@@ -1,7 +1,7 @@
 <template>
   <div id="authorizeContainer">
     <div id="grid">
-      <h1>Define the sound of the venue you're in</h1>
+      <h1>Define the sound of your location.</h1>
       <div id="infoContainer">
         <p>
           ModernJukebox is an app that lets you pick millions of songs from Spotify and add them to the quere of the venue you are in.
@@ -104,7 +104,12 @@
   #infoContainer p{
     font-size: var(--normalText);
     line-height: 1.6rem;
+    margin-top: 1rem;
   }
+
+    #infoContainer p:first-of-type{
+      margin-top: 0;
+    }
 
   #infoContainer{
     grid-area: infos;
