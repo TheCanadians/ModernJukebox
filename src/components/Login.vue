@@ -129,6 +129,14 @@
     content:url("../assets/screenPreview.png");
   }
 
+  @media (min-height: 768px){
+
+    #appPreview{
+      content:url("../assets/screenPreviewFull.png");
+    }
+
+  }
+
   @media (min-width: 768px){
 
     #authorizeContainer{
