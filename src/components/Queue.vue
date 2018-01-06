@@ -149,13 +149,13 @@
     font-size: 1.2rem;
     margin-top: 0;
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
   }
 
   li .artist{
     color: #8c8c8c;
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
   }
 
   a {
