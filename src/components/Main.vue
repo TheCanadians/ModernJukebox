@@ -27,12 +27,10 @@
         </transition>
 
         <div id="currentTrack" v-if="active">
-          <div id="trackInfo">
-            <div class="infos">
               <!-- <img id="" :src="active.image" /> -->
               <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
               <p>
-                <span>
+                <span id="nowPlaying">
                   {{this.restaurant.name}}: Now playing:
                 </span>
                 {{active.title}} <span id="separator">·</span>
@@ -40,8 +38,6 @@
                   <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
                 </template>
               </p>
-            </div>
-          </div>
         </div>
 
         <section id="search">
@@ -385,12 +381,10 @@
   }
 
   .searchDisclaimer{
-    padding: 0 1.5rem;
-  }
-
-  #search p {
+    padding: 1.5rem;
     color: #fff;
   }
+
   .notification {
     background-color: #424242;
     color: #fff;
@@ -449,53 +443,36 @@
 
   #currentTrack {
     background: #FFDE22;
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: auto 1.5rem;
+    grid-template-rows: auto;
+    grid-template-areas: "infos button";
+    grid-column-gap: 1rem;
+    padding: 1rem 1rem;
     align-items: center;
-    flex-direction: row;
   }
 
-  #currentTrack ul {
-    display: flex;
-  }
-
-  #trackInfo {
-    width: 100%;
-    margin: 1.5rem 1.5rem;
-    padding: 0;
-  }
-
-  #trackInfo .infos {
-    display: flex;
+  #currentTrack p{
+    grid-area: infos;
     font-size: 1rem;
-    align-items: flex-start;
-  }
-
-  #trackInfo .infos p{
-    order: 1;
-    padding-right: .5rem;
-  }
-
-  #restaurantInfoIcon{
-    height: 1rem;
     width: auto;
-    padding: .25rem .25rem 1rem 1rem;
     margin: 0;
     order: 2;
+  }
+
+  #currentTrack img#restaurantInfoIcon{
+    grid-area: button;
+    height: 1rem;
     cursor: pointer;
+    padding: .25rem;
+    margin: auto;
   }
 
-  #trackInfo .infos span:first-of-type{
-    margin-left: 0;
-    font-size: .8rem;
-    font-weight: bold;
+  #currentTrack p #nowPlaying{
     text-transform: uppercase;
+    font-weight: bold;
+    font-size: .9rem;
     display: block;
-  }
-
-  #trackInfo .infos span{
-    display: inline;
-    margin-top: 2px;
   }
 
   #separator{
