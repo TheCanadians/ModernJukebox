@@ -57,7 +57,7 @@
         @addTrack="addTrack($event)"
       ></results>
 
-      <section id="queue">
+      <section id="queue" v-if="!this.searching">
         <h2>Queue</h2>
         <p id="emptyQueue" v-if="this.list=='empty'">
           <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
