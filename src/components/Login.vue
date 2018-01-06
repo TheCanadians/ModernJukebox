@@ -129,7 +129,7 @@
     content:url("../assets/screenPreview.png");
   }
 
-  @media (min-height: 768px){
+  @media (min-height: 813px){
 
     #appPreview{
       content:url("../assets/screenPreviewFull.png");
