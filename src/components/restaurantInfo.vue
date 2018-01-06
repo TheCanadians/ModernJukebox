@@ -13,7 +13,7 @@
 <script>
   export default {
     name: 'restaurantInfo',
-    props: ['name', 'limit', 'maxQueue']
+    props: ['name', 'limit', 'maxQueue', 'blacklist']
   }
 </script>
 

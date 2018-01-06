@@ -125,7 +125,8 @@
         queue: this.$refs.queue,
         songsAdded: 0,
         songsLeft: 0,
-        showRestaurantInfo: false
+        showRestaurantInfo: false,
+        blacklist: []
 
       }
     },
@@ -158,6 +159,14 @@
         })
         this.checkLimit()
         this.setCurrentTrack()
+      },
+      getBlacklist() {
+        this.blacklist = [],
+        db.ref(this.restaurant.id).child('blacklist').on('value', snapshot => {
+          snapshot.forEach(child => {
+            this.blacklist.push(child.val())
+          })
+        })
       },
       setUserId: function() {
         this.axios({
@@ -284,7 +293,8 @@
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       },
       setRestaurant(restaurant) {
-        this.restaurant = restaurant
+        this.restaurant = restaurant,
+        this.getBlacklist(),
         this.getQueue()
       },
       setCurrentTrack() {
