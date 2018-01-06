@@ -112,6 +112,11 @@
     align-self: center;
     position: absolute;
     bottom: 4rem;
+    cursor: pointer;
+  }
+
+  #logoutBTN:hover{
+    background: #1f1f1f;
   }
 
 </style>

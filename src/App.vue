@@ -24,7 +24,7 @@
     --normalText: 1rem;
     --title: 1.8rem;
     --button: 1.1rem;
-    --stageTitle: 4rem;
+    --stageTitle: 3rem;
 
   }
 

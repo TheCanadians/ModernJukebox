@@ -395,11 +395,6 @@
     font-size: var(--normalText);
     font-family: 'Roboto Condensed', sans-serif;
   }
-  button:hover {
-      color: #0097A7;
-      text-decoration: underline;
-      cursor: pointer;
-  }
 
   #restaurantChosen {
     max-width: 100vw;

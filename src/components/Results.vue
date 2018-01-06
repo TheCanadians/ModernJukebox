@@ -50,6 +50,7 @@
     background: none;
     border: none;
     margin: auto;
+    cursor: pointer;
   }
 
   #addBTN span{
