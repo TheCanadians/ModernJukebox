@@ -390,7 +390,7 @@
     margin-left: 24px;
     font-size: 2rem;
     color: #fff;
-    margin-bottom: 16px;
+    margin-bottom: .5rem;
   }
 
   ul {

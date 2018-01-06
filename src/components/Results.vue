@@ -2,16 +2,14 @@
   <ul id="results">
     <h2 id="resultsTitle">Results</h2>
     <div id="resultsList">
-    <li v-for="track in tracks">
-      <div class="infos">
-      <img id="songImage" :src="track.album.images[1].url" />
-      <p>
-        <span class="title">{{track.name}}</span>
-        <template v-for='(artist, index) in track.artists'>
-         <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
-       </template>
-      </p>
-      </div>
+    <li class="songListItem" v-for="track in tracks">
+    <img id="songImage" :src="track.album.images[1].url" />
+    <p>
+      <span class="title">{{track.name}}</span>
+      <template v-for='(artist, index) in track.artists'>
+        <span class="artist">{{artist.name}}<template v-if="index + 1 < track.artists.length">, </template></span>
+      </template>
+    </p>
       <button id="addBTN" @click="addTrack(track)">
         <img src="../assets/ic_add.svg" />
         <span>add</span>
@@ -39,6 +37,7 @@
 
 <style>
   #addBTN {
+    grid-area: button;
     display: flex;
     flex-direction: column;
     color: #FFDE22;
@@ -50,10 +49,11 @@
     font-family: 'Roboto Condensed', sans-serif;
     background: none;
     border: none;
+    margin: auto;
   }
 
   #addBTN span{
-    margin-top: 8px;
+    margin-top: .5rem;
   }
 
   #resultsTitle{

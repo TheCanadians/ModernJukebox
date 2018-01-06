@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=modernjukeboxhost', 'root', '');
+$pdo = new PDO('mysql:host=db6.variomedia.de;dbname=db26677', 'u26677', 'm89UDTTU');
 
 if(isset($_GET['login'])) {
   $email = $_POST['email'];

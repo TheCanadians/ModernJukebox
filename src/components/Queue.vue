@@ -1,16 +1,14 @@
 <template>
     <div id="queueList">
       <ul v-for="song in list">
-        <li id="queueSong">
-          <div class="infos">
-            <img :src="song.image" />
-            <p>
-              <span class="title">{{song.title}}</span>
-              <template v-for='(artist, index) in song.artists'>
-               <span class="artist">{{artist}}<template v-if="index + 1 < song.artists.length">, </template></span>
-             </template>
-            </p>
-          </div>
+        <li class="songListItem" id="queueSong">
+          <img id="songImage" :src="song.image" />
+          <p>
+            <span class="title">{{song.title}}</span>
+            <template v-for='(artist, index) in song.artists'>
+              <span class="artist">{{artist}}<template v-if="index + 1 < song.artists.length">, </template></span>
+            </template>
+          </p>
           <div class="votes">
             <button v-if="isVotable(song)" id="btnUpvote" @click="upvoteTrack(song)">
               <div id="heartCount">
@@ -99,14 +97,12 @@
     outline: none;
     border: none;
     box-shadow: none;
-    width: 48px;
     height: 48px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    width: 48px;
-    margin-left: 1.5rem;
+    margin: auto;
 
     display: flex;
     flex-direction: column;
@@ -128,23 +124,22 @@
   }
 
   #heartCountNotVotable{
-    width: 48px;
+    grid-area: button;
     color: #8c8c8c;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-left: 1.5rem;
+    margin: auto;
   }
 
-  li#queueSong {
+  li.songListItem {
     border: none;
-    padding: 16px 24px;
-  }
-
-  li {
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: 64px auto 48px;
+    grid-template-rows: auto;
+    grid-column-gap: 1rem;
+    grid-template-areas: "image infos button";
     align-items: center;
   }
 
@@ -153,27 +148,33 @@
     display: block;
     font-size: 1.2rem;
     margin-top: 0;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+  }
+
+  li .artist{
+    color: #8c8c8c;
+    text-overflow: ellipsis;
+    overflow: hidden; 
   }
 
   a {
     color: #0097A7;
   }
 
-  .infos {
-    display: flex;
-    align-items: center;
-  }
-
-  .infos img {
+  li.songListItem #songImage {
     width: 64px;
     height: 64px;
-    display: inline;
-    margin-right: 16px;
-    border-radius: 4px
+    border-radius: 4px;
+    grid-area: image;
   }
 
-  .infos p {
-    display: inline;
+  li.songListItem p{
+    grid-area: infos;
+  }
+
+  li.songListItem #votes{
+    grid-area: button;
   }
 
   .votes p{

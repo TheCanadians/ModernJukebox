@@ -228,11 +228,13 @@ window.timer = function() {
   });
 
 }
-
+/*
 window.transferPlayback = function(id) {
   spotifyApi.transferMyPlayback(
     {
-      device_ids : id,
+      device_ids : [
+        id
+      ],
       play : true
     }
   ).then(function(data) {
@@ -241,7 +243,7 @@ window.transferPlayback = function(id) {
     console.log("Something went wrong while transfering playback: " + err);
   });
 }
-
+*/
 // start playing spotify playlist
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
@@ -252,13 +254,13 @@ window.SpotifyPlay = function() {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
           console.log("204");
-          transferPlayback(deviceID);
-          /*
+          //transferPlayback(deviceID);
+
           closePlayer();
           setTimeout(function() {
             SpotifyPlay();
           }, 4000);
-          */
+
         }
         else {
           timer();
