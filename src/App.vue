@@ -17,6 +17,17 @@
 
 <style>
   @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700');
+
+  :root{
+
+    --smallText: 0.85rem;
+    --normalText: 1rem;
+    --title: 1.8rem;
+    --button: 1.1rem;
+    --stageTitle: 4rem;
+
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -25,6 +36,7 @@
     min-height: 100vh;
     position: relative;
   }
+
   #app {
     background: #282828;
     font-family: 'Roboto Condensed', sans-serif;

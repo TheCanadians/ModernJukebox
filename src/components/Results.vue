@@ -43,7 +43,7 @@
     color: #FFDE22;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: var(--normalText);
     align-items: center;
     justify-content: center;
     font-family: 'Roboto Condensed', sans-serif;
@@ -60,7 +60,7 @@
     display: inline;
     margin: 0;
     color: #FFF;
-    font-size: 2rem;
+    font-size: var(--title);
     margin-left: 1.5rem;
     margin-bottom: 1rem;
   }

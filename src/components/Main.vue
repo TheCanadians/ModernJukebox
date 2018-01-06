@@ -366,7 +366,7 @@
   .notification {
     background-color: #424242;
     color: #fff;
-    font-size: 1rem;
+    font-size: var(--normalText);
     border-radius: 400px;
     display: inline-block;
     padding: 16px 24px;
@@ -377,7 +377,7 @@
 
   h2 {
     margin-left: 24px;
-    font-size: 2rem;
+    font-size: var(--title);
     color: #fff;
     margin-bottom: .5rem;
   }
@@ -392,7 +392,7 @@
     box-shadow: none;
     outline: none;
     border: none;
-    font-size: 1rem;
+    font-size: var(--normalText);
     font-family: 'Roboto Condensed', sans-serif;
   }
   button:hover {
@@ -424,7 +424,7 @@
 
   #currentTrack p{
     grid-area: infos;
-    font-size: 1rem;
+    font-size: var(--normalText);
     width: auto;
     margin: 0;
     order: 2;
@@ -435,13 +435,12 @@
     height: 1rem;
     cursor: pointer;
     padding: .25rem;
-    margin: auto;
   }
 
   #currentTrack p #nowPlaying{
     text-transform: uppercase;
     font-weight: bold;
-    font-size: .9rem;
+    font-size: var(--smallText);
     display: block;
   }
 

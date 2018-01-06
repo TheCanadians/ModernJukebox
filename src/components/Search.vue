@@ -79,7 +79,7 @@
     outline: none;
     background-color: rgba(255, 255, 255, 0.12);
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: var(--normalText);
     padding: 10px 20px;
     border-radius: 10rem 0 0 10rem;
     font-family: 'Roboto Condensed';

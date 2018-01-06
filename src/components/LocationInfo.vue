@@ -1,27 +1,29 @@
 <template>
   <section id="locationInfo">
-    <button @click="this.closeLocationInfo">Close</button>
-    <h3>{{this.name}}</h3>
+    <div id="infoInside">
+      <img id="closeBTN" src="../assets/ic_close.svg" @click="this.closeLocationInfo" />
+      <h3>{{this.name}}</h3>
 
-    <section id="blacklist">
+      <section id="blacklist">
+        <p>
+          These genres are not allowed:
+        </p>
+        <ul>
+          <li id="genreTag" v-for="genre in blacklist">
+            {{genre}}
+          </li>
+        </ul>
+      </section>
+
       <p>
-        These genres are not allowed:
+        The maximum amount of songs you can add: {{this.limit}}
       </p>
-      <ul>
-        <li v-for="genre in blacklist">
-          {{genre}}
-        </li>
-      </ul>
-    </section>
+      <p>
+        The maximum amount of songs in this playlist: {{this.maxQueue}}
+      </p>
 
-    <p>
-      The maximum amount of songs you can add: {{this.limit}}
-    </p>
-    <p>
-      The maximum amount of songs in this playlist: {{this.maxQueue}}
-    </p>
-
-    <button @click="this.logout">Logout</button>
+      <button id="logoutBTN" @click="this.logout">Logout</button>
+    </div>
   </section>
 </template>
 
@@ -41,12 +43,75 @@
 </script>
 
 <style>
+
   #locationInfo {
     height: 100vh;
     width: 100vw;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: yellow;
+    background-color: #FFDE22;
   }
+
+  #infoInside{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+  }
+
+  #closeBTN{
+    align-self: flex-end;
+    padding: .5rem;
+    cursor: pointer;
+  }
+
+  #locationInfo h3{
+    font-size: var(--title);
+  }
+
+  #locationInfo #blacklist p:first-of-type{
+    padding-top: 1.5rem;
+  }
+
+  #locationInfo #blacklist ul{
+    display: flex;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  #genreTag{
+    list-style: none;
+    background: #282828;
+    border-radius: 10rem;
+    padding: .5rem .75rem;
+    font-size: var(--smallText);
+    color: #FFDE22;
+    text-transform: uppercase;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-top: .5rem;
+    margin-right: .5rem;
+  }
+
+  #locationInfo p{
+    padding-top: 1rem;
+  }
+
+  #logoutBTN{
+    background: #282828;
+    color: #FFDE22;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 1rem 8rem;
+    border: none;
+    border-radius: 10rem;
+    font-size: var(--button);
+    font-family: 'Roboto Condensed', sans-serif;
+    align-self: center;
+    position: absolute;
+    bottom: 4rem;
+  }
+
 </style>

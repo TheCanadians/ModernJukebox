@@ -40,7 +40,7 @@
     max-width: 320px;
     padding: 0rem 2rem;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: var(--stageTitle);
     text-align: center;
     padding-bottom: 2rem;
   }
@@ -54,14 +54,14 @@
     border-radius: 10rem;
     text-transform: uppercase;
     padding: 1rem 2rem;
-    font-size: 1rem;
+    font-size: var(--button);
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: bold;
     margin-top:  3rem;
   }
 
   #authorizeContainer p{
-    font-size: 1rem;
+    font-size: var(--normalText);
     max-width: 320px;
     padding: 0rem 1rem;
     line-height: 1.6rem;

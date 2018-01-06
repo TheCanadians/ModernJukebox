@@ -97,7 +97,7 @@
     align-self: center;
     margin: auto;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normalText);
     padding: 0 1.5rem;
     line-height: 1.5rem;
     font-weight: lighter;
@@ -115,7 +115,7 @@
   #btnUpvote {
     background: none;
     color: #FFDE22;
-    font-size: 1rem;
+    font-size: var(--normalText);
     outline: none;
     border: none;
     box-shadow: none;
@@ -168,7 +168,7 @@
   li .title {
     color: #fff;
     display: block;
-    font-size: 1.2rem;
+    font-size: var(--normalText);
     margin-top: 0;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -178,6 +178,7 @@
     color: #8c8c8c;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-size: var(--smallText)
   }
 
   a {
