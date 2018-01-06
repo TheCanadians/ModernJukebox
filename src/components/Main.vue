@@ -358,28 +358,6 @@
     padding: 0rem 2rem 1.5rem 2rem;
   }
 
-  #queue {
-    width: 100%;
-    background-color: #282828;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #emptyQueue{
-    align-self: center;
-    margin: auto;
-    text-align: center;
-    font-size: 1rem;
-    padding: 0 1.5rem;
-    line-height: 1.5rem;
-    font-weight: lighter;
-  }
-
-  #emptyQueue span{
-    line-height: 2rem;
-  }
-
   .searchDisclaimer{
     padding: 1.5rem;
     color: #fff;
@@ -395,14 +373,6 @@
     position: absolute;
     top: 120px;
     right: 48px;
-  }
-  .tracks {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      color: green;
-      background-color: white;
-      border: black;
   }
 
   h2 {
@@ -485,10 +455,6 @@
     display: inline;
     margin-right: 16px;
     border-radius: 4px;
-  }
-
-  #queue p {
-    color: #fff;
   }
 
   /* Add some padding inside the card container */
