@@ -45,4 +45,9 @@
     color: #282828;
     min-height: 100vh;
   }
+
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+  
 </style>
