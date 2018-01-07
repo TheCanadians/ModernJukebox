@@ -26,13 +26,17 @@
           </span>
         </transition>
 
+<<<<<<< HEAD
         <section id="currentTrack" v-if="active">
           <div id="trackInfo">
             <div class="infos">
+=======
+        <div id="currentTrack" v-if="active">
+>>>>>>> master
               <!-- <img id="" :src="active.image" /> -->
               <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
               <p>
-                <span>
+                <span id="nowPlaying">
                   {{this.restaurant.name}}: Now playing:
                 </span>
                 {{active.title}} <span id="separator">·</span>
@@ -40,9 +44,13 @@
                   <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
                 </template>
               </p>
+<<<<<<< HEAD
             </div>
           </div>
         </section>
+=======
+        </div>
+>>>>>>> master
 
         <section id="search">
           <div v-if="!limitReached && !maxQueueReached">
@@ -382,39 +390,15 @@
     padding: 0rem 2rem 1.5rem 2rem;
   }
 
-  #queue {
-    width: 100%;
-    background-color: #282828;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #emptyQueue{
-    align-self: center;
-    margin: auto;
-    text-align: center;
-    font-size: 1rem;
-    padding: 0 1.5rem;
-    line-height: 1.5rem;
-    font-weight: lighter;
-  }
-
-  #emptyQueue span{
-    line-height: 2rem;
-  }
-
   .searchDisclaimer{
-    padding: 0 1.5rem;
-  }
-
-  #search p {
+    padding: 1.5rem;
     color: #fff;
   }
+
   .notification {
     background-color: #424242;
     color: #fff;
-    font-size: 1rem;
+    font-size: var(--normalText);
     border-radius: 400px;
     display: inline-block;
     padding: 16px 24px;
@@ -422,18 +406,10 @@
     top: 120px;
     right: 48px;
   }
-  .tracks {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      color: green;
-      background-color: white;
-      border: black;
-  }
 
   h2 {
     margin-left: 24px;
-    font-size: 2rem;
+    font-size: var(--title);
     color: #fff;
     margin-bottom: .5rem;
   }
@@ -448,13 +424,8 @@
     box-shadow: none;
     outline: none;
     border: none;
-    font-size: 1rem;
+    font-size: var(--normalText);
     font-family: 'Roboto Condensed', sans-serif;
-  }
-  button:hover {
-      color: #0097A7;
-      text-decoration: underline;
-      cursor: pointer;
   }
 
   #restaurantChosen {
@@ -469,53 +440,35 @@
 
   #currentTrack {
     background: #FFDE22;
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: auto 1.5rem;
+    grid-template-rows: auto;
+    grid-template-areas: "infos button";
+    grid-column-gap: 1rem;
+    padding: 1rem 1rem;
     align-items: center;
-    flex-direction: row;
   }
 
-  #currentTrack ul {
-    display: flex;
-  }
-
-  #trackInfo {
-    width: 100%;
-    margin: 1.5rem 1.5rem;
-    padding: 0;
-  }
-
-  #trackInfo .infos {
-    display: flex;
-    font-size: 1rem;
-    align-items: flex-start;
-  }
-
-  #trackInfo .infos p{
-    order: 1;
-    padding-right: .5rem;
-  }
-
-  #restaurantInfoIcon{
-    height: 1rem;
+  #currentTrack p{
+    grid-area: infos;
+    font-size: var(--normalText);
     width: auto;
-    padding: .25rem .25rem 1rem 1rem;
     margin: 0;
     order: 2;
+  }
+
+  #currentTrack img#restaurantInfoIcon{
+    grid-area: button;
+    height: 1rem;
     cursor: pointer;
+    padding: .25rem;
   }
 
-  #trackInfo .infos span:first-of-type{
-    margin-left: 0;
-    font-size: .8rem;
-    font-weight: bold;
+  #currentTrack p #nowPlaying{
     text-transform: uppercase;
+    font-weight: bold;
+    font-size: var(--smallText);
     display: block;
-  }
-
-  #trackInfo .infos span{
-    display: inline;
-    margin-top: 2px;
   }
 
   #separator{
@@ -528,10 +481,6 @@
     display: inline;
     margin-right: 16px;
     border-radius: 4px;
-  }
-
-  #queue p {
-    color: #fff;
   }
 
   /* Add some padding inside the card container */
