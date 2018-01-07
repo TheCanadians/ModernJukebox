@@ -26,13 +26,9 @@
           </span>
         </transition>
 
-<<<<<<< HEAD
         <section id="currentTrack" v-if="active">
           <div id="trackInfo">
             <div class="infos">
-=======
-        <div id="currentTrack" v-if="active">
->>>>>>> master
               <!-- <img id="" :src="active.image" /> -->
               <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
               <p>
@@ -44,13 +40,9 @@
                   <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
                 </template>
               </p>
-<<<<<<< HEAD
             </div>
           </div>
         </section>
-=======
-        </div>
->>>>>>> master
 
         <section id="search">
           <div v-if="!limitReached && !maxQueueReached">
