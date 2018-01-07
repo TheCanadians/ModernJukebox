@@ -14,7 +14,7 @@
         @checkedOut="this.checkout">
       </locationInfo>
 
-      <restaurant-chooser @setRestaurant="setRestaurant"></restaurant-chooser>
+      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">
