@@ -22,6 +22,7 @@
         The maximum amount of songs in this playlist: {{this.maxQueue}}
       </p>
 
+      <button @click="this.checkout">Checkout from location</button>
       <button id="logoutBTN" @click="this.logout">Logout</button>
     </div>
   </section>
@@ -37,6 +38,9 @@
       },
       logout() {
         this.$emit('loggedOut')
+      },
+      checkout() {
+        this.$emit('checkedOut')
       }
     }
   }

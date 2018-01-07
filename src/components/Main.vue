@@ -10,7 +10,8 @@
         :maxQueue="this.maxQueue"
         :blacklist="this.blacklist"
         @closedLocationInfo="this.hideLocationInfo"
-        @loggedOut="this.logout">
+        @loggedOut="this.logout"
+        @checkedOut="this.checkout">
       </locationInfo>
 
       <restaurant-chooser @setRestaurant="setRestaurant"></restaurant-chooser>
@@ -173,6 +174,10 @@
         this.accessToken = '',
         this.isAccessTokenPresent = false,
         this.loggedIn = false
+      },
+      checkout() {
+        this.restaurant = null,
+        this.locationInfo = false
       },
       showLocationInfo() {
         this.locationInfo = true
