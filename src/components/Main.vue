@@ -26,7 +26,7 @@
           </span>
         </transition>
 
-        <div id="currentTrack" v-if="active">
+        <section id="currentTrack" v-if="active">
           <div id="trackInfo">
             <div class="infos">
               <!-- <img id="" :src="active.image" /> -->
@@ -42,7 +42,7 @@
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
         <section id="search">
           <div v-if="!limitReached && !maxQueueReached">
@@ -58,6 +58,17 @@
           :tracks="this.tracks"
           @addTrack="addTrack($event)"
         ></results>
+
+        <section id="nextSong" v-if="nextSong">
+          <h2>Coming Up</h2>
+          <div>
+            <img :src="this.nextSong.image" />
+            <template v-for='(artist, index) in this.nextSong.artists'>
+              <span class="artist">{{artist}}<!-- <template v-if="index + 1 < this.nextSong.artists.length">, </template>--></span>
+            </template>
+            {{this.nextSong.title}}
+          </div>
+        </section>
 
         <section id="queue" v-if="!this.searching">
           <h2>Queue</h2>
@@ -183,7 +194,8 @@
           }
         })
         this.checkLimit()
-        this.setCurrentTrack()
+        this.setCurrentTrack(),
+        this.setNextTrack()
       },
       getBlacklist() {
         this.blacklist = [],
@@ -330,6 +342,15 @@
             this.active = this.list[i]
           }
         }
+      },
+      setNextTrack() {
+        this.nextSong = false
+
+        for (var i = 0; i < this.list.length; i++) {
+          if(this.list[i].nextSong == "true") {
+            this.nextSong = this.list[i]
+          }
+        }
       }
     },
     computed: {
@@ -353,7 +374,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
   #spotify{
     min-height: 100vh;
   }
