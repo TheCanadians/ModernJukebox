@@ -49,5 +49,5 @@
   img {
     image-rendering: -webkit-optimize-contrast;
   }
-  
+
 </style>

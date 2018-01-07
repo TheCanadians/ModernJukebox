@@ -64,7 +64,7 @@
           <div>
             <img :src="this.nextSong.image" />
             <template v-for='(artist, index) in this.nextSong.artists'>
-              <span class="artist">{{artist}}<!-- <template v-if="index + 1 < this.nextSong.artists.length">, </template>--></span>
+              <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
             </template>
             {{this.nextSong.title}}
           </div>
@@ -351,6 +351,7 @@
             this.nextSong = this.list[i]
           }
         }
+        console.log(this.nextSong)
       }
     },
     computed: {
