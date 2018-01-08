@@ -27,18 +27,20 @@
           </span>
         </transition>
 
-        <section id="currentTrack" v-if="active">
-              <!-- <img id="" :src="active.image" /> -->
-              <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
-              <p>
-                <span id="nowPlaying">
-                  {{this.restaurant.name}} — Now playing:
-                </span>
-                {{active.title}} <span id="separator">·</span>
-                <template v-for='(artist, index) in active.artists'>
-                  <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
-                </template>
-              </p>
+        <section id="currentTrack">
+          <!-- <img id="" :src="active.image" /> -->
+          <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
+          <p>
+            <span id="nowPlaying">
+              {{this.restaurant.name}} <span v-if="active">— Now playing:</span>
+            </span>
+            <div v-if="active">
+              {{active.title}} <span id="separator">·</span>
+              <template v-for='(artist, index) in active.artists'>
+                <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
+              </template>
+            </div>
+          </p>
         </section>
 
         <section id="search">
@@ -56,34 +58,36 @@
           @addTrack="addTrack($event)"
         ></results>
 
-        <section id="nextSong" v-if="nextSong">
-          <h2>Coming Up</h2>
-          <div id="nextSongInfo">
-            <img id="songImage" :src="this.nextSong.image" />
-            <li id="infos">
-              <span class="title">{{this.nextSong.title}}</span>
-              <template v-for='(artist, index) in this.nextSong.artists'>
-                <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
-              </template>
-            </li>
-          </div>
-        </section>
+        <section v-if="!this.searching">
+          <section id="nextSong" v-if="nextSong">
+            <h2>Coming Up</h2>
+            <div id="nextSongInfo">
+              <img id="songImage" :src="this.nextSong.image" />
+              <li id="infos">
+                <span class="title">{{this.nextSong.title}}</span>
+                <template v-for='(artist, index) in this.nextSong.artists'>
+                  <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
+                </template>
+              </li>
+            </div>
+          </section>
 
-        <section id="queue" v-if="!this.searching">
-          <h2>Queue</h2>
-          <p id="emptyQueue" v-if="this.list=='empty'">
-            <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
-          </p>
-          <queue
-            ref="queue"
-            v-if="userid!='' && this.list!='empty' && !searching "
-            :trackToUpvote="this.trackToUpvote"
-            :userid="this.userid"
-            :accessToken="this.accessToken"
-            :list="this.list"
-            :restaurant="this.restaurant"
-            @getQueue="this.getQueue"
-          ></queue>
+          <section id="queue">
+            <h2>Queue</h2>
+            <p id="emptyQueue" v-if="this.list=='empty'">
+              <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
+            </p>
+            <queue
+              ref="queue"
+              v-if="userid!='' && this.list!='empty' && !searching "
+              :trackToUpvote="this.trackToUpvote"
+              :userid="this.userid"
+              :accessToken="this.accessToken"
+              :list="this.list"
+              :restaurant="this.restaurant"
+              @getQueue="this.getQueue"
+            ></queue>
+          </section>
         </section>
       </div>
     </div>
@@ -530,9 +534,9 @@
   }
 
   /*Now Playing Safe area for iPhone X*/
-  @media only screen 
-    and (device-width : 375px) 
-    and (device-height : 812px) 
+  @media only screen
+    and (device-width : 375px)
+    and (device-height : 812px)
     and (-webkit-device-pixel-ratio : 3) {
       #currentTrack {
         padding-top: 3rem;
