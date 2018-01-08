@@ -380,6 +380,7 @@
 <style scoped>
   #spotify{
     min-height: 100vh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
   #songsLeft{
@@ -527,6 +528,16 @@
   .notificationOut {
     animation: notificationOut 0.3s linear both;
   }
+
+  /*Now Playing Safe area for iPhone X*/
+  @media only screen 
+    and (device-width : 375px) 
+    and (device-height : 812px) 
+    and (-webkit-device-pixel-ratio : 3) {
+      #currentTrack {
+        padding-top: 2rem;
+      }
+    }
 
   @-webkit-keyframes notificationIn {
     0%   { right: -200px; }
