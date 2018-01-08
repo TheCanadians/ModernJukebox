@@ -112,8 +112,7 @@
     font-weight: bold;
     border: none;
     border-radius: 10rem;
-    padding: 1rem 0rem;
-    width: 24rem;
+    padding: 1rem 2rem;
     font-size: var(--button);
     font-family: 'Roboto Condensed', sans-serif;
     align-self: center;
