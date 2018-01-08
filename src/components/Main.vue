@@ -535,7 +535,7 @@
     and (device-height : 812px) 
     and (-webkit-device-pixel-ratio : 3) {
       #currentTrack {
-        padding-top: 2rem;
+        padding-top: 3rem;
       }
     }
 
