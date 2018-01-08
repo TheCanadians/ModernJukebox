@@ -8,9 +8,11 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueFire from 'vuefire'
+import VueQrcodeReader from 'vue-qrcode-reader'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
+Vue.use(VueQrcodeReader)
 Vue.use(VueFire)
 
 /* eslint-disable no-new */
