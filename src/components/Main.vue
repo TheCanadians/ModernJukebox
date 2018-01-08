@@ -14,6 +14,12 @@
         @checkedOut="this.checkout">
       </locationInfo>
 
+      <!-- <qrcode-reader
+        v-if="!restaurant"
+        @setRestaurant="setRestaurant"
+        @decode="this.onLocate"
+      ></qrcode-reader> -->
+
       <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
 
       <div id="restaurantChosen" v-if="restaurant">
@@ -187,6 +193,9 @@
       hideLocationInfo() {
         this.locationInfo = false
       },
+      onLocate(content) {
+        console.log(content)
+      },
       getQueue: function() {
         this.list.length = 0
         this.setLimit()
@@ -358,7 +367,6 @@
             this.nextSong = this.list[i]
           }
         }
-        console.log(this.nextSong)
       }
     },
     computed: {
