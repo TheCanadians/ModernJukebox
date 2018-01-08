@@ -2,7 +2,7 @@
   <div id="chooserContainer">
     <h3>Please select the venue you're in.</h3>
     <select id="chooser" v-model="restaurant">
-      <option selected disabled value="">Choose Venue</option>
+      <option selected disabled value="">Choose venue</option>
       <option
         v-for="restaurant in restaurants"
         value="restaurant"
@@ -75,11 +75,11 @@
     font-weight: bold;
 
     border: none;
-    border-radius: 0;
+    border-radius: 10rem;
     padding: 1rem 2rem;
     background-color: var(--mainColor);
     background-image:url("../assets/ic_arrow_drop_down.svg");
-    background-position: right;
+    background-position: right 1.5rem center;
     background-repeat: no-repeat;
     }
 </style>
