@@ -20,6 +20,12 @@
 
   :root{
 
+    --mainColor: #FFDE22;
+    --bgColor: #282828;
+    --textColorDark: #282828;
+    --textColorGray: #8c8c8c;
+    --textColorLight: #FFF;
+
     --smallText: 0.85rem;
     --normalText: 1rem;
     --title: 1.8rem;

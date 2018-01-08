@@ -68,6 +68,7 @@
     grid-area: title;
     margin-top: 2rem;
     padding: 0 1rem;
+    color: var(--textColorDark);
   }
 
   #buttonContainer{
@@ -80,6 +81,7 @@
 
   #buttonContainer p{
     margin-top: .25rem;
+    color: var(--textColorDark);
   }
 
   #authorizeBTN {
@@ -105,6 +107,7 @@
     font-size: var(--normalText);
     line-height: 1.6rem;
     margin-top: 1rem;
+    color: var(--textColorDark);
   }
 
     #infoContainer p:first-of-type{

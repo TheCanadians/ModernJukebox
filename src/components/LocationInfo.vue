@@ -22,8 +22,8 @@
         The maximum amount of songs in this playlist: {{this.maxQueue}}
       </p>
 
-      <button @click="this.checkout">Checkout from location</button>
-      <button id="logoutBTN" @click="this.logout">Logout</button>
+      <button id="checkoutBTN" @click="this.checkout">Checkout from location</button>
+      <button id="logoutBTN" @click="this.logout">Logout from Spotify</button>
     </div>
   </section>
 </template>
@@ -55,6 +55,7 @@
     top: 0;
     left: 0;
     background-color: #FFDE22;
+    color: var(--textColorDark);
   }
 
   #infoInside{
@@ -97,30 +98,39 @@
     white-space: nowrap;
     margin-top: .5rem;
     margin-right: .5rem;
+    cursor: default;
   }
 
   #locationInfo p{
     padding-top: 1rem;
   }
 
-  #logoutBTN{
+  #checkoutBTN, #logoutBTN{
     background: #282828;
     color: #FFDE22;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 1rem 8rem;
     border: none;
     border-radius: 10rem;
+    padding: 1rem 0rem;
+    width: 24rem;
     font-size: var(--button);
     font-family: 'Roboto Condensed', sans-serif;
     align-self: center;
     position: absolute;
-    bottom: 4rem;
     cursor: pointer;
   }
 
-  #logoutBTN:hover{
+  #checkoutBTN:hover, #logoutBTN:hover{
     background: #1f1f1f;
+  }
+
+  #checkoutBTN{
+    bottom: 10rem;
+  }
+
+  #logoutBTN{
+    bottom: 4rem;
   }
 
 </style>

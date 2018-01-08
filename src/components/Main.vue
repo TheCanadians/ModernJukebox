@@ -28,21 +28,17 @@
         </transition>
 
         <section id="currentTrack" v-if="active">
-          <div id="trackInfo">
-            <div class="infos">
               <!-- <img id="" :src="active.image" /> -->
               <img id="restaurantInfoIcon" src="../assets/ic_info.svg" @click="this.showLocationInfo" />
               <p>
                 <span id="nowPlaying">
-                  {{this.restaurant.name}}: Now playing:
+                  {{this.restaurant.name}} — Now playing:
                 </span>
                 {{active.title}} <span id="separator">·</span>
                 <template v-for='(artist, index) in active.artists'>
                   <span class="artist"> {{artist}}<template v-if="index + 1 < active.artists.length">, </template></span>
                 </template>
               </p>
-            </div>
-          </div>
         </section>
 
         <section id="search">
@@ -62,12 +58,14 @@
 
         <section id="nextSong" v-if="nextSong">
           <h2>Coming Up</h2>
-          <div>
-            <img :src="this.nextSong.image" />
-            <template v-for='(artist, index) in this.nextSong.artists'>
-              <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
-            </template>
-            {{this.nextSong.title}}
+          <div id="nextSongInfo">
+            <img id="songImage" :src="this.nextSong.image" />
+            <li id="infos">
+              <span class="title">{{this.nextSong.title}}</span>
+              <template v-for='(artist, index) in this.nextSong.artists'>
+                <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
+              </template>
+            </li>
           </div>
         </section>
 
@@ -453,6 +451,7 @@
     width: auto;
     margin: 0;
     order: 2;
+    color: var(--textColorDark);
   }
 
   #currentTrack img#restaurantInfoIcon{
@@ -479,6 +478,29 @@
     display: inline;
     margin-right: 16px;
     border-radius: 4px;
+  }
+
+  #nextSong{
+    padding: 1rem 0;
+  }
+
+  #nextSongInfo{
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: 64px auto;
+    grid-template-rows: auto;
+    grid-column-gap: 1rem;
+    grid-template-areas: "image info";
+    list-style: none;
+    align-items: center;
+  }
+
+  #nextSongInfo #songImage{
+    grid-area: image;
+  }
+
+  #nextSongInfo #infos{
+    grid-area: info;
   }
 
   /* Add some padding inside the card container */
