@@ -87,7 +87,7 @@
 
 #queue {
     width: 100%;
-    background-color: #282828;
+    background-color: var(--bgColor);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -114,7 +114,7 @@
 
   #btnUpvote {
     background: none;
-    color: #FFDE22;
+    color: var(--mainColor);
     font-size: var(--normalText);
     outline: none;
     border: none;
@@ -147,7 +147,7 @@
 
   #heartCountNotVotable{
     grid-area: button;
-    color: #8c8c8c;
+    color: var(--textColorGray);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -175,14 +175,10 @@
   }
 
   li .artist{
-    color: #8c8c8c;
+    color: var(--textColorGray);
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: var(--smallText)
-  }
-
-  a {
-    color: #0097A7;
   }
 
   li.songListItem #songImage {

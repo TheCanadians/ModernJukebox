@@ -86,7 +86,7 @@
 
   #authorizeBTN {
     background: #2B2B2B;
-    color: #FFDE22;
+    color: var(--mainColor);
     box-shadow: none;
     outline: none;
     border: none;

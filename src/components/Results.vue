@@ -40,7 +40,7 @@
     grid-area: button;
     display: flex;
     flex-direction: column;
-    color: #FFDE22;
+    color: var(--mainColor);
     text-transform: uppercase;
     font-weight: bold;
     font-size: var(--normalText);
@@ -60,7 +60,7 @@
   #resultsTitle{
     display: inline;
     margin: 0;
-    color: #FFF;
+    color: var(--textColorLight);
     font-size: var(--title);
     margin-left: 1.5rem;
     margin-bottom: 1rem;

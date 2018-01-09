@@ -51,12 +51,12 @@
     box-sizing: border-box;
     width: 100%;
     padding: 1.5rem 1.5rem 0.5rem 1.5rem;
-    background-color: #282828;
+    background-color: var(--bgColor);
     text-align: left;
   }
 
   #search p {
-    color: #fff;
+    color: var(--textColorLight);
     padding-bottom: 1rem;
   }
 
@@ -83,13 +83,13 @@
     padding: 10px 20px;
     border-radius: 10rem 0 0 10rem;
     font-family: 'Roboto Condensed';
-    color: rgba(255, 255, 255, 1);
+    color: var(--textColorLight);
     margin: 0;
     flex-grow: 2;
   }
 
   #submitBtn {
-    background-color: #FFDE22;
+    background-color: var(--mainColor);
     background-image: url('../assets/ic_search.svg');
     widows: auto;
     height: 100%;
