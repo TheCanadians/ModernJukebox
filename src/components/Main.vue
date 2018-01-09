@@ -14,13 +14,13 @@
         @checkedOut="this.checkout">
       </locationInfo>
 
-      <!-- <qrcode-reader
+      <qrcode-reader
         v-if="!restaurant"
         @setRestaurant="setRestaurant"
-        @decode="this.onLocate"
-      ></qrcode-reader> -->
+        @decode="this.onDecode"
+      ></qrcode-reader>
 
-      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
+      <!-- <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser> -->
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">
@@ -193,7 +193,7 @@
       hideLocationInfo() {
         this.locationInfo = false
       },
-      onLocate(content) {
+      onDecode(content) {
         console.log(content)
       },
       getQueue: function() {

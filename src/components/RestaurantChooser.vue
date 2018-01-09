@@ -1,11 +1,10 @@
 <template>
   <div id="chooserContainer">
     <h3>Please select the venue you're in.</h3>
-    <select id="chooser" v-model="restaurant">
+    <select id="chooser" v-model="selectedRestaurant">
       <option selected disabled value="">Choose venue</option>
       <option
         v-for="restaurant in restaurants"
-        value="restaurant"
         :value="restaurant">
         {{restaurant.name}}
       </option>
@@ -21,7 +20,7 @@
     data() {
       return {
         restaurants: [],
-        restaurant: 'false'
+        selectedRestaurant: ''
       }
     },
     methods: {
@@ -33,8 +32,8 @@
         })
       },
       setRestaurant() {
-        if(this.restaurant != null) {
-          this.$emit('setRestaurant', this.restaurant)
+        if(this.selectedRestaurant) {
+          this.$emit('setRestaurant', this.selectedRestaurant)
         }
       }
     },
