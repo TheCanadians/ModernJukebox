@@ -14,13 +14,13 @@
         @checkedOut="this.checkout">
       </locationInfo>
 
-      <qrcode-reader
+      <!-- <qrcode-reader
         v-if="!restaurant"
         @setRestaurant="setRestaurant"
         @decode="this.onDecode"
-      ></qrcode-reader>
+      ></qrcode-reader> -->
 
-      <!-- <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser> -->
+      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">

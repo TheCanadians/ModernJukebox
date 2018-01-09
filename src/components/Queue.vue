@@ -1,7 +1,7 @@
 <template>
     <div id="queueList">
       <ul v-for="song in list">
-        <li class="songListItem" id="queueSong">
+        <li class="songListItem" v-if="!song.playing && !song.nextSong" id="queueSong">
           <img id="songImage" :src="song.image" />
           <p>
             <span class="title">{{song.title}}</span>
