@@ -4298,6 +4298,8 @@ window.replacePlaylist = function() {
           }
           spotifyApi.replaceTracksInPlaylist(id, playlistID, [
             'spotify:track:' + firstID,
+            'spotify:track:' + secondID,
+            'spotify:track:' + secondID,
             'spotify:track:' + secondID
           ]).then(function(data) {
             console.log("Replaced Songs");
@@ -4465,18 +4467,23 @@ window.timer = function() {
 
 }
 
-window.transferPlayback = function(id) {
-  spotifyApi.transferMyPlayback(
-    {
-      device_ids : [
-        id
-      ],
-      play : true
-    }
-  ).then(function(data) {
-    console.log(data);
+window.SpotifyPlaySong = function() {
+  spotifyApi.getMyDevices().then(function(data) {
+    console.log("device ID: " + data.body['devices'][0].id);
+    var deviceID = data.body['devices'][0].id;
+    spotifyApi.play({
+      uris : ['spotify:track:3n3Ppam7vgaVa1iaRUc9Lp'],
+    }).then(function(data) {
+      spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+        console.log(data);
+      }, function(err) {
+        console.log('Current Song: ', err);
+      });
+    }, function(err) {
+      console.log('Couldnt play, cuz: ', err);
+    });
   }, function(err) {
-    console.log("Something went wrong while transfering playback: " + err);
+    console.log(err);
   });
 }
 
@@ -4485,18 +4492,17 @@ window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
     console.log("device ID: " + data.body['devices'][0].id);
     var deviceID = data.body['devices'][0].id;
-    spotifyApi.play({context_uri : 'spotify:user:guildwhoops:playlist:' + playlistID}).then(function(data) {
+    spotifyApi.play({context_uri : 'spotify:user:' + id + ':playlist:' + playlistID}).then(function(data) {
       spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
           console.log("204");
-          transferPlayback(deviceID);
-/*
+
           closePlayer();
           setTimeout(function() {
             SpotifyPlay();
           }, 4000);
-*/
+
         }
         else {
           timer();
