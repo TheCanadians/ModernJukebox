@@ -401,12 +401,12 @@
 
   .searchDisclaimer{
     padding: 1.5rem;
-    color: #fff;
+    color: var(--textColorLight);
   }
 
   .notification {
     background-color: #424242;
-    color: #fff;
+    color: var(--textColorLight);
     font-size: var(--normalText);
     border-radius: 400px;
     display: inline-block;
@@ -419,7 +419,7 @@
   h2 {
     margin-left: 24px;
     font-size: var(--title);
-    color: #fff;
+    color: var(--textColorLight);
     margin-bottom: .5rem;
   }
 
@@ -456,6 +456,7 @@
     grid-column-gap: 1rem;
     padding: 1rem 1rem;
     align-items: center;
+    color: var(--textColorDark);
   }
 
   #currentTrack p{
@@ -464,7 +465,6 @@
     width: auto;
     margin: 0;
     order: 2;
-    color: var(--textColorDark);
   }
 
   #currentTrack img#restaurantInfoIcon{

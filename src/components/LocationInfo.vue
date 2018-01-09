@@ -54,7 +54,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #FFDE22;
+    background-color: var(--mainColor);
     color: var(--textColorDark);
   }
 
@@ -92,7 +92,7 @@
     border-radius: 10rem;
     padding: .5rem .75rem;
     font-size: var(--smallText);
-    color: #FFDE22;
+    color: var(--mainColor);
     text-transform: uppercase;
     font-weight: bold;
     white-space: nowrap;
@@ -107,7 +107,7 @@
 
   #checkoutBTN, #logoutBTN{
     background: #282828;
-    color: #FFDE22;
+    color: var(--mainColor);
     text-transform: uppercase;
     font-weight: bold;
     border: none;

@@ -48,7 +48,7 @@
     font-family: 'Roboto Condensed', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #fff;
+    color: var(--textColorLight);
     min-height: 100vh;
   }
 
