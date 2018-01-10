@@ -14,13 +14,12 @@
         @checkedOut="this.checkout">
       </locationInfo>
 
-      <!-- <qrcode-reader
-        v-if="!restaurant"
-        @setRestaurant="setRestaurant"
+      <qrcode-reader
+        v-if="!this.restaurant"
         @decode="this.onDecode"
-      ></qrcode-reader> -->
+      ></qrcode-reader>
 
-      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
+      <!-- <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser> -->
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">
@@ -148,6 +147,7 @@
 
         notificationText: '',
         notificationShowing: false,
+        restaurants: [],
         restaurant: false,
         active: false,
         list: [],
@@ -194,7 +194,23 @@
         this.locationInfo = false
       },
       onDecode(content) {
-        console.log(content)
+        this.setRestaurant(content)
+      },
+      getRestaurants() {
+        db.ref().on('value', snapshot => {
+          snapshot.forEach(child => {
+            this.restaurants.push(child.val())
+          })
+        })
+      },
+      setRestaurant(content) {
+        for (var i = 0; i < this.restaurants.length; i++) {
+          if(this.restaurants[i].id == content) {
+            this.restaurant = this.restaurants[i]
+          }
+        }
+        this.getBlacklist(),
+        this.getQueue()
       },
       getQueue: function() {
         this.list.length = 0
@@ -345,11 +361,6 @@
         this.notificationShowing = !this.notificationShowing,
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       },
-      setRestaurant(restaurant) {
-        this.restaurant = restaurant,
-        this.getBlacklist(),
-        this.getQueue()
-      },
       setCurrentTrack() {
         this.active = false
 
@@ -382,6 +393,7 @@
     mounted() {
       if(this.loggedIn) {
         this.setUserId(),
+        this.getRestaurants(),
         this.getQueue()
       }
     }
