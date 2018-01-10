@@ -4466,7 +4466,7 @@ window.timer = function() {
   });
 
 }
-
+/*
 window.SpotifyPlaySong = function() {
   spotifyApi.getMyDevices().then(function(data) {
     console.log("device ID: " + data.body['devices'][0].id);
@@ -4486,13 +4486,13 @@ window.SpotifyPlaySong = function() {
     console.log(err);
   });
 }
-
+*/
 // start playing spotify playlist
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
     console.log("device ID: " + data.body['devices'][0].id);
     var deviceID = data.body['devices'][0].id;
-    spotifyApi.play({context_uri : 'spotify:user:' + id + ':playlist:' + playlistID}).then(function(data) {
+    spotifyApi.play({context_uri : 'spotify:user:guildwhoops:playlist:' + playlistID}).then(function(data) {
       spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
