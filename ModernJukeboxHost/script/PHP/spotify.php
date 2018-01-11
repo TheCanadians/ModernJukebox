@@ -19,4 +19,8 @@ $statement->execute();
 $result = $statement->fetch();
 $refreshToken = json_encode($result);
 
+$clientID = '500ecf1e7acc47b7980a91efd66b9a9c';
+$clientSecret = '9a3f95e414f2409f9c70490b199e521c';
+$cliID = json_encode($clientID);
+$cliSecret = json_encode($clientSecret);
 ?>

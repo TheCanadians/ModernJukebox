@@ -72,7 +72,9 @@ function blacklist() {
     }
   }, function(err) {
     console.log(err);
-    refreshToken('blacklist');
+    if(err.statusCode == "401") {
+      refreshToken("blacklist");
+    }
   });
 }
 

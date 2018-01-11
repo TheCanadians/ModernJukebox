@@ -35,6 +35,8 @@ require_once '../script/PHP/spotify.php';
     rooms = <?php echo $rooms; ?>;
     accessToken = <?php echo $accessToken; ?>;
     refreshToken = <?php echo $refreshToken; ?>;
+    cliID = <?php echo $cliID; ?>;;
+    cliSecret = <?php echo $cliSecret; ?>;;
   </script>
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

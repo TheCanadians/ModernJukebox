@@ -4236,24 +4236,25 @@ module.exports = request;
 },{}],13:[function(require,module,exports){
 var SpotifyWebApi = require('spotify-web-api-node');
 
-spotifyApi = new SpotifyWebApi({
-  clientId : '500ecf1e7acc47b7980a91efd66b9a9c',
-  clientSecret : '9a3f95e414f2409f9c70490b199e521c',
-  redirectUri : 'http://localhost/ModernJukeboxHost/server/forwarding.php'
-});
-// set access and refresh token
-spotifyApi.setAccessToken(accessToken[0]);
-spotifyApi.setRefreshToken(refreshToken[0]);
+//setTimeout(function() {
+  spotifyApi = new SpotifyWebApi({
+    clientId : cliID,
+    clientSecret : cliSecret,
+    redirectUri : 'http://localhost/ModernJukeboxHost/server/forwarding.php'
+  });
+  // set access and refresh token
+  spotifyApi.setAccessToken(accessToken[0]);
+  spotifyApi.setRefreshToken(refreshToken[0]);
 
-id = "";
-counter = 0;
+  id = "";
+  counter = 0;
 
-spotifyApi.getMe().then(function(data) {
-  id = data.body.id;
-}, function(err) {
-  console.log(err);
-});
-
+  spotifyApi.getMe().then(function(data) {
+    id = data.body.id;
+  }, function(err) {
+    console.log(err);
+  });
+//}, 1000);
 
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
@@ -4407,6 +4408,7 @@ window.addToPlaylist = function() {
     ]).then(function(data) {
       console.log("Song added");
       setNextSong(nextID);
+      SpotifyPlay();
     }, function(err) {
       console.log("Something went wrong while adding songs!", err);
       if(err.statusCode == "401") {
@@ -4451,7 +4453,7 @@ window.timer = function() {
         // wait for song length + 5 seconds
         setTimeout(function() {
           deleteFromPlaylist();
-          timer();
+          //timer();
         }, songLength + 5000);
       }
       else {
