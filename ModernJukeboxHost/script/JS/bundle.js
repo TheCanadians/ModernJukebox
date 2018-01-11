@@ -4298,12 +4298,13 @@ window.replacePlaylist = function() {
           }
           spotifyApi.replaceTracksInPlaylist(id, playlistID, [
             'spotify:track:' + firstID,
-            'spotify:track:' + secondID,
-            'spotify:track:' + secondID,
             'spotify:track:' + secondID
           ]).then(function(data) {
             console.log("Replaced Songs");
-            SpotifyPlay();
+            setTimeout(function() {
+              SpotifyPlay();
+            }, 1000)
+
           }, function(err) {
             console.log("Something went wrong while replacing Songs: ", err);
             if(err.statusCode == "401") {
@@ -4487,12 +4488,40 @@ window.SpotifyPlaySong = function() {
   });
 }
 */
+/*
+window.SpotifyPlay = function() {
+
+  spotifyApi.play({context_uri: 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr'}).then(function(data) {
+    console.log(data);
+  }, function(err) {
+    console.log(err);
+  });
+
+  spotifyApi.play({context_uri: 'spotify:user:guildwhoops:playlist:5HBJRAyOH6lJUrYkB7FZ30'}).then(function(data) {
+    if (data.statusCode == "204") {
+      console.log("204");
+
+      closePlayer();
+      setTimeout(function() {
+        SpotifyPlay();
+      }, 4000);
+    }
+    else {
+      timer();
+    }
+  }, function(err) {
+    console.log("Play didn't work because: ", err);
+  });
+
+}
+*/
 // start playing spotify playlist
+
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
     console.log("device ID: " + data.body['devices'][0].id);
     var deviceID = data.body['devices'][0].id;
-    spotifyApi.play({context_uri : 'spotify:user:guildwhoops:playlist:' + playlistID}).then(function(data) {
+    spotifyApi.play({context_uri : 'spotify:user:' + id + ':playlist:' + playlistID}).then(function(data) {
       spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
@@ -4526,6 +4555,7 @@ window.SpotifyPlay = function() {
     }
   });
 }
+
 // stop playback of spotify playlist
 window.SpotifyPause = function() {
   spotifyApi.pause().then(function(data) {

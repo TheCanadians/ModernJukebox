@@ -10,7 +10,6 @@ function qrCode() {
   database.ref(path + 'name').once('value').then(function(snapshot) {
     var roomName = (snapshot.val());
     var resField = document.createElement("p");
-    resField.setAttribute("class", "");
     var resName = document.createTextNode("Ihr QR Code für: " + roomName);
     resField.appendChild(resName);
     qrNode.appendChild(resField);
@@ -33,7 +32,7 @@ function qrCode() {
   var imgData = canvas.toDataURL("image/jpeg", 1.0);
   // Make PDF out of the Canvas
   var qrCodeDoc = new jsPDF();
-  qrCodeDoc.addHTML(parentNode, 15, 15, {
+  qrCodeDoc.addHTML($('#qrcode'), 15, 15, {
     'background' : '#fff',
   }, function() {
     qrCodeDoc.addImage(imgData, 'JPEG', 0, 0);
