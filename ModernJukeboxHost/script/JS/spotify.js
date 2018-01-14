@@ -110,9 +110,18 @@ window.replacePlaylist = function() {
 window.addSpotifyPlaylistSong = function(int) {
   songs = [];
   spotifyApi.getPlaylist('spotify', '37i9dQZF1DX274mITVX0K3').then(function(data) {
-    var playlistLength = data.body.tracks.items.length
+    var playlistLength = data.body.tracks.items.length;
     for (i = int; i > 0; i--) {
       var randomSong = Math.floor(Math.random() * playlistLength);
+      try {
+        while (randomSong == lastSongNumber) {
+          var randomSong = Math.floor(Math.random() * playlistLength);
+        }
+      }
+      catch(err) {
+        console.log(err);
+      }
+      lastSongNumber = randomSong;
       var playlist = data.body.tracks.items[randomSong].track;
       artists = [];
       for (j = 0; j < playlist['artists'].length; j++) {
@@ -249,8 +258,8 @@ window.SpotifyPlay = function() {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
           console.log("204");
-
-          closePlayer();
+          alert("Please start a song manually!");
+          //closePlayer();
           setTimeout(function() {
             SpotifyPlay();
           }, 4000);
