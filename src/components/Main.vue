@@ -19,7 +19,7 @@
         @decode="this.onDecode"
       ></qrcode-reader>
 
-      <!-- <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser> -->
+      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">
@@ -562,6 +562,20 @@
         padding-top: 3rem;
       }
     }
+
+  /* Disable restaurant chooser for mobile devices */
+  /* @media screen and (device-max-width: 769px) {
+    restaurant-chooser {
+      display: none;
+    }
+  } */
+
+  /* Disable QR Code reader for non-mobile devices */
+  @media screen and (device-min-width: 769px) {
+    qrcode-reader {
+      display: none;
+    }
+  }
 
   @-webkit-keyframes notificationIn {
     0%   { right: -200px; }
