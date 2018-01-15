@@ -46,8 +46,6 @@ require_once '../script/PHP/spotify.php';
   <script src="../script/JS/jquery-3.2.1.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
-  <!-- JsPDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
   <!-- QRCodeJs -->
   <script type="text/javascript" src="../qrcodejs-master/jquery.min.js"></script>
   <script type="text/javascript" src="../qrcodejs-master/qrcode.js"></script>
@@ -61,6 +59,8 @@ require_once '../script/PHP/spotify.php';
   <script type="text/javascript" src="../script/JS/playlist.js"></script>
   <script type="text/javascript" src="../script/JS/resInfo.js"></script>
   <script type="text/javascript" src="../script/JS/button.js"></script>
+  <!-- JsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 </head>
 <!-- Set right firebase Path on load -->
 <body onload="setInfoPath();">

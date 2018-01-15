@@ -32,13 +32,8 @@ function qrCode() {
   var imgData = canvas.toDataURL("image/jpeg", 1.0);
   // Make PDF out of the Canvas
   var qrCodeDoc = new jsPDF();
-  qrCodeDoc.addHTML($('#qrcode'), 15, 15, {
-    'background' : '#fff',
-  }, function() {
-    qrCodeDoc.addImage(imgData, 'JPEG', 0, 0);
-
-    qrCodeDoc.save(path + '.pdf');
-  });
+  qrCodeDoc.addImage(imgData, 'JPEG', 0, 0);
+  qrCodeDoc.save(path + '.pdf');
 
   // Remove DIV Node
   var parent = document.getElementById("qrCodeHolder");

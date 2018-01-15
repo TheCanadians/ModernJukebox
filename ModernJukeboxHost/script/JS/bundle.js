@@ -4236,7 +4236,6 @@ module.exports = request;
 },{}],13:[function(require,module,exports){
 var SpotifyWebApi = require('spotify-web-api-node');
 
-//setTimeout(function() {
   spotifyApi = new SpotifyWebApi({
     clientId : cliID,
     clientSecret : cliSecret,
@@ -4254,7 +4253,6 @@ var SpotifyWebApi = require('spotify-web-api-node');
   }, function(err) {
     console.log(err);
   });
-//}, 1000);
 
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
@@ -4317,11 +4315,9 @@ window.replacePlaylist = function() {
       // create new spotify playlist and return id
       else {
         var trimPath = path.toString().slice(1, -1);
-        console.log(trimPath);
         spotifyApi.createPlaylist(id, trimPath, {'public' : false}).then(function(data) {
           console.log("Created Playlist!");
           var playlistID = data.body['id'];
-          console.log(playlistID);
           // save id in database
           $.ajax({
             type: "POST",
@@ -4350,14 +4346,25 @@ window.replacePlaylist = function() {
 window.addSpotifyPlaylistSong = function(int) {
   songs = [];
   spotifyApi.getPlaylist('spotify', '37i9dQZF1DX274mITVX0K3').then(function(data) {
+    var playlistLength = data.body.tracks.items.length;
     for (i = int; i > 0; i--) {
-      console.log(counter);
-      var playlist = data.body.tracks.items[counter].track;
+      var randomSong = Math.floor(Math.random() * playlistLength);
+      try {
+        while (randomSong == lastSongNumber) {
+          console.log("Last Song: " + lastSongNumber + " This Song: " + randomSong);
+          var randomSong = Math.floor(Math.random() * playlistLength);
+        }
+      }
+      catch(err) {
+        console.log(err);
+      }
+      lastSongNumber = randomSong;
+      console.log(lastSongNumber);
+      var playlist = data.body.tracks.items[randomSong].track;
       artists = [];
       for (j = 0; j < playlist['artists'].length; j++) {
         artists.push(playlist['artists'][j]['name']);
       }
-      console.log(artists);
       var duration = playlist['duration_ms'];
       var id = playlist['id'];
       //var image = playlist[''];
@@ -4375,7 +4382,6 @@ window.addSpotifyPlaylistSong = function(int) {
       }
       var title = playlist['name'];
       addSong(artists, duration, id, nextSong, playing, title);
-      counter++;
     }
   }, function(err) {
     console.log(err);
@@ -4402,7 +4408,6 @@ window.addToPlaylist = function() {
     if (nextID == "" || nextID === undefined) {
       nextID = test[1];
     }
-    console.log(nextID);
     spotifyApi.addTracksToPlaylist(id, playlistID, [
       "spotify:track:" + nextID
     ]).then(function(data) {
@@ -4442,19 +4447,31 @@ window.deleteFromPlaylist = function() {
   });
 }
 // timer function to check when song finished playling
-window.timer = function() {
+window.timer = function(progress = 0) {
   var firstSongID = document.getElementById("playing").className;
   // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
-    console.log("current Song ID: " + data.body['item']['id']);
-    console.log("firstSongID: " + firstSongID);
       if (data.body['item']['id'] == firstSongID) {
-        var songLength = data.body['item']['duration_ms'];
+        var songLength = parseInt(data.body['item']['duration_ms'], 10) - progress;
+        console.log("Länge des Timers: " + songLength);
         // wait for song length + 5 seconds
         setTimeout(function() {
-          deleteFromPlaylist();
-          //timer();
-        }, songLength + 5000);
+          spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+            var currentID = data.body['item']['id'];
+            if (currentID == firstSongID) {
+              var progressMS = data.body['progress_ms'];
+              timer(progressMS);
+            }
+            else {
+              deleteFromPlaylist();
+            }
+          }, function(err) {
+            console.log('Current Song Timer: ', err);
+            if(err.statusCode == "401") {
+              refreshToken("timer");
+            }
+          });
+        }, songLength);
       }
       else {
         setTimeout(function() {
@@ -4469,67 +4486,18 @@ window.timer = function() {
   });
 
 }
-/*
-window.SpotifyPlaySong = function() {
-  spotifyApi.getMyDevices().then(function(data) {
-    console.log("device ID: " + data.body['devices'][0].id);
-    var deviceID = data.body['devices'][0].id;
-    spotifyApi.play({
-      uris : ['spotify:track:3n3Ppam7vgaVa1iaRUc9Lp'],
-    }).then(function(data) {
-      spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
-        console.log(data);
-      }, function(err) {
-        console.log('Current Song: ', err);
-      });
-    }, function(err) {
-      console.log('Couldnt play, cuz: ', err);
-    });
-  }, function(err) {
-    console.log(err);
-  });
-}
-*/
-/*
-window.SpotifyPlay = function() {
 
-  spotifyApi.play({context_uri: 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr'}).then(function(data) {
-    console.log(data);
-  }, function(err) {
-    console.log(err);
-  });
-
-  spotifyApi.play({context_uri: 'spotify:user:guildwhoops:playlist:5HBJRAyOH6lJUrYkB7FZ30'}).then(function(data) {
-    if (data.statusCode == "204") {
-      console.log("204");
-
-      closePlayer();
-      setTimeout(function() {
-        SpotifyPlay();
-      }, 4000);
-    }
-    else {
-      timer();
-    }
-  }, function(err) {
-    console.log("Play didn't work because: ", err);
-  });
-
-}
-*/
 // start playing spotify playlist
-
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
-    console.log("device ID: " + data.body['devices'][0].id);
     var deviceID = data.body['devices'][0].id;
     spotifyApi.play({context_uri : 'spotify:user:' + id + ':playlist:' + playlistID}).then(function(data) {
       spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
         // if status code of response is 204 restart webplayer and try again (works sporadically)
         if (data.statusCode == "204") {
           console.log("204");
-
-          closePlayer();
+          alert("Please start a song manually!");
+          //closePlayer();
           setTimeout(function() {
             SpotifyPlay();
           }, 4000);
