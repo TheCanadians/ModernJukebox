@@ -33,7 +33,7 @@
       },
       setRestaurant() {
         if(this.selectedRestaurant) {
-          this.$emit('setRestaurant', this.selectedRestaurant)
+          this.$emit('setRestaurant', this.selectedRestaurant.id)
         }
       }
     },

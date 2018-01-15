@@ -571,8 +571,8 @@
   } */
 
   /* Disable QR Code reader for non-mobile devices */
-  @media screen and (device-min-width: 769px) {
-    qrcode-reader {
+  @media screen and (min-width: 769px) {
+    .qrcode-reader {
       display: none;
     }
   }
