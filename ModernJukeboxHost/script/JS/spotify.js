@@ -16,7 +16,22 @@ var SpotifyWebApi = require('spotify-web-api-node');
     id = data.body.id;
   }, function(err) {
     console.log(err);
+    if(err.statusCode == "401") {
+      refreshToken("getUserID");
+    }
   });
+
+// get user id
+window.getUserID = function() {
+    spotifyApi.getMe().then(function(data) {
+      id = data.body.id;
+    }, function(err) {
+      console.log(err);
+      if(err.statusCode == "401") {
+        refreshToken("getUserID");
+      }
+    });
+  }
 
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
@@ -219,6 +234,9 @@ window.timer = function(progress = 0) {
         // wait for song length + 5 seconds
         setTimeout(function() {
           spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+            if (data.body['item'] == null) {
+              setTimeout(function() {}, 200);
+            }
             var currentID = data.body['item']['id'];
             if (currentID == firstSongID) {
               var progressMS = data.body['progress_ms'];

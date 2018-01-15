@@ -4252,7 +4252,22 @@ var SpotifyWebApi = require('spotify-web-api-node');
     id = data.body.id;
   }, function(err) {
     console.log(err);
+    if(err.statusCode == "401") {
+      refreshToken("getUserID");
+    }
   });
+
+// get user id
+window.getUserID = function() {
+    spotifyApi.getMe().then(function(data) {
+      id = data.body.id;
+    }, function(err) {
+      console.log(err);
+      if(err.statusCode == "401") {
+        refreshToken("getUserID");
+      }
+    });
+  }
 
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
@@ -4351,7 +4366,6 @@ window.addSpotifyPlaylistSong = function(int) {
       var randomSong = Math.floor(Math.random() * playlistLength);
       try {
         while (randomSong == lastSongNumber) {
-          console.log("Last Song: " + lastSongNumber + " This Song: " + randomSong);
           var randomSong = Math.floor(Math.random() * playlistLength);
         }
       }
@@ -4359,7 +4373,6 @@ window.addSpotifyPlaylistSong = function(int) {
         console.log(err);
       }
       lastSongNumber = randomSong;
-      console.log(lastSongNumber);
       var playlist = data.body.tracks.items[randomSong].track;
       artists = [];
       for (j = 0; j < playlist['artists'].length; j++) {
@@ -4457,6 +4470,9 @@ window.timer = function(progress = 0) {
         // wait for song length + 5 seconds
         setTimeout(function() {
           spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+            if (data.body['item'] == null) {
+              setTimeout(function() {}, 200);
+            }
             var currentID = data.body['item']['id'];
             if (currentID == firstSongID) {
               var progressMS = data.body['progress_ms'];

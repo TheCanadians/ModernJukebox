@@ -41,4 +41,8 @@ function addSong(artists, duration, id, nextSong, playing, title) {
   database.ref(path + 'songs/' + id + '/nextSong').set(nextSong);
   database.ref(path + 'songs/' + id + '/playing').set(playing);
   database.ref(path + 'songs/' + id + '/title').set(title);
+  database.ref(path + 'songs/' + id + '/userid').set('spotify');
+  database.ref(path + 'songs/' + id + '/votes').set(0);
+  var emptyArray = ["spotify"];
+  database.ref(path + 'songs/' + id + '/voters').set(emptyArray);
 }
