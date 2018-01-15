@@ -4246,7 +4246,6 @@ var SpotifyWebApi = require('spotify-web-api-node');
   spotifyApi.setRefreshToken(refreshToken[0]);
 
   id = "";
-  counter = 0;
 
   spotifyApi.getMe().then(function(data) {
     id = data.body.id;
@@ -4503,37 +4502,48 @@ window.timer = function(progress = 0) {
 
 }
 
+window.resumePlay = function() {
+  spotifyApi.play().then(function(data) {
+    pause = false;
+  }, function(err) {
+    console.log('Current Song: ', err);
+    if(err.statusCode == "401") {
+      refreshToken("SpotifyPlay");
+    }
+  });
+}
+
 // start playing spotify playlist
 window.SpotifyPlay = function() {
   spotifyApi.getMyDevices().then(function(data) {
     var deviceID = data.body['devices'][0].id;
-    spotifyApi.play({context_uri : 'spotify:user:' + id + ':playlist:' + playlistID}).then(function(data) {
-      spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
-        // if status code of response is 204 restart webplayer and try again (works sporadically)
-        if (data.statusCode == "204") {
-          console.log("204");
-          alert("Please start a song manually!");
-          //closePlayer();
-          setTimeout(function() {
-            SpotifyPlay();
-          }, 4000);
+      spotifyApi.play({context_uri : 'spotify:user:' + id + ':playlist:' + playlistID}).then(function(data) {
+        spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+          // if status code of response is 204 restart webplayer and try again (works sporadically)
+          if (data.statusCode == "204") {
+            console.log("204");
+            alert("Please start a song manually!");
+            //closePlayer();
+            setTimeout(function() {
+              SpotifyPlay();
+            }, 4000);
 
-        }
-        else {
-          timer();
-        }
+          }
+          else {
+            timer();
+          }
+        }, function(err) {
+          console.log('Current Song: ', err);
+          if(err.statusCode == "401") {
+            refreshToken("SpotifyPlay");
+          }
+        });
       }, function(err) {
-        console.log('Current Song: ', err);
+        console.log('Couldnt play, cuz: ', err);
         if(err.statusCode == "401") {
           refreshToken("SpotifyPlay");
         }
       });
-    }, function(err) {
-      console.log('Couldnt play, cuz: ', err);
-      if(err.statusCode == "401") {
-        refreshToken("SpotifyPlay");
-      }
-    });
   }, function(err) {
     console.log(err);
     if(err.statusCode == "401") {
@@ -4544,6 +4554,7 @@ window.SpotifyPlay = function() {
 
 // stop playback of spotify playlist
 window.SpotifyPause = function() {
+  pause = true;
   spotifyApi.pause().then(function(data) {
     console.log("Song Paused");
   }, function(err) {

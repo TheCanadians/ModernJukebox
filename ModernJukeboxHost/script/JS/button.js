@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  pause = false;
   // Sets active restaurant in dropdown
   $('.dropdown-menu').on('click', "a", function() {
     $('.active').removeClass("active");
@@ -7,8 +8,13 @@ $(document).ready(function() {
   });
   // JQuery for play button
     $('#play').click(function() {
-      replacePlaylist();
-      //SpotifyPlaySong();
+      if (pause == false) {
+        replacePlaylist();
+      }
+      else {
+        resumePlay();
+        pause = false;
+      }
     });
   // JQuery for open Webplayer button
     $('#player').click(function() {
@@ -16,6 +22,7 @@ $(document).ready(function() {
     }),
   // JQuery for Pause button
     $('#pause').click(function() {
+      pause = true;
       SpotifyPause();
     });
   // JQuery for delete Selected button
