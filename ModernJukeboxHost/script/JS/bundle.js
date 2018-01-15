@@ -4486,7 +4486,7 @@ window.timer = function(progress = 0) {
               refreshToken("timer");
             }
           });
-        }, songLength);
+        }, songLength + 100);
       }
       else {
         setTimeout(function() {

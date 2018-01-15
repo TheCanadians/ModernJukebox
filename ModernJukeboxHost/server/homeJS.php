@@ -108,9 +108,13 @@ require_once '../script/PHP/spotify.php';
           <input type="text" id="maxSpU" name="maxSpU" class="form-control" value="0">
         </div>
       </form>
-        <h4>Blacklist</h4>
-        <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; height: 50%; padding-right: 0">
-        </div>
+      <!-- Blacklist -->
+      <div class="col-md-12">
+        <h4 style="display: inline-block;">Blacklist</h4>
+        <input type="checkbox" name="checkAll" id="checkAll" style="float: right; margin-top: 13px">
+      </div>
+      <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; height: 50%; padding-right: 0">
+      </div>
       <button class="btn btn-primary" onclick="update()">Update</button>
     </div>
   </div>

@@ -6,6 +6,20 @@ $(document).ready(function() {
     $(this).parent().addClass('active');
     setPath();
   });
+  // Enable checkbox listener
+  $('input[name=checkAll]').change(function() {
+    var checkAll = document.getElementsByClassName("blacklistCheck");
+    if($(this).is(':checked')) {
+      for (i = 0; i < checkAll.length; i++) {
+        checkAll[i].checked = true;
+      }
+    }
+    else {
+      for (i = 0; i < checkAll.length; i++) {
+        checkAll[i].checked = false;
+      }
+    }
+  });
   // JQuery for play button
     $('#play').click(function() {
       if (pause == false) {
