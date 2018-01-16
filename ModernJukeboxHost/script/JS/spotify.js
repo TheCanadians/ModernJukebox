@@ -31,7 +31,13 @@ window.getUserID = function() {
       }
     });
   }
-
+/*
+  spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+    console.log(data);
+  }, function(err) {
+    console.log(err);
+  });
+*/
 // replace spotify playlist with first two songs from playlist
 window.replacePlaylist = function() {
   // check if a spotify playlist ID exists in database
@@ -227,6 +233,11 @@ window.timer = function(progress = 0) {
   var firstSongID = document.getElementById("playing").className;
   // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+    if (data.body == null) {
+      console.log("null");
+      timer();
+    }
+    else {
       if (data.body['item']['id'] == firstSongID) {
         var songLength = parseInt(data.body['item']['duration_ms'], 10) - progress;
         console.log("Länge des Timers: " + songLength);
@@ -257,6 +268,7 @@ window.timer = function(progress = 0) {
           timer();
         }, 1000);
       }
+    }
   }, function(err) {
     console.log('Current Song: ', err);
     if(err.statusCode == "401") {

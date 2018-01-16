@@ -13,8 +13,8 @@ function setPlaylist() {
         }
         // Create HTML element for every firebase songs entry
         else {
-          if (song.playing == "true" || song.nextSong == "true") {
-            if (song.playing == "true") {
+          if (song.playing == true || song.nextSong == true) {
+            if (song.playing == true) {
               var playing = document.getElementById("playing");
               var text = "Playing: ";
               var hiphen = " - ";
@@ -23,7 +23,7 @@ function setPlaylist() {
               playing.innerHTML = text + song.title + hiphen + song.artists;
               playing.className = song.id;
             }
-            else if (song.nextSong == "true") {
+            else if (song.nextSong == true) {
               var next = document.getElementById("next");
               var text = "Next Song: ";
               var hiphen = " - ";
@@ -42,7 +42,8 @@ function setPlaylist() {
             p.style.margin = "0px";
             element.appendChild(p);
 
-            var content = document.createTextNode(song.title + " - " + song.artists + " Votes: " + song.votes);
+            var votes = song.votes * -1
+            var content = document.createTextNode(song.title + " - " + song.artists + " Votes: " + votes);
             p.appendChild(content);
 
             var checkbox = document.createElement('input');
