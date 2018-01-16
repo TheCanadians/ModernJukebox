@@ -4381,14 +4381,14 @@ window.addSpotifyPlaylistSong = function(int) {
       var id = playlist['id'];
       //var image = playlist[''];
       if (i == 2) {
-        var nextSong = "false";
-        var playing = "true";
+        var nextSong = false;
+        var playing = true;
         firstID = id;
         songs[0] = id;
       }
       else {
-        var nextSong = "true";
-        var playing = "false";
+        var nextSong = true;
+        var playing = false;
         secondID = id;
         songs[1] = id;
       }

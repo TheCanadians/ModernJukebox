@@ -78,6 +78,33 @@ function blacklist() {
   });
 }
 
+function toggleSearch() {
+  var searchDIV = document.getElementById("searchDIV");
+  if (searchDIV.style.display === "none") {
+    searchDIV.style.display = "block";
+  }
+  else {
+    searchDIV.style.display = "none";
+  }
+}
+
+function searchGenres() {
+  var input, filter, parent, genres;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  parent = document.getElementById("blacklist");
+  genres = parent.getElementsByTagName("div");
+
+  for (i = 0; i < genres.length; i++) {
+    if (genres[i].id.toUpperCase().indexOf(filter) > -1) {
+      genres[i].style.display = "";
+    }
+    else {
+      genres[i].style.display = "none";
+    }
+  }
+}
+
 function detectState(id) {
   database.ref(path + 'blacklist').once('value').then(function(snapshot) {
     snapshot.forEach(function(child) {

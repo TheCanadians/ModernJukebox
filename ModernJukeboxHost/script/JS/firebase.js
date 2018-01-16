@@ -15,20 +15,20 @@ function deleteFromQueue(id) {
 }
 // set firebase attributes of currently playling song
 function setPlaying(id) {
-  database.ref(path + 'songs/' + id + '/playing').set('true');
-  database.ref(path + 'songs/' + id + '/nextSong').set('false');
+  database.ref(path + 'songs/' + id + '/playing').set(true);
+  database.ref(path + 'songs/' + id + '/nextSong').set(false);
 }
 // set firebase attribute of next song
 function setNextSong(id) {
-  database.ref(path + 'songs/' + id + '/nextSong').set('true');
+  database.ref(path + 'songs/' + id + '/nextSong').set(true);
 }
 
 function clearAttribute() {
   database.ref(path + 'songs/').once('value').then(function(snapshot) {
     snapshot.forEach(function(child) {
       var entry = child.val();
-      database.ref(path + 'songs/' + entry.id + '/playing').set('false');
-      database.ref(path + 'songs/' + entry.id + '/nextSong').set('false');
+      database.ref(path + 'songs/' + entry.id + '/playing').set(false);
+      database.ref(path + 'songs/' + entry.id + '/nextSong').set(false);
     });
   });
 }

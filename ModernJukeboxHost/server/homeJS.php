@@ -111,7 +111,11 @@ require_once '../script/PHP/spotify.php';
       <!-- Blacklist -->
       <div class="col-md-12">
         <h4 style="display: inline-block;">Blacklist</h4>
+        <a href="#" style="margin-top: 13px" onclick="toggleSearch()"><span class="glyphicon glyphicon-search"></span></a>
         <input type="checkbox" name="checkAll" id="checkAll" style="float: right; margin-top: 13px">
+      </div>
+      <div class="col-md-12 form-group" id="searchDIV" style="display: none">
+        <input type="text" id="search" class="form-control" onkeyup="searchGenres()" placeholder="Search for genres...">
       </div>
       <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; height: 50%; padding-right: 0">
       </div>
