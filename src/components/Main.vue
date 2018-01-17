@@ -64,7 +64,7 @@
         ></results>
 
         <section v-if="!this.searching">
-          <section id="nextSong" v-if="nextSong">
+          <section id="nextSong" v-if="this.nextSong">
             <h2>Coming Up</h2>
             <div id="nextSongInfo">
               <img id="songImage" :src="this.nextSong.image" />
@@ -117,6 +117,11 @@
       'restaurantChooser': RestaurantChooser,
       'LocationInfo': LocationInfo,
       'queue': Queue
+    },
+    firebase: function() {
+      return {
+        list: db.ref(this.restaurant.id + '/songs').orderByChild('votes')
+      }
     },
     data () {
       var accessToken
