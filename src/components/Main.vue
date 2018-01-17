@@ -108,6 +108,11 @@
   import LocationInfo from './LocationInfo.vue';
   import {db} from '../firebase';
 
+  var database = firebase.initializeApp({
+  databaseURL: 'https://modern-jukebox.firebaseio.com'
+  }).database()
+  var songsRef = database.ref('asiatisch/songs')
+
   export default {
     name: 'Main',
     components: {
@@ -120,7 +125,7 @@
     },
     firebase: function() {
       return {
-        list: db.ref(this.restaurant.id + '/songs').orderByChild('votes')
+        list: songsRef
       }
     },
     data () {
@@ -155,7 +160,7 @@
         restaurants: [],
         restaurant: false,
         active: false,
-        list: [],
+        // list: [],
         limit: 0,
         maxQueue: 0,
         limitReached: false,
