@@ -90,17 +90,8 @@
               :accessToken="this.accessToken"
               :list="this.list"
               :restaurant="this.restaurant"
-            ></queue>
-            <!-- <queue
-              ref="queue"
-              v-if="userid!='' && this.list!='empty' && !searching "
-              :trackToUpvote="this.trackToUpvote"
-              :userid="this.userid"
-              :accessToken="this.accessToken"
-              :list="this.list"
-              :restaurant="this.restaurant"
               @getQueue="this.getQueue"
-            ></queue> -->
+            ></queue>
           </section>
         </section>
       </div>
@@ -117,11 +108,6 @@
   import LocationInfo from './LocationInfo.vue';
   import {db} from '../firebase';
 
-  var database = firebase.initializeApp({
-  databaseURL: 'https://modern-jukebox.firebaseio.com'
-  }).database()
-  var songsRef = database.ref('asiatisch/songs')
-
   export default {
     name: 'Main',
     components: {
@@ -131,11 +117,6 @@
       'restaurantChooser': RestaurantChooser,
       'LocationInfo': LocationInfo,
       'queue': Queue
-    },
-    firebase: function() {
-      return {
-        list: db.ref('asiatisch/songs')
-      }
     },
     data () {
       var accessToken
@@ -169,7 +150,7 @@
         restaurants: [],
         restaurant: false,
         active: false,
-        // list: [],
+        list: [],
         limit: 0,
         maxQueue: 0,
         limitReached: false,
@@ -229,9 +210,9 @@
           }
         }
         this.getBlacklist()
-        // this.getQueue()
+        this.getQueue()
       },
-      /* getQueue: function() {
+      getQueue: function() {
         this.list.length = 0
         this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
@@ -247,7 +228,7 @@
         this.checkLimit()
         this.setCurrentTrack(),
         this.setNextTrack()
-      }, */
+      },
       getBlacklist() {
         this.blacklist = [],
         db.ref(this.restaurant.id).child('blacklist').on('value', snapshot => {
@@ -366,7 +347,7 @@
           this.newDuration = '',
           this.newImage = '',
           this.trackExists = false
-          // this.getQueue()
+          this.getQueue()
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
@@ -413,8 +394,11 @@
       if(this.loggedIn) {
         this.setUserId(),
         this.getRestaurants()
-        // this.getQueue()
+        this.getQueue()
       }
+    },
+    updated() {
+      console.log(this.restaurant.id)
     }
   }
 </script>
