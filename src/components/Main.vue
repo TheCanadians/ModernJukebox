@@ -90,8 +90,17 @@
               :accessToken="this.accessToken"
               :list="this.list"
               :restaurant="this.restaurant"
-              @getQueue="this.getQueue"
             ></queue>
+            <!-- <queue
+              ref="queue"
+              v-if="userid!='' && this.list!='empty' && !searching "
+              :trackToUpvote="this.trackToUpvote"
+              :userid="this.userid"
+              :accessToken="this.accessToken"
+              :list="this.list"
+              :restaurant="this.restaurant"
+              @getQueue="this.getQueue"
+            ></queue> -->
           </section>
         </section>
       </div>
@@ -125,7 +134,7 @@
     },
     firebase: function() {
       return {
-        list: songsRef
+        list: db.ref('asiatisch/songs')
       }
     },
     data () {
@@ -219,10 +228,10 @@
             this.restaurant = this.restaurants[i]
           }
         }
-        this.getBlacklist(),
-        this.getQueue()
+        this.getBlacklist()
+        // this.getQueue()
       },
-      getQueue: function() {
+      /* getQueue: function() {
         this.list.length = 0
         this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
@@ -238,7 +247,7 @@
         this.checkLimit()
         this.setCurrentTrack(),
         this.setNextTrack()
-      },
+      }, */
       getBlacklist() {
         this.blacklist = [],
         db.ref(this.restaurant.id).child('blacklist').on('value', snapshot => {
@@ -356,8 +365,8 @@
           this.newArtists = [],
           this.newDuration = '',
           this.newImage = '',
-          this.trackExists = false,
-          this.getQueue()
+          this.trackExists = false
+          // this.getQueue()
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
@@ -403,8 +412,8 @@
     mounted() {
       if(this.loggedIn) {
         this.setUserId(),
-        this.getRestaurants(),
-        this.getQueue()
+        this.getRestaurants()
+        // this.getQueue()
       }
     }
   }
