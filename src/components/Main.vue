@@ -212,23 +212,6 @@
         this.getBlacklist()
         this.getQueue()
       },
-      getQueue: function() {
-        this.list.length = 0
-        this.setLimit()
-        db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
-          if(snapshot.val() == null) {
-            this.list.push('empty')
-          }
-          else {
-            snapshot.forEach(child => {
-              this.list.push(child.val())
-            })
-          }
-        })
-        this.checkLimit()
-        this.setCurrentTrack(),
-        this.setNextTrack()
-      },
       getBlacklist() {
         this.blacklist = [],
         db.ref(this.restaurant.id).child('blacklist').on('value', snapshot => {
@@ -299,6 +282,23 @@
           }
         }
       },
+      getQueue: function() {
+        this.list.length = 0
+        this.setLimit()
+        db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
+          if(snapshot.val() == null) {
+            this.list.push('empty')
+          }
+          else {
+            snapshot.forEach(child => {
+              this.list.push(child.val())
+            })
+          }
+        })
+        this.checkLimit()
+        this.setCurrentTrack(),
+        this.setNextTrack()
+      },
       addTrack: function(event) {
         this.checkLimit()
         if(!this.limitReached && !this.maxQueueReached) {
@@ -365,7 +365,7 @@
         this.active = false
 
         for (var i = 0; i < this.list.length; i++) {
-          if(this.list[i].playing == "true") {
+          if(this.list[i].playing) {
             this.active = this.list[i]
           }
         }
@@ -374,7 +374,7 @@
         this.nextSong = false
 
         for (var i = 0; i < this.list.length; i++) {
-          if(this.list[i].nextSong == "true") {
+          if(this.list[i].nextSong) {
             this.nextSong = this.list[i]
           }
         }
