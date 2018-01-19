@@ -118,6 +118,11 @@
       'LocationInfo': LocationInfo,
       'queue': Queue
     },
+    firebase: function() {
+      return {
+        list: db.ref(this.restaurant.id + '/songs/')
+      }
+    },
     data () {
       var accessToken
       var isAccessTokenPresent = window.location.href.indexOf('access_token') !== -1
@@ -142,15 +147,12 @@
         newImage: '',
         voters: [],
         userid: '',
-        playing: false,
-        nextSong: false,
 
         notificationText: '',
         notificationShowing: false,
         restaurants: [],
         restaurant: false,
         active: false,
-        list: [],
         limit: 0,
         maxQueue: 0,
         limitReached: false,
@@ -210,7 +212,8 @@
           }
         }
         this.getBlacklist()
-        this.getQueue()
+        this.setLimit()
+        // this.getQueue()
       },
       getBlacklist() {
         this.blacklist = [],
@@ -282,7 +285,7 @@
           }
         }
       },
-      getQueue: function() {
+      /* getQueue: function() {
         this.list.length = 0
         this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
@@ -298,7 +301,7 @@
         this.checkLimit()
         this.setCurrentTrack(),
         this.setNextTrack()
-      },
+      }, */
       addTrack: function(event) {
         this.checkLimit()
         if(!this.limitReached && !this.maxQueueReached) {
@@ -333,8 +336,8 @@
               userid: this.userid,
               votes: this.newVotes,
               voters: this.voters,
-              playing: this.playing,
-              nextSong: this.nextSong,
+              playing: false,
+              nextSong: false,
               image: this.newImage,
             })
             this.notificationText = 'Song added'
@@ -388,6 +391,14 @@
         else {
           return this.songsLeft = this.maxQueue - this.songsAdded
         }
+      }
+    },
+    watch: {
+      restaurant(newValue, oldValue) {
+        db.ref(oldValue + '/songs/').orderByChild('votes').off();
+        this.checkLimit()
+        this.setCurrentTrack()
+        this.setNextTrack()
       }
     },
     mounted() {
