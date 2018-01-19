@@ -30,7 +30,10 @@
     --normalText: 1rem;
     --title: 1.8rem;
     --button: 1.1rem;
-    --stageTitle: 3rem;
+    --stageTitle: 4rem;
+    --stageSubtitle: 2em;
+    --stageButton: 1.25rem;
+    --landingCopy: 1.5rem;
 
   }
 
