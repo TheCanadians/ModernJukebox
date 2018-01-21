@@ -1,6 +1,6 @@
 <template>
     <div id="queueList">
-      <ul v-for="song in list">
+      <ul v-for="song in songList">
         <li class="songListItem" v-if="!song.playing && !song.nextSong" id="queueSong">
           <img id="songImage" :src="song.image" />
           <p>
@@ -39,7 +39,7 @@
       accessToken: {
         required: true
       },
-      list: {
+      songList: {
         required: true
       },
       restaurant: {

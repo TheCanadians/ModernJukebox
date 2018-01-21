@@ -79,18 +79,17 @@
 
           <section id="queue">
             <h2>Queue</h2>
-            <p id="emptyQueue" v-if="this.list=='empty'">
+            <p id="emptyQueue" v-if="this.songList=='empty'">
               <span>The queue is empty.</span> <br/> Search for and add a song to get the party started!
             </p>
             <queue
               ref="queue"
-              v-if="userid!='' && this.list!='empty' && !searching "
+              v-if="userid!='' && this.songList!='empty' && !searching "
               :trackToUpvote="this.trackToUpvote"
               :userid="this.userid"
               :accessToken="this.accessToken"
-              :list="this.list"
+              :songList="this.songList"
               :restaurant="this.restaurant"
-              @getQueue="this.getQueue"
             ></queue>
           </section>
         </section>
@@ -120,7 +119,13 @@
     },
     firebase: function() {
       return {
-        list: db.ref(this.restaurant.id + '/songs/')
+        songList: {
+          source: db.ref(this.restaurant.id).child('songs'),
+          asObject: true,
+          readyCallback: function() {
+            console.log(this.songList)
+          }
+        }
       }
     },
     data () {
@@ -266,14 +271,14 @@
       },
       checkLimit() {
         this.songsAdded = 0;
-        if (this.list.length >= this.maxQueue) {
+        if (this.songList.length >= this.maxQueue) {
           this.maxQueueReached = true
         }
         else {
           this.maxQueueReached = false
 
-          for (var i = 0; i < this.list.length; i++) {
-            if(this.list[i].userid == this.userid) {
+          for (var i = 0; i < this.songList.length; i++) {
+            if(this.songList[i].userid == this.userid) {
               this.songsAdded++;
             }
           }
@@ -286,15 +291,15 @@
         }
       },
       /* getQueue: function() {
-        this.list.length = 0
+        this.songList.length = 0
         this.setLimit()
         db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
           if(snapshot.val() == null) {
-            this.list.push('empty')
+            this.songList.push('empty')
           }
           else {
             snapshot.forEach(child => {
-              this.list.push(child.val())
+              this.songList.push(child.val())
             })
           }
         })
@@ -314,10 +319,10 @@
           this.newVotes = -1,
           this.newImage = event.album.images[1].url
 
-          for (var i = 0; i < this.list.length; i++) {
-            if(this.newId == this.list[i].id) {
+          for (var i = 0; i < this.songList.length; i++) {
+            if(this.newId == this.songList[i].id) {
               this.trackExists = true
-              this.trackToUpvote = this.list[i]
+              this.trackToUpvote = this.songList[i]
             }
           }
 
@@ -350,7 +355,7 @@
           this.newDuration = '',
           this.newImage = '',
           this.trackExists = false
-          this.getQueue()
+          // this.getQueue()
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
@@ -367,18 +372,18 @@
       setCurrentTrack() {
         this.active = false
 
-        for (var i = 0; i < this.list.length; i++) {
-          if(this.list[i].playing) {
-            this.active = this.list[i]
+        for (var i = 0; i < this.songList.length; i++) {
+          if(this.songList[i].playing) {
+            this.active = this.songList[i]
           }
         }
       },
       setNextTrack() {
         this.nextSong = false
 
-        for (var i = 0; i < this.list.length; i++) {
-          if(this.list[i].nextSong) {
-            this.nextSong = this.list[i]
+        for (var i = 0; i < this.songList.length; i++) {
+          if(this.songList[i].nextSong) {
+            this.nextSong = this.songList[i]
           }
         }
       }
@@ -395,7 +400,8 @@
     },
     watch: {
       restaurant(newValue, oldValue) {
-        db.ref(oldValue + '/songs/').orderByChild('votes').off();
+        db.ref(oldValue.id + '/songs/').orderByChild('votes').off();
+        // console.log(db.ref(oldValue.id).child('songs').orderByChild('votes'))
         this.checkLimit()
         this.setCurrentTrack()
         this.setNextTrack()
@@ -405,11 +411,8 @@
       if(this.loggedIn) {
         this.setUserId(),
         this.getRestaurants()
-        this.getQueue()
+        // this.getQueue()
       }
-    },
-    updated() {
-      console.log(this.restaurant.id)
     }
   }
 </script>
