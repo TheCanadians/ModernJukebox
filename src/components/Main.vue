@@ -119,13 +119,7 @@
     },
     firebase: function() {
       return {
-        songList: {
-          source: db.ref(this.restaurant.id).child('songs'),
-          asObject: true,
-          readyCallback: function() {
-            console.log(this.songList)
-          }
-        }
+        songList: db.ref(this.restaurant.id).child('songs').orderByChild('votes');
       }
     },
     data () {
@@ -399,12 +393,15 @@
       }
     },
     watch: {
-      restaurant(newValue, oldValue) {
-        db.ref(oldValue.id + '/songs/').orderByChild('votes').off();
-        // console.log(db.ref(oldValue.id).child('songs').orderByChild('votes'))
-        this.checkLimit()
-        this.setCurrentTrack()
-        this.setNextTrack()
+      restaurant(restaurantObject) {
+        console.log(restaurantObject);
+        this.$unbind('songList')
+        this.$bindAsArray('songList', db.ref(restaurantObject.id).child('songs'))
+        // db.ref(oldValue.id + '/songs/').orderByChild('votes').off();
+        // // console.log(this.songList)
+        // this.checkLimit()
+        // this.setCurrentTrack()
+        // this.setNextTrack()
       }
     },
     mounted() {
@@ -413,6 +410,9 @@
         this.getRestaurants()
         // this.getQueue()
       }
+    },
+    updated() {
+      console.log(this.songList)
     }
   }
 </script>

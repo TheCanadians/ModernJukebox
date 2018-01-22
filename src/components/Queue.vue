@@ -79,6 +79,7 @@
       }
     },
     updated() {
+      console.log(this.songs)
     }
   }
 </script>
