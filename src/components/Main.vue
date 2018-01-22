@@ -215,7 +215,6 @@
         }
         this.getBlacklist()
         this.setLimit()
-        // this.getQueue()
       },
       getBlacklist() {
         this.blacklist = [],
@@ -287,23 +286,6 @@
           }
         }
       },
-      /* getQueue: function() {
-        this.songList.length = 0
-        this.setLimit()
-        db.ref(this.restaurant.id).child('songs').orderByChild('votes').on('value', snapshot => {
-          if(snapshot.val() == null) {
-            this.songList.push('empty')
-          }
-          else {
-            snapshot.forEach(child => {
-              this.songList.push(child.val())
-            })
-          }
-        })
-        this.checkLimit()
-        this.setCurrentTrack(),
-        this.setNextTrack()
-      }, */
       addTrack: function(event) {
         this.checkLimit()
         if(!this.limitReached && !this.maxQueueReached) {
@@ -352,7 +334,6 @@
           this.newDuration = '',
           this.newImage = '',
           this.trackExists = false
-          // this.getQueue()
         }
         else {
           this.notificationText = 'Limit reached. Song was not added.',
@@ -416,12 +397,7 @@
       if(this.loggedIn) {
         this.setUserId(),
         this.getRestaurants()
-        // this.getQueue()
       }
-    },
-    updated() {
-      /* this.setCurrentTrack(),
-      this.setNextTrack() */
     }
   }
 </script>
