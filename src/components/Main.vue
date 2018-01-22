@@ -119,7 +119,9 @@
     },
     firebase: function() {
       return {
-        songList: db.ref(this.restaurant.id).child('songs').orderByChild('votes');
+        songList: {
+          source: db.ref(this.restaurant.id).child('songs').orderByChild('votes')
+        }
       }
     },
     data () {
@@ -146,6 +148,7 @@
         newImage: '',
         voters: [],
         userid: '',
+        songList: [],
 
         notificationText: '',
         notificationShowing: false,
@@ -371,6 +374,8 @@
             this.active = this.songList[i]
           }
         }
+
+        return this.active;
       },
       setNextTrack() {
         this.nextSong = false
@@ -380,6 +385,8 @@
             this.nextSong = this.songList[i]
           }
         }
+
+        return this.nextSong;
       }
     },
     computed: {
@@ -394,14 +401,15 @@
     },
     watch: {
       restaurant(restaurantObject) {
-        console.log(restaurantObject);
         this.$unbind('songList')
         this.$bindAsArray('songList', db.ref(restaurantObject.id).child('songs'))
-        // db.ref(oldValue.id + '/songs/').orderByChild('votes').off();
-        // // console.log(this.songList)
-        // this.checkLimit()
-        // this.setCurrentTrack()
-        // this.setNextTrack()
+        db.ref(restaurantObject.id + '/songs/').orderByChild('votes').off();
+      },
+
+      songList(songListObject) {
+        this.setNextTrack(),
+        this.setCurrentTrack(),
+        this.checkLimit()
       }
     },
     mounted() {
@@ -412,7 +420,8 @@
       }
     },
     updated() {
-      console.log(this.songList)
+      /* this.setCurrentTrack(),
+      this.setNextTrack() */
     }
   }
 </script>
