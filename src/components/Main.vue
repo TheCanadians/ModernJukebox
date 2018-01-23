@@ -378,6 +378,18 @@
         else {
           return this.songsLeft = this.maxQueue - this.songsAdded
         }
+      },
+
+      sortedList() {
+        function compare(a, b) {
+          if (a.votes < b.votes)
+            return -1;
+          if (a.votes > b.votes)
+            return 1;
+          return 0;
+        }
+
+        return this.songList.sort(compare)
       }
     },
     watch: {
@@ -390,7 +402,8 @@
       songList(songListObject) {
         this.setNextTrack(),
         this.setCurrentTrack(),
-        this.checkLimit()
+        this.checkLimit(),
+        this.sortedList()
       }
     },
     mounted() {
