@@ -15,11 +15,11 @@
       </locationInfo>
 
       <qrcode-reader
-        v-if="!this.restaurant"
+        v-if="!this.restaurant && this.isMobileDevice()"
         @decode="this.onDecode"
       ></qrcode-reader>
 
-      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
+      <restaurant-chooser v-if="!restaurant && !this.isMobileDevice()" @setRestaurant="setRestaurant"></restaurant-chooser>
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">
@@ -67,12 +67,13 @@
           <section id="nextSong" v-if="this.nextSong">
             <h2>Coming Up</h2>
             <div id="nextSongInfo">
-              <img id="songImage" :src="this.nextSong.image" />
+              <img id="songImage" v-if="this.nextSong.image" :src="this.nextSong.image" />
               <li id="infos">
                 <span class="title">{{this.nextSong.title}}</span>
                 <template v-for='(artist, index) in this.nextSong.artists'>
                   <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
                 </template>
+                <span v-if="!this.nextSong.image" class="spotifyHint">Generated from Spotify</span>
               </li>
             </div>
           </section>
@@ -348,26 +349,14 @@
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       },
       setCurrentTrack() {
-        this.active = false
-
-        for (var i = 0; i < this.songList.length; i++) {
-          if(this.songList[i].playing) {
-            this.active = this.songList[i]
-          }
-        }
-
-        return this.active;
+        this.active = this.songList.find(function(song) { return song.playing == "true" });
       },
       setNextTrack() {
-        this.nextSong = false
-
-        for (var i = 0; i < this.songList.length; i++) {
-          if(this.songList[i].nextSong) {
-            this.nextSong = this.songList[i]
-          }
-        }
-
-        return this.nextSong;
+        this.nextSong = this.songList.find(function(song) { return song.nextSong == "true" });
+      },
+      isMobileDevice() {
+        console.log (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)
+        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
     computed: {
@@ -380,7 +369,7 @@
         }
       },
 
-      sortedList() {
+      sortList() {
         function compare(a, b) {
           if (a.votes < b.votes)
             return -1;
@@ -394,6 +383,7 @@
     },
     watch: {
       restaurant(restaurantObject) {
+        this.searching = false
         this.$unbind('songList')
         this.$bindAsArray('songList', db.ref(restaurantObject.id).child('songs'))
         db.ref(restaurantObject.id + '/songs/').orderByChild('votes').off();
@@ -402,8 +392,8 @@
       songList(songListObject) {
         this.setNextTrack(),
         this.setCurrentTrack(),
-        this.checkLimit(),
-        this.sortedList()
+        this.checkLimit()
+        this.sortList()
       }
     },
     mounted() {
@@ -568,6 +558,12 @@
     animation: notificationOut 0.3s linear both;
   }
 
+  .spotifyHint {
+    color: var(--textColorGray);
+    display: block;
+    font-size: var(--smallText);
+  }
+
   /*Now Playing Safe area for iPhone X*/
   @media only screen
     and (device-width : 375px)
@@ -586,11 +582,11 @@
   } */
 
   /* Disable QR Code reader for non-mobile devices */
-  @media screen and (min-width: 769px) {
+  /* @media screen and (min-width: 769px) {
     .qrcode-reader {
       display: none;
     }
-  }
+  } */
 
   @-webkit-keyframes notificationIn {
     0%   { right: -200px; }
