@@ -73,6 +73,7 @@
                 <template v-for='(artist, index) in this.nextSong.artists'>
                   <span class="artist">{{artist}}<template v-if="index + 1 < nextSong.artists.length">, </template></span>
                 </template>
+                <span v-if="!this.nextSong.image" class="spotifyHint">Generated from Spotify</span>
               </li>
             </div>
           </section>
@@ -553,6 +554,12 @@
   }
   .notificationOut {
     animation: notificationOut 0.3s linear both;
+  }
+
+  .spotifyHint {
+    color: var(--textColorGray);
+    display: block;
+    font-size: var(--smallText);
   }
 
   /*Now Playing Safe area for iPhone X*/
