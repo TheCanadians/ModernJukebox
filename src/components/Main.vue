@@ -253,6 +253,7 @@
           } else {
             if (res.data !== undefined) {
               this.tracks = res.data.tracks.items
+              console.log(res.data)
             }
           }
         })
@@ -348,26 +349,10 @@
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       },
       setCurrentTrack() {
-        this.active = false
-
-        for (var i = 0; i < this.songList.length; i++) {
-          if(this.songList[i].playing) {
-            this.active = this.songList[i]
-          }
-        }
-
-        return this.active;
+        this.active = this.songList.find(function(song) { return song.playing == "true" });
       },
       setNextTrack() {
-        this.nextSong = false
-
-        for (var i = 0; i < this.songList.length; i++) {
-          if(this.songList[i].nextSong) {
-            this.nextSong = this.songList[i]
-          }
-        }
-
-        return this.nextSong;
+        this.nextSong = this.songList.find(function(song) { return song.nextSong == "true" });
       }
     },
     computed: {
@@ -380,7 +365,7 @@
         }
       },
 
-      sortedList() {
+      sortList() {
         function compare(a, b) {
           if (a.votes < b.votes)
             return -1;
@@ -400,10 +385,11 @@
       },
 
       songList(songListObject) {
+        console.log(songListObject)
         this.setNextTrack(),
         this.setCurrentTrack(),
-        this.checkLimit(),
-        this.sortedList()
+        this.checkLimit()
+        this.sortList()
       }
     },
     mounted() {
