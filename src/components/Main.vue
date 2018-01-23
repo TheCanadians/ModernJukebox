@@ -15,11 +15,11 @@
       </locationInfo>
 
       <qrcode-reader
-        v-if="!this.restaurant"
+        v-if="!this.restaurant && this.isMobileDevice()"
         @decode="this.onDecode"
       ></qrcode-reader>
 
-      <restaurant-chooser v-if="!restaurant" @setRestaurant="setRestaurant"></restaurant-chooser>
+      <restaurant-chooser v-if="!restaurant && !this.isMobileDevice()" @setRestaurant="setRestaurant"></restaurant-chooser>
 
       <div id="restaurantChosen" v-if="restaurant">
         <transition name="notification">
@@ -254,7 +254,6 @@
           } else {
             if (res.data !== undefined) {
               this.tracks = res.data.tracks.items
-              console.log(res.data)
             }
           }
         })
@@ -354,6 +353,10 @@
       },
       setNextTrack() {
         this.nextSong = this.songList.find(function(song) { return song.nextSong == "true" });
+      },
+      isMobileDevice() {
+        console.log (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)
+        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
     computed: {
@@ -387,7 +390,6 @@
       },
 
       songList(songListObject) {
-        console.log(songListObject)
         this.setNextTrack(),
         this.setCurrentTrack(),
         this.checkLimit()
@@ -580,11 +582,11 @@
   } */
 
   /* Disable QR Code reader for non-mobile devices */
-  @media screen and (min-width: 769px) {
+  /* @media screen and (min-width: 769px) {
     .qrcode-reader {
       display: none;
     }
-  }
+  } */
 
   @-webkit-keyframes notificationIn {
     0%   { right: -200px; }
