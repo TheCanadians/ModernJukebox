@@ -67,7 +67,7 @@
           <section id="nextSong" v-if="this.nextSong">
             <h2>Coming Up</h2>
             <div id="nextSongInfo">
-              <img id="songImage" :src="this.nextSong.image" />
+              <img id="songImage" v-if="this.nextSong.image" :src="this.nextSong.image" />
               <li id="infos">
                 <span class="title">{{this.nextSong.title}}</span>
                 <template v-for='(artist, index) in this.nextSong.artists'>
