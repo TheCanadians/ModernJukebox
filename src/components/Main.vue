@@ -379,6 +379,7 @@
     },
     watch: {
       restaurant(restaurantObject) {
+        this.searching = false
         this.$unbind('songList')
         this.$bindAsArray('songList', db.ref(restaurantObject.id).child('songs'))
         db.ref(restaurantObject.id + '/songs/').orderByChild('votes').off();
