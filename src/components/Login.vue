@@ -37,7 +37,6 @@
 
       <div id="footer">
         <div><img src="../assets/logo.png" alt=""></div>
-        <a href="">legal notice</a>
       </div>
     </section>
 
@@ -104,6 +103,7 @@
     font-size: var(--button);
     text-transform: uppercase;
     font-weight: bold;
+    cursor: pointer;
   }
 
 
@@ -147,6 +147,7 @@
 
   #stage .content p{
     font-size: var(--stageSubtitle);
+    font-weight: lighter;
   }
 
 
@@ -215,7 +216,7 @@
 
   #footer{
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 2rem;
 
     display: flex;
     justify-content: center;
@@ -225,7 +226,6 @@
   #footer img{
     height: 40px;
     width: auto;
-    margin-right: 2rem;
   }
 
   @media (min-width: 768px){
@@ -242,19 +242,33 @@
 
     .content h2{
       grid-area: headline;
+      font-size: 3.5rem;
     }
 
     .content p{
       grid-area: copy;
+      font-size: 1.4rem;
     }
 
     .content button{
     margin-top: 4rem;
-  }
+    }
 
     .content img{
       grid-area: image;
       margin-top: 0;
+    }
+
+    #stage .content{
+      min-height: 704px;
+    }
+
+    #stage .content h1{
+      font-size: 4rem;
+    }
+
+    #stage .content p{
+      font-size: 2.4rem;
     }
 
     #productInfo .content{

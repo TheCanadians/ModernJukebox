@@ -41,6 +41,7 @@
     margin: 0;
     padding: 0;
   }
+
   html, body {
     min-height: 100vh;
     position: relative;
@@ -53,6 +54,7 @@
     -moz-osx-font-smoothing: grayscale;
     color: var(--textColorLight);
     min-height: 100vh;
+    text-decoration-skip: ink;
   }
 
   img {
