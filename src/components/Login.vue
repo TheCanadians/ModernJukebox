@@ -248,6 +248,10 @@
       grid-area: copy;
     }
 
+    .content button{
+    margin-top: 4rem;
+  }
+
     .content img{
       grid-area: image;
       margin-top: 0;
@@ -271,6 +275,13 @@
         "headline image"
         "copy image"
         "button image";
+    }
+  }
+
+  @media (min-width: 1024px){
+    .content{
+      grid-template-columns: 400px 400px;
+      max-height: 512px !important;
     }
   }
 
