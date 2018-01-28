@@ -106,6 +106,10 @@
     cursor: pointer;
   }
 
+  .landingButton:hover{
+    background: #1E1E1E;
+  }
+
 
 
   #authorizeContainer {
