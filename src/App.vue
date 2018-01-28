@@ -22,15 +22,18 @@
 
     --mainColor: #FFDE22;
     --bgColor: #282828;
+
     --textColorDark: #282828;
     --textColorGray: #8c8c8c;
     --textColorLight: #FFF;
 
-    --smallText: 0.85rem;
-    --normalText: 1rem;
     --title: 1.8rem;
+    --normalText: 1rem;
+    --smallText: 0.85rem;
+
+    --stageTitle: 2.5rem;
+    --stageSubtitle: 1.5rem;
     --button: 1.1rem;
-    --stageTitle: 3rem;
 
   }
 

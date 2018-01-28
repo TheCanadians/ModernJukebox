@@ -1,23 +1,46 @@
 <template>
   <div id="authorizeContainer">
-    <div id="grid">
-      <h1>Define the sound of your location.</h1>
-      <div id="infoContainer">
-        <p>
-          ModernJukebox is an app that lets you pick millions of songs from Spotify and add them to the quere of the venue you are in.
-        </p>
-        <p>
-          To use ModernJukebox, you only need a Spotify account.
-        </p>
+
+    <section class="skew" id="stage">
+      <div class="content">
+        <h1>ModernJukebox</h1>
+        <p>Your Social Jukebox</p>
+        <button class="landingButton" id="authorizeBTN" @click.prevent="login">Sign in with Spotify</button>
       </div>
-      <div id="buttonContainer">
-        <button id="authorizeBTN" @click.prevent="login">Sign in with Spotify</button>
-        <p>It's free.</p>
+    </section>
+
+    <section class="skew" id="stageImage" />
+
+    <section class="skew" id="productInfo">
+      <div class="content">
+        <h2>Define the sound of your location</h2>
+        <p>ModernJukebox is an app that lets you pick millions of songs from Spotify and add them to the queue of the venue you are in. To use ModernJukebox, you only need a Spotify account.</p>
+        <img src="../assets/home_phone.png" alt="">
       </div>
-      <div id="imageContainer">
-        <img id="appPreview" />
+    </section>
+
+    <section class="skew" id="workingInfo">
+      <div class="content">
+        <h2>How it works</h2>
+        <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
+        <img src="../assets/search_phone.png" alt="">
       </div>
-    </div>
+    </section>
+
+    <section class="skew" id="hostInfo">
+      <div class="content">
+        <h2>How it works</h2>
+        <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
+        <div id="buttonWrapper"><button class="landingButton" id="hostAppBTN">start hosting</button></div>
+        <img src="../assets/search_phone.png" alt="">
+      </div>
+
+      <div id="footer">
+        <div><img src="../assets/logo.png" alt=""></div>
+        <a href="">legal notice</a>
+      </div>
+    </section>
+
   </div>
 </template>
 
@@ -33,160 +56,179 @@
 </script>
 
 <style>
+  section{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button{
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+
+  .skew:first-of-type{
+    margin-top: 0;
+  }
+
+  .skew{
+    margin-top: -4vh;
+  }
+
+  .content{
+    max-width: 272px;;
+  }
+
+  .content h2{
+    font-size: var(--title);
+  }
+
+  .content p{
+    margin-top: 1rem;
+  }
+
+  .content button{
+    margin-top: 2rem;
+  }
+
+  .content img{
+    margin-top: 2rem;
+    width: 100%;
+  }
+
+  .landingButton{
+    background: #282828;
+    color: #FFDE22;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10rem;
+    font-size: var(--button);
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+
+
   #authorizeContainer {
     min-height: 100vh;
     max-width: 100%;
+  }
 
-    overflow: hidden;
 
+
+  #stage{
     background: #FFDE22;
     background-image: url("../assets/login_background_bubbles.svg"), linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
-    background-size: auto 100%;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;
     background-position: center;
+  }
 
+  #stage .content{
+    min-height: 448px;
+
+    color: #282828;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
 
-  #grid{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  #stage.skew{
+    clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 4vh), 0% 100%);
   }
 
-  #authorizeContainer h1{
-    max-width: 100%;
-    font-weight: bold;
+  #stage .content h1{
     font-size: var(--stageTitle);
-    text-align: center;
-    grid-area: title;
-    margin-top: 2rem;
-    padding: 0 1rem;
-    color: var(--textColorDark);
   }
 
-  #buttonContainer{
-    grid-area: button;
+  #stage .content p{
+    font-size: var(--stageSubtitle);
+  }
+
+
+
+  #stageImage{
+    min-height: 448px;
+
+    background-image: url(../assets/people_dancing.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  #stageImage.skew{
+    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+  }
+
+
+
+  #productInfo.skew{
+    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% calc(100% - 4vh), 0% 100%);
+  }
+
+  #productInfo .content{
+    max-height: 576px;
+    margin-top: 4rem;
+    overflow: hidden;
+  }
+
+
+
+  #workingInfo.skew{
+    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+  }
+
+  #workingInfo .content{
+    max-height: 512px;
+    margin-top: 4rem;
+    overflow: hidden;
+  }
+
+  #hostInfo{
+    background: #FFDE22;
+    background-image: url("../assets/login_background_bubbles.svg"), linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  #hostInfo.skew{
+    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% 100%, 0% 100%);
+  }
+
+  #hostInfo .content{
+    max-height: 608px;
+    margin-top: 4rem;
+    overflow: hidden;
+    color: #282828;
+  }
+
+  #buttonWrapper{
+    text-align: center;
+  }
+
+  #hostAppBTN{
+    align-self: center;
+  }
+
+
+  #footer{
+    width: 100%;
+    padding: 1rem 2rem;
+
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
-    flex-direction: column;
   }
 
-  #buttonContainer p{
-    margin-top: .25rem;
-    color: var(--textColorDark);
+  #footer img{
+    height: 40px;
+    width: auto;
+    margin-right: 2rem;
   }
 
-  #authorizeBTN {
-    background: #2B2B2B;
-    color: var(--mainColor);
-    box-shadow: none;
-    outline: none;
-    border: none;
-    border-radius: 10rem;
-    text-transform: uppercase;
-    padding: 1rem 2rem;
-    font-size: var(--button);
-    font-family: 'Roboto Condensed', sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  #authorizeBTN:hover{
-    background: #1f1f1f;
-  }
-
-  #infoContainer p{
-    font-size: var(--normalText);
-    line-height: 1.6rem;
-    margin-top: 1rem;
-    color: var(--textColorDark);
-  }
-
-    #infoContainer p:first-of-type{
-      margin-top: 0;
-    }
-
-  #infoContainer{
-    grid-area: infos;
-    padding: 0 1rem;
-    max-width: 320px;
-    margin: 2rem 0;
-  }
-
-  #imageContainer{
-    grid-area: image;
-  }
-
-  #appPreview{
-    max-width: 256px;
-    margin-top: 2rem;
-    margin-bottom: -1rem;
-    content:url("../assets/screenPreview.png");
-  }
-
-  @media (min-height: 813px){
-
-    #appPreview{
-      content:url("../assets/screenPreviewFull.png");
-    }
-
-  }
-
-  @media (min-width: 768px){
-
-    #authorizeContainer{
-      background-size: auto 200%;
-    }
-
-    #grid{
-      display: grid;
-      grid-template-columns: 40% 40%;
-      grid-template-rows: auto auto auto;
-      grid-column-gap: 2rem;
-      grid-row-gap: 2rem;
-      grid-template-areas:
-        "title image"
-        "infos image"
-        "button image";
-    }
-
-    #authorizeContainer h1{
-      max-width: 800px;
-      margin: auto;
-      padding: 0 2rem;
-    }
-
-    #infoContainer{
-      max-width: 800px;
-      margin: auto;
-      padding: 0 1rem;
-    }
-
-    #infoContainer p{
-      margin-top: 1rem;
-    }
-
-    #infoContainer p:first-of-type{
-      margin-top: 0;
-    }
-
-    #imageContainer{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #appPreview{
-      content:url("../assets/screenPreviewFull.png");
-      margin-top: 0;
-    }
-  }
 </style>
