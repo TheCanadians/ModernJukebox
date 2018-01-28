@@ -120,7 +120,7 @@
   #stage{
     background: #FFDE22;
     background-image: url("../assets/login_background_bubbles.svg"), linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
-    background-size: cover;
+    background-size: 200%;
     background-repeat: no-repeat;
     background-position: center;
   }
@@ -259,6 +259,10 @@
       margin-top: 0;
     }
 
+    #stage{
+      background-size: 150%;
+    }
+
     #stage .content{
       min-height: 704px;
     }
@@ -281,6 +285,10 @@
       grid-template-areas: 
         "image headline"
         "image copy";
+    }
+
+    #hostInfo{
+      background-size: 150%;
     }
 
     #hostInfo .content{
