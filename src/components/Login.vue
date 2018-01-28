@@ -29,7 +29,7 @@
 
     <section class="skew" id="hostInfo">
       <div class="content">
-        <h2>How it works</h2>
+        <h2>Host your own social playlist</h2>
         <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
         <div id="buttonWrapper"><button class="landingButton" id="hostAppBTN">start hosting</button></div>
         <img src="../assets/search_phone.png" alt="">
@@ -114,6 +114,8 @@
   #authorizeContainer {
     min-height: 100vh;
     max-width: 100%;
+
+    overflow: hidden;
   }
 
 
@@ -201,7 +203,7 @@
   }
 
   #hostInfo .content{
-    max-height: 608px;
+    max-height: 640px;
     margin-top: 4rem;
     overflow: hidden;
     color: #282828;
