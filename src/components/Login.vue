@@ -69,16 +69,13 @@
     font-family: 'Roboto Condensed', sans-serif;
   }
 
-  .skew:first-of-type{
-    margin-top: 0;
-  }
-
   .skew{
     margin-top: -4vh;
   }
 
   .content{
-    max-width: 272px;;
+    max-width: 272px;
+    margin-top: 4rem;
   }
 
   .content h2{
@@ -130,6 +127,7 @@
 
   #stage .content{
     min-height: 448px;
+    margin-top: 0;
 
     color: #282828;
 
@@ -174,7 +172,6 @@
 
   #productInfo .content{
     max-height: 576px;
-    margin-top: 4rem;
     overflow: hidden;
   }
 
@@ -186,7 +183,6 @@
 
   #workingInfo .content{
     max-height: 512px;
-    margin-top: 4rem;
     overflow: hidden;
   }
 
@@ -204,7 +200,6 @@
 
   #hostInfo .content{
     max-height: 640px;
-    margin-top: 4rem;
     overflow: hidden;
     color: #282828;
   }
@@ -231,6 +226,52 @@
     height: 40px;
     width: auto;
     margin-right: 2rem;
+  }
+
+  @media (min-width: 768px){
+    .content{
+      max-width: none;
+      max-height: 384px !important;
+
+      margin-top: 8rem;
+
+      display: grid;
+      grid-template-columns: 272px 272px;
+      grid-template-rows: max-content auto;
+    }
+
+    .content h2{
+      grid-area: headline;
+    }
+
+    .content p{
+      grid-area: copy;
+    }
+
+    .content img{
+      grid-area: image;
+      margin-top: 0;
+    }
+
+    #productInfo .content{
+      grid-template-areas: 
+        "headline image"
+        "copy image";
+    }
+
+    #workingInfo .content{
+      grid-template-areas: 
+        "image headline"
+        "image copy";
+    }
+
+    #hostInfo .content{
+      grid-template-rows: max-content max-content auto;
+      grid-template-areas: 
+        "headline image"
+        "copy image"
+        "button image";
+    }
   }
 
 </style>
