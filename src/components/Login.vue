@@ -22,7 +22,7 @@
     <section class="skew" id="workingInfo">
       <div class="content">
         <h2>How it works</h2>
-        <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
+        <p>Using ModernJukebox is easy as pie! You just log in to Spotify, check in at a venue that has a running ModernJukebox system and your good to go. Search and vote for songs and bring up the mood at your location!</p>
         <img src="../assets/search_phone.png" alt="">
       </div>
     </section>
@@ -31,8 +31,8 @@
       <div class="content">
         <h2>Host your own social playlist</h2>
         <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
-        <div id="buttonWrapper"><button class="landingButton" id="hostAppBTN">start hosting</button></div>
-        <img src="../assets/search_phone.png" alt="">
+        <div id="buttonWrapper"><a href="http://dennisschmidt.net/jukebox/server/homeJS.php" class="landingButton" id="hostAppBTN">start hosting</a></div>
+        <!--<img src="../assets/search_phone.png" alt="">-->
       </div>
 
       <div id="footer">
@@ -75,6 +75,8 @@
   .content{
     max-width: 272px;
     margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .content h2{
@@ -85,16 +87,14 @@
     margin-top: 1rem;
   }
 
-  .content button{
-    margin-top: 2rem;
-  }
-
   .content img{
     margin-top: 2rem;
-    width: 100%;
+    width: calc(100% - 3rem);
+    align-self: center;
   }
 
   .landingButton{
+    margin-top: 2rem;
     background: #282828;
     color: #FFDE22;
     padding: 1rem 2rem;
@@ -104,6 +104,7 @@
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
   }
 
   .landingButton:hover{
@@ -210,13 +211,9 @@
   }
 
   #buttonWrapper{
-    text-align: center;
+    display: flex;
+    justify-content: center;
   }
-
-  #hostAppBTN{
-    align-self: center;
-  }
-
 
   #footer{
     width: 100%;
@@ -244,23 +241,14 @@
       grid-template-rows: max-content auto;
     }
 
-    .content h2{
-      grid-area: headline;
-      font-size: 3.5rem;
-    }
-
-    .content p{
-      grid-area: copy;
-      font-size: 1.4rem;
-    }
-
-    .content button{
-    margin-top: 4rem;
-    }
-
     .content img{
       grid-area: image;
       margin-top: 0;
+      padding: 0 1.5rem
+    }
+
+    .landingButton{
+      margin-top: 4rem;
     }
 
     #stage{
@@ -296,11 +284,14 @@
     }
 
     #hostInfo .content{
+      margin-bottom: 5rem;
+
+      grid-template-columns: 272px;
       grid-template-rows: max-content max-content auto;
       grid-template-areas: 
-        "headline image"
-        "copy image"
-        "button image";
+        "headline"
+        "copy"
+        "button";
     }
   }
 
@@ -308,6 +299,25 @@
     .content{
       grid-template-columns: 400px 400px;
       max-height: 512px !important;
+    }
+
+    .content h2{
+      grid-area: headline;
+      font-size: 3.5rem;
+    }
+
+    .content p{
+      grid-area: copy;
+      font-size: 1.4rem;
+    }
+
+    .content img{
+      width: calc(100% - 6rem);
+      padding: 0 3rem
+    }
+
+    #hostInfo .content{
+      grid-template-columns: 400px;
     }
   }
 
