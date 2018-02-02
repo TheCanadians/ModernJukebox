@@ -13,7 +13,7 @@
 
     <section class="skew" id="productInfo">
       <div class="content">
-        <h2>Define the sound of your location</h2>
+        <h2>Define the sound of your location.</h2>
         <p>ModernJukebox is an app that lets you pick millions of songs from Spotify and add them to the queue of the venue you are in. To use ModernJukebox, you only need a Spotify account.</p>
         <img src="../assets/home_phone.png" alt="">
       </div>
@@ -21,7 +21,7 @@
 
     <section class="skew" id="workingInfo">
       <div class="content">
-        <h2>How it works</h2>
+        <h2>Get the party started.</h2>
         <p>Using ModernJukebox is easy as pie! You just log in to Spotify, check in at a venue that has a running ModernJukebox system and your good to go. Search and vote for songs and bring up the mood at your location!</p>
         <img src="../assets/search_phone.png" alt="">
       </div>
@@ -29,7 +29,7 @@
 
     <section class="skew" id="hostInfo">
       <div class="content">
-        <h2>Host your own social playlist</h2>
+        <h2>Host your own social playlist.</h2>
         <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
         <div id="buttonWrapper"><a href="http://dennisschmidt.net/jukebox/server/homeJS.php" class="landingButton" id="hostAppBTN">start hosting</a></div>
         <!--<img src="../assets/search_phone.png" alt="">-->
@@ -70,6 +70,26 @@
 
   .skew{
     margin-top: -4vh;
+  }
+
+  #stage.skew{
+    clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 4vh), 0% 100%);
+  }
+
+  #stageImage.skew{
+    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+  }
+
+  #productInfo.skew{
+    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% calc(100% - 4vh), 0% 100%);
+  }
+
+  #workingInfo.skew{
+    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+  }
+
+  #hostInfo.skew{
+    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% 100%, 0% 100%);
   }
 
   .content{
@@ -142,10 +162,6 @@
     justify-content: center;
   }
 
-  #stage.skew{
-    clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 4vh), 0% 100%);
-  }
-
   #stage .content h1{
     font-size: var(--stageTitle);
   }
@@ -166,15 +182,7 @@
     background-position: center;
   }
 
-  #stageImage.skew{
-    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
-  }
 
-
-
-  #productInfo.skew{
-    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% calc(100% - 4vh), 0% 100%);
-  }
 
   #productInfo .content{
     max-height: 576px;
@@ -182,10 +190,6 @@
   }
 
 
-
-  #workingInfo.skew{
-    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
-  }
 
   #workingInfo .content{
     max-height: 512px;
@@ -198,10 +202,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-  }
-
-  #hostInfo.skew{
-    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% 100%, 0% 100%);
   }
 
   #hostInfo .content{
@@ -251,6 +251,32 @@
       margin-top: 4rem;
     }
 
+    .skew{
+      margin-top: -8vh;
+    }
+
+    #stage.skew{
+      clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 8vh), 0% 100%);
+    }
+
+    #stageImage.skew{
+      clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
+    }
+
+    #productInfo.skew{
+      clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% calc(100% - 8vh), 0% 100%);
+    }
+
+    #workingInfo.skew{
+      clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
+    }
+
+    #hostInfo.skew{
+      clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% 100%, 0% 100%);
+    }
+
+    
+
     #stage{
       background-size: 150%;
     }
@@ -265,6 +291,10 @@
 
     #stage .content p{
       font-size: 2.4rem;
+    }
+
+    #stageImage {
+      min-height: 512px;
     }
 
     #productInfo .content{
@@ -297,6 +327,7 @@
 
   @media (min-width: 1024px){
     .content{
+      margin-top: 12rem;
       grid-template-columns: 400px 400px;
       max-height: 512px !important;
     }
@@ -316,7 +347,13 @@
       padding: 0 3rem
     }
 
+    #stageImage {
+      min-height: 704px;
+    }
+
     #hostInfo .content{
+      margin-bottom: 7rem;
+
       grid-template-columns: 400px;
     }
   }
