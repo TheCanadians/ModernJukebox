@@ -31,6 +31,31 @@ window.getUserID = function() {
       }
     });
   }
+
+
+
+/*
+    // Get a user's playlists
+    spotifyApi.getUserPlaylists('1136186430')
+      .then(function(data) {
+        console.log('Retrieved playlists', data.body);
+        // Unfollow a playlist
+        var playlists = data.body.items;
+        for (i = 0; i < playlists.length; i++) {
+          if (playlists[i].name == "shisharei") {
+            spotifyApi.unfollowPlaylist('1136186430', playlists[i])
+              .then(function(data) {
+                 console.log('Playlist successfully unfollowed!');
+              }, function(err) {
+                console.log('Something went wrong!', err);
+              });
+          }
+        }
+      },function(err) {
+        console.log('Something went wrong!', err);
+      });
+*/
+
 /*
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
     console.log(data);
@@ -233,37 +258,45 @@ window.timer = function(progress = 0) {
   var firstSongID = document.getElementById("playing").className;
   // get song length of current song
   spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
+    console.log(data);
     if (data.body == null) {
       console.log("null");
       timer();
     }
     else {
+      console.log("test");
       if (data.body['item']['id'] == firstSongID) {
+        console.log("testA");
         var songLength = parseInt(data.body['item']['duration_ms'], 10) - progress;
         console.log("Länge des Timers: " + songLength);
         // wait for song length + 5 seconds
         setTimeout(function() {
           spotifyApi.getMyCurrentPlayingTrack().then(function(data) {
             if (data.body['item'] == null) {
+              console.log("testAA");
               setTimeout(function() {}, 200);
             }
             var currentID = data.body['item']['id'];
             if (currentID == firstSongID) {
+              console.log("testAB");
               var progressMS = data.body['progress_ms'];
+              console.log(progressMS);
               timer(progressMS);
             }
             else {
+              console.log("testAC");
               deleteFromPlaylist();
             }
           }, function(err) {
             console.log('Current Song Timer: ', err);
             if(err.statusCode == "401") {
-              refreshToken("timer");
+              refreshToken("deleteFromPlaylist");
             }
           });
-        }, songLength + 100);
+        }, songLength);
       }
       else {
+        console.log("testB");
         setTimeout(function() {
           timer();
         }, 1000);

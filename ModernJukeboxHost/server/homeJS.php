@@ -49,7 +49,6 @@ require_once '../script/PHP/spotify.php';
   <!-- QRCodeJs -->
   <script type="text/javascript" src="../qrcodejs-master/jquery.min.js"></script>
   <script type="text/javascript" src="../qrcodejs-master/qrcode.js"></script>
-  <script type="text/javascript" src="../jquery-qrcode-0.14.0/jquery-qrcode-0.14.0.min.js"></script>
   <!-- Load Scripts -->
   <script type="text/javascript" src="../script/JS/bundle.js"></script>
   <script type="text/javascript" src="../script/JS/firebase.js"></script>
