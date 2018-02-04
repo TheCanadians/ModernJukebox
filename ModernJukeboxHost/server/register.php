@@ -7,6 +7,14 @@ $pdo = new PDO('mysql:host=db6.variomedia.de;dbname=db26677', 'u26677', 'm89UDTT
  <html>
  <head>
    <title>Registrierung</title>
+
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css" >
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  </head>
  <body>
    <?php
@@ -61,19 +69,25 @@ $pdo = new PDO('mysql:host=db6.variomedia.de;dbname=db26677', 'u26677', 'm89UDTT
    if($showFormular) {
      ?>
 
-     <form action="?register=1" method="post">
-       E-Mail:<br>
-       <input type="email" size="40" maxlength="250" name="email"><br><br>
+     <form action="?register=1" method="post" style="padding: 1rem;">
+      <div class="form-group">
+        <label for="name">Email: </label>
+        <input class="form-control" type="email" size="40" maxlength="250" name="email">
+      </div>
 
-       Dein Passwort:<br>
-       <input type="password" size="40" maxlength="250" name="password"><br>
+      <div class="form-group">
+        <label for="name">Dein Passwort: </label>
+        <input class="form-control" type="password" size="40" maxlength="250" name="password">
+      </div>
 
-       Passwort wiederholen:<br>
-       <input type="password" size="40" maxlength="250" name="password2"><br><br>
+      <div class="form-group">
+        <label for="name">Passwort wiederholen: </label>
+        <input class="form-control" type="password" size="40" maxlength="250" name="password2">
+      </div>
 
-       <input type="submit" value="Abschicken">
+       <input class="btn btn-primary" id="registerBTN" type="submit" value="Abschicken">
      </form>
-     <p>Schon einen Account? <a href="login.php">Login</a></p>
+     <p style="padding: 0 1rem;">Schon einen Account? <a href="login.php">Login</a></p>
      <?php
    }
     ?>

@@ -26,6 +26,14 @@ if(isset($_GET['login'])) {
  <html>
  <head>
    <title>Login</title>
+
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css" >
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  </head>
  <body>
 
@@ -35,15 +43,20 @@ if(isset($_GET['login'])) {
    }
     ?>
 
-   <form action="?login=1" method="post">
-     E-Mail:<br>
-     <input type="email" size="40" maxlength="250" name="email"><br><br>
+   <form action="?login=1" method="post" style="padding: 1rem;">
 
-     Dein Passwort:<br>
-     <input type="password" size="40" maxlength="250" name="password"><br>
+    <div class="form-group">
+      <label for="name">Email: </label>
+      <input class="form-control" type="email" size="40" maxlength="250" name="email">
+    </div>
 
-     <input type="submit" value="Abschicken">
+    <div class="form-group">
+      <label for="name">Dein Passwort: </label>
+      <input class="form-control" type="password" size="40" maxlength="250" name="password">
+    </div>
+
+     <input class="btn btn-primary" id="loginBTN" type="submit" value="Abschicken">
    </form>
-   <p>Keinen Account? <a href="register.php">Neuer Account</a></p>
+   <p style="padding: 0 1rem;">Keinen Account? <a href="register.php">Neuer Account</a></p>
  </body>
  </html>
