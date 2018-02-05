@@ -160,12 +160,20 @@ a:hover{
     font-size: var(--normalText);
 }
 
+.btn-success{
+    background-color: #8BB174;
+}
+
 .btn-success:hover{
-    background-color: #449d44;
+    background-color: #7FA16A;
+}
+
+.btn-danger{
+    background-color: #E8001F;
 }
 
 .btn-danger:hover{
-    background-color: #c9302c;
+    background-color: #D1001C;
 }
 
 #newRes{
