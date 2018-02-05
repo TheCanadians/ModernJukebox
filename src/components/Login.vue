@@ -31,7 +31,7 @@
       <div class="content">
         <h2>Host your own social playlist.</h2>
         <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
-        <a href="http://dennisschmidt.net/jukebox/server/homeJS.php" class="landingButton" id="hostAppBTN">start hosting</a>
+        <a href="http://dennisschmidt.net/jukebox" class="landingButton" id="hostAppBTN">start hosting</a>
         <img src="../assets/host_phone.png" alt="">
       </div>
 
