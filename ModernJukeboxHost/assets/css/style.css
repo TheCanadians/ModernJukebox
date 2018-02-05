@@ -155,7 +155,7 @@ a:hover{
 .btn-danger, .btn-success{
     width: 100%;
     margin-top: 1rem;
-    color: var(--textColorDark);
+    color: var(--textColorLight);
     border: none;
     font-size: var(--normalText);
 }
@@ -166,6 +166,7 @@ a:hover{
 
 .btn-success:hover{
     background-color: #7FA16A;
+    color: var(--textColorLight);
 }
 
 .btn-danger{
@@ -174,6 +175,7 @@ a:hover{
 
 .btn-danger:hover{
     background-color: #D1001C;
+    color: var(--textColorLight);
 }
 
 #newRes{
