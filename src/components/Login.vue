@@ -31,8 +31,8 @@
       <div class="content">
         <h2>Host your own social playlist.</h2>
         <p>If you want to host your own social jukebox, you can use our host app. Create and manage a playlist for your next party, restaurant or wedding. There are endless possibilities as a host.</p>
-        <div id="buttonWrapper"><a href="http://dennisschmidt.net/jukebox/server/homeJS.php" class="landingButton" id="hostAppBTN">start hosting</a></div>
-        <!--<img src="../assets/search_phone.png" alt="">-->
+        <a href="http://dennisschmidt.net/jukebox/server/homeJS.php" class="landingButton" id="hostAppBTN">start hosting</a>
+        <img src="../assets/host_phone.png" alt="">
       </div>
 
       <div id="footer">
@@ -58,10 +58,21 @@
   section{
     width: 100%;
 
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
 
   button{
@@ -73,30 +84,41 @@
   }
 
   #stage.skew{
-    clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 4vh), 0% 100%);
+    -webkit-clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 4vh), 0% 100%);
+            clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 4vh), 0% 100%);
   }
 
   #stageImage.skew{
-    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+    -webkit-clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+            clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
   }
 
   #productInfo.skew{
-    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% calc(100% - 4vh), 0% 100%);
+    -webkit-clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% calc(100% - 4vh), 0% 100%);
+            clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% calc(100% - 4vh), 0% 100%);
   }
 
   #workingInfo.skew{
-    clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+    -webkit-clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
+            clip-path: polygon( 0% calc(0% + 4vh), 100% 0%, 100% 100%, 0% calc(100% - 4vh));
   }
 
   #hostInfo.skew{
-    clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% 100%, 0% 100%);
+    -webkit-clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% 100%, 0% 100%);
+            clip-path: polygon( 0% 0%, 100% calc(0% + 4vh), 100% 100%, 0% 100%);
   }
 
   .content{
     max-width: 272px;
+    margin-top: 64px;
     margin-top: 4rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 
   .content h2{
@@ -104,19 +126,24 @@
   }
 
   .content p{
+    margin-top: 16px;
     margin-top: 1rem;
   }
 
   .content img{
+    margin-top: 32px;
     margin-top: 2rem;
     width: calc(100% - 3rem);
-    align-self: center;
+    -ms-flex-item-align: center;
+        align-self: center;
   }
 
   .landingButton{
+    margin-top: 32px;
     margin-top: 2rem;
     background: #282828;
     color: #FFDE22;
+    padding: 16px 32px;
     padding: 1rem 2rem;
     border: none;
     border-radius: 10rem;
@@ -144,6 +171,7 @@
 
   #stage{
     background: #FFDE22;
+    background-image: url("../assets/login_background_bubbles.svg"), -webkit-linear-gradient(top, #FFDE22 2%, #E69D00 100%);
     background-image: url("../assets/login_background_bubbles.svg"), linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
     background-size: 200%;
     background-repeat: no-repeat;
@@ -156,10 +184,21 @@
 
     color: #282828;
 
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
 
   #stage .content h1{
@@ -185,19 +224,20 @@
 
 
   #productInfo .content{
-    max-height: 576px;
+    max-height: 544px;
     overflow: hidden;
   }
 
 
 
   #workingInfo .content{
-    max-height: 512px;
+    max-height: 544px;
     overflow: hidden;
   }
 
   #hostInfo{
     background: #FFDE22;
+    background-image: url("../assets/login_background_bubbles.svg"), -webkit-linear-gradient(top, #FFDE22 2%, #E69D00 100%);
     background-image: url("../assets/login_background_bubbles.svg"), linear-gradient(-180deg, #FFDE22 2%, #E69D00 100%);
     background-size: cover;
     background-repeat: no-repeat;
@@ -210,18 +250,27 @@
     color: #282828;
   }
 
-  #buttonWrapper{
-    display: flex;
-    justify-content: center;
+  #hostAppBTN{
+    -ms-flex-item-align: center;
+        align-self: center;
   }
 
   #footer{
     width: 100%;
+    padding: 32px;
     padding: 2rem;
 
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
 
   #footer img{
@@ -236,9 +285,13 @@
 
       margin-top: 8rem;
 
+      display: -ms-grid;
+
       display: grid;
-      grid-template-columns: 272px 272px;
-      grid-template-rows: max-content auto;
+      -ms-grid-columns: 272px 272px;
+          grid-template-columns: 272px 272px;
+      -ms-grid-rows: max-content auto;
+          grid-template-rows: max-content auto;
     }
 
     .content img{
@@ -256,23 +309,28 @@
     }
 
     #stage.skew{
-      clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 8vh), 0% 100%);
+      -webkit-clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 8vh), 0% 100%);
+              clip-path: polygon( 0% 0%, 100% 0%, 100% calc(100% - 8vh), 0% 100%);
     }
 
     #stageImage.skew{
-      clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
+      -webkit-clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
+              clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
     }
 
     #productInfo.skew{
-      clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% calc(100% - 8vh), 0% 100%);
+      -webkit-clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% calc(100% - 8vh), 0% 100%);
+              clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% calc(100% - 8vh), 0% 100%);
     }
 
     #workingInfo.skew{
-      clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
+      -webkit-clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
+              clip-path: polygon( 0% calc(0% + 8vh), 100% 0%, 100% 100%, 0% calc(100% - 8vh));
     }
 
     #hostInfo.skew{
-      clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% 100%, 0% 100%);
+      -webkit-clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% 100%, 0% 100%);
+              clip-path: polygon( 0% 0%, 100% calc(0% + 8vh), 100% 100%, 0% 100%);
     }
 
     
@@ -316,19 +374,29 @@
     #hostInfo .content{
       margin-bottom: 5rem;
 
-      grid-template-columns: 272px;
-      grid-template-rows: max-content max-content auto;
+      -ms-grid-columns: 272px 272px;
+
+          grid-template-columns: 272px 272px;
+      -ms-grid-rows: max-content max-content auto;
+          grid-template-rows: max-content max-content auto;
       grid-template-areas: 
-        "headline"
-        "copy"
-        "button";
+        "headline image"
+        "copy image"
+        "button image";
+    }
+
+    #hostAppBTN{
+      -ms-flex-item-align: start;
+          align-self: flex-start;
+      justify-self: center;
     }
   }
 
   @media (min-width: 1024px){
     .content{
       margin-top: 12rem;
-      grid-template-columns: 400px 400px;
+      -ms-grid-columns: 400px 400px;
+          grid-template-columns: 400px 400px;
       max-height: 512px !important;
     }
 
@@ -354,7 +422,9 @@
     #hostInfo .content{
       margin-bottom: 7rem;
 
-      grid-template-columns: 400px;
+      -ms-grid-columns: 400px 400px;
+
+          grid-template-columns: 400px 400px;
     }
   }
 

@@ -40,6 +40,7 @@ require_once '../script/PHP/spotify.php';
   </script>
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css" >
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- JQuery -->
@@ -67,11 +68,8 @@ require_once '../script/PHP/spotify.php';
   <!-- Navigation bar -->
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="homeJS.php">ModernJukebox Host</a>
-      </div>
       <ul class="nav navbar-nav">
-        <<!-- Restaurant dropdown -->
+        <!-- Restaurant dropdown -->
         <li class="dropdown">
           <a class="dropdown-toggle" id="dropdownButton" data-toggle="dropdown" href="#">Your Rooms <span class="caret"></span></a>
           <ul class="dropdown-menu" id="rooms">
@@ -116,7 +114,7 @@ require_once '../script/PHP/spotify.php';
       <div class="col-md-12 form-group" id="searchDIV" style="display: none">
         <input type="text" id="search" class="form-control" onkeyup="searchGenres()" placeholder="Search for genres...">
       </div>
-      <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; height: 50%; padding-right: 0">
+      <div id="blacklist" class="col-md-12 list-group" style="overflow-y: scroll; max-height: 32%; padding-right: 0">
       </div>
       <button class="btn btn-primary" onclick="update()">Update</button>
     </div>
@@ -127,7 +125,7 @@ require_once '../script/PHP/spotify.php';
   <div class="col-md-8">
     <!-- Current Song Info -->
     <div class="col-md-12">
-      <div class="col-md-12 list-group" id="currentSong" style="border: 1px solid #ddd">
+      <div class="col-md-12 list-group" id="currentSong">
         <div class="col-md-12 list-group-item" style="border: none">
           <p id="playing" style="margin: 0px">Playing: -</p>
         </div>
@@ -139,11 +137,17 @@ require_once '../script/PHP/spotify.php';
     <!-- Playlist -->
     <div class="col-md-12">
       <h4>Playlist</h4>
-      <div id="queue" class="col-md-12 list-group" style="overflow-y: scroll; height: 65%">
+      <div id="queue" class="col-md-12 list-group">
       </div>
     </div>
     <!-- Playlist functions -->
-    <div class="col-md-12">
+    <div class="col-md-12" style="
+    display:  flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items:  center;
+    flex-flow: wrap;
+    margin-bottom: 4rem;">
       <button type="submit" id="play" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
       <button type="submit" id="pause" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
       <button type="submit" id="clearPlaylist" class="btn btn-danger"><span>Clear Playlist</button>
