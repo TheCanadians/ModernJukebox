@@ -349,13 +349,12 @@
         setTimeout(() => this.notificationShowing = !this.notificationShowing, 3000);
       },
       setCurrentTrack() {
-        this.active = this.songList.find(function(song) { return song.playing == "true" });
+        this.active = this.songList.find(function(song) { return song.playing });
       },
       setNextTrack() {
-        this.nextSong = this.songList.find(function(song) { return song.nextSong == "true" });
+        this.nextSong = this.songList.find(function(song) { return song.nextSong });
       },
       isMobileDevice() {
-        console.log (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)
         return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
